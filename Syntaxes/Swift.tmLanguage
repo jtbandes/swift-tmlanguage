@@ -4089,6 +4089,61 @@
 								</dict>
 							</array>
 						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.function.any-method.swift</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+							</dict>
+							<key>comment</key>
+							<string>foo { body } -- a call with a trailing closure and no argument clause</string>
+							<key>match</key>
+							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))(?=\s*\{)</string>
+							<key>name</key>
+							<string>meta.function-call.trailing-closure-only.swift</string>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.function.any-method.trailing-closure-label.swift</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>4</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.separator.argument-label.swift</string>
+								</dict>
+							</dict>
+							<key>comment</key>
+							<string>foo: { body } -- labeled-trailing-closure (SE-0279)</string>
+							<key>match</key>
+							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(:)(?=\s*\{)</string>
+						</dict>
 					</array>
 				</dict>
 				<key>member-reference</key>

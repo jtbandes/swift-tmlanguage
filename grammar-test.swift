@@ -80,6 +80,37 @@ struct Foo {
   var body: some View
 }
 
+// MARK: Trailing closures
+
+UIView.animate(withDuration: 0.3) {
+  self.view.alpha = 0
+} completion: { _ in  // FIXME
+  self.view.removeFromSuperview()
+}
+// equivalent to
+UIView.animate(withDuration: 0.3, animations: {
+  self.view.alpha = 0
+}, completion: { _ in
+  self.view.removeFromSuperview()
+})
+
+UIView.animate {
+  self.view.alpha = 0
+}
+
+BlockObserver { aOperation in 
+  print("startHandler!")
+} produceHandler: { (aOperation, foundationOperation) in
+  print("produceHandler!")
+} finishHandler: { (operation, errors) in
+  print("finishHandler!")
+}
+
+// Not to be confused with labeled statements
+outerLoop: for foo in bar {
+  break outerLoop
+}
+
 // MARK: Type definitions
 
 struct Foo { }
