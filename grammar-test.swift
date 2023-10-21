@@ -475,3 +475,25 @@ func dup(_ x: borrowing String) -> (String, String) {
 }
 
 
+
+// ERROR: generic parameter types must be `Copyable`
+func foo<T: ~Copyable>(x: T) {}
+
+// ERROR: types that conform to protocols must be `Copyable`
+protocol Foo where Self: ~Copyable {
+  // ERROR: associated type requirements must be `Copyable`
+  associatedtype Bar: ~Copyable
+}
+
+// ERROR: cannot suppress `Copyable` in extension of `FileWithPath`
+extension FileWithPath: ~Copyable {}
+extension Foo: P & Q {}
+func foo<T: P & Q & ~Copyable> {}
+
+struct FileDescriptor: ~Copyable {
+  private var fd: Int32
+}
+struct SocketPair: X, ~Copyable {
+  var in, out: FileDescriptor
+}
+struct TypedFile<T>: ~Copyable {}
