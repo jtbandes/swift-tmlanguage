@@ -170,6 +170,8 @@ actor BankAccount {
     self.accountNumber = accountNumber
     self.balance = initialDeposit
   }
+  
+  public nonisolated var unownedExecutor: UnownedSerialExecutor { }
 }
 @objc actor MyActor {
   let accountNumber: Int
@@ -179,6 +181,42 @@ extension BankAccount {
   func deposit(amount: Double, to account: isolated BankAccount)
   nonisolated func safeAccountNumberDisplayString() -> String
   nonisolated var description: String {}
+  // nonisolated override var id: ID { get }
+  nonisolated public func encode(to encoder: Encoder) throws
+}
+distributed actor A {
+  init(system: AnyDistributedActorSystem) // ✅ ok
+  // FIXME:
+  init(y: Int, system: AnyDistributedActorSystem) // ✅ ok
+  init(canThrow: Bool, system: AnyDistributedActorSystem) async throws // ✅ ok, effects are ok too
+}
+distributed actor Game {
+  distributed func join(player: Player) async throws {}
+  distributed var result: GameResult {}
+  
+  distributed func ok() // ✅ ok, no parameters
+  // FIXME:
+  distributed func greet(name: String) -> String // ✅ ok, String is Codable
+}
+func test(actor: IsolationExample) async throws {
+  try await actor.notDistributed() // FIXME
+}
+
+distributed actor Robot {
+  nonisolated func isHuman(caller: Caller) async throws -> String {
+    guard isTrustworthy(caller) else {
+      return "It is a mystery!" // no remote call needs to be performed
+    }
+    return try await self.checkHumanity()
+  }
+  private distributed func checkHumanity1() -> String { }
+  distributed private func checkHumanity2() -> String { }
+}
+
+func foo() {
+  someThread.run {
+    unownedJob.runSynchronously(on: self)
+  }
 }
 
 // MARK: Extensions
