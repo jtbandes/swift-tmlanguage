@@ -4393,7 +4393,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?:fileprivate|private|internal|public|open)\b</string>
+					<string>(?&lt;!\.)\b(?:fileprivate|private|internal|public|open|package)\b</string>
 					<key>name</key>
 					<string>keyword.other.declaration-specifier.accessibility.swift</string>
 				</dict>

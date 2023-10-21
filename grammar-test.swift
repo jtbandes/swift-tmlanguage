@@ -155,6 +155,12 @@ enum Foo {
 typealias Foo = Bar
 typealias Foo<T> = Bar<T, Int> // comment
 
+class C {
+  package var package: String { }
+  package func run() { }
+  package(set) public var x = ""
+}
+
 // MARK: Actors
 
 actor BankAccount {
@@ -363,4 +369,4 @@ let, operator, $123, precedencegroup, protocol, struct, subscript, typealias,
 var, fileprivate, internal, private, public, static, defer, if, guard, do,
 repeat, else, for, in, while, return, break, continue, as?, fallthrough,
 switch, case, default, where, catch, as, Any, false, is, nil, rethrows,
-super, self, Self, throw, true, try, throws, nil
+super, self, Self, throw, true, try, throws, nil, open, package
