@@ -408,3 +408,70 @@ var, fileprivate, internal, private, public, static, defer, if, guard, do,
 repeat, else, for, in, while, return, break, continue, as?, fallthrough,
 switch, case, default, where, catch, as, Any, false, is, nil, rethrows,
 super, self, Self, throw, true, try, throws, nil, open, package
+
+// MARK: Ownership
+
+
+// consume behaves as a contextual keyword. In order to avoid interfering with existing code that calls functions named consume, the operand to consume must begin with another identifier, and must consist of an identifier or postfix expression:
+
+consume x // OK
+consume [1, 2, 3] // Subscript access into property named `consume`, not a consume operation
+consume (x) // Call to function `consume`, not a consume operation
+consume x.y.z // Syntactically OK (although x.y.z is not currently semantically valid)
+consume x[0] // Syntactically OK (although x[0] is not currently semantically valid
+consume x + y // Parses as (consume x) + y
+
+
+
+useX(x) // do some stuff with local variable x
+// Ends lifetime of x, y's lifetime begins.
+let y = consume x // [1]
+
+func test() {
+  var x: [Int] = getArray()
+  // x is appended to. After this point, we know that x is unique. We want to
+  // preserve that property.
+  x.append(5)
+  // Pass the current value of x off to another function, that
+  doStuffUniquely(with: consume x)
+  // Reset x to a new value. Since we don't use the old value anymore,
+  x = []
+  doMoreStuff(with: &x)
+}
+
+
+func foo(_: borrowing Foo) {}
+func foo(_: consuming Foo) {}
+func foo(_: inout Foo) {}
+
+bar { (a: borrowing Foo) in a.foo() }
+bar { (a: consuming Foo) in a.foo() }
+bar { (a: inout Foo) in a.foo() }
+
+let f: (borrowing Foo) -> Void = { a in a.foo() }
+let f: (consuming Foo) -> Void = { a in a.foo() }
+let f: (inout Foo) -> Void = { a in a.foo() }
+
+struct Foo {
+  consuming func foo() // `consuming` self
+  borrowing func foo() // `borrowing` self
+  mutating func foo() // modify self with `inout` semantics
+}
+
+let f = { (a: Foo) in print(a) }
+let g: (borrowing Foo) -> Void = f
+let h: (consuming Foo) -> Void = f
+let f2: (Foo) -> Void = h
+
+func foo(x: borrowing String) -> (String, String) {
+    return (x, x) // ERROR: needs to copy `x`
+}
+func bar(x: consuming String) -> (String, String) {
+    return (x, x) // ERROR: needs to copy `x`
+}
+func dup(_ x: borrowing String) -> (String, String) {
+  // copy is a contextual keyword, parsed as an operator if it is immediately followed by an identifier on the same line, like the consume x operator before it. In all other cases, copy is still treated as a reference to a declaration named copy, as it would have been prior to this proposal.
+    return (copy x, copy x) // OK, copies explicitly allowed here
+}
+
+

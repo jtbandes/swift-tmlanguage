@@ -1282,7 +1282,7 @@
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>\b(?:inout|isolated)\b</string>
+							<string>\b(?:inout|isolated|borrowing|consuming)\b</string>
 							<key>name</key>
 							<string>storage.modifier.swift</string>
 						</dict>
@@ -4370,7 +4370,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated)\b</string>
+					<string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\b</string>
 					<key>name</key>
 					<string>storage.modifier.swift</string>
 				</dict>
@@ -4428,6 +4428,22 @@
 					<string>(?&lt;!\.)\bimport\b</string>
 					<key>name</key>
 					<string>keyword.control.import.swift</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>SE-0366: "consume behaves as a contextual keyword. In order to avoid interfering with existing code that calls functions named consume, the operand to consume must begin with another identifier, and must consist of an identifier or postfix expression"</string>
+					<key>match</key>
+					<string>(?&lt;!\.)\bconsume(?=\s+`?[\p{L}_])</string>
+					<key>name</key>
+					<string>keyword.other.consume.swift</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>SE-0377: "copy is a contextual keyword, parsed as an operator if it is immediately followed by an identifier on the same line, like the consume x operator before it"</string>
+					<key>match</key>
+					<string>(?&lt;!\.)\bcopy(?=\s+`?[\p{L}_])</string>
+					<key>name</key>
+					<string>keyword.other.copy.swift</string>
 				</dict>
 			</array>
 		</dict>
