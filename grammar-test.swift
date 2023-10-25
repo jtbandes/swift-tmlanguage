@@ -409,6 +409,368 @@ repeat, else, for, in, while, return, break, continue, as?, fallthrough,
 switch, case, default, where, catch, as, Any, false, is, nil, rethrows,
 super, self, Self, throw, true, try, throws, nil, open, package
 
+// MARK: SE-0354 Regex Literals
+
+// Matches "<identifier> = <hexadecimal value>", extracting the identifier and hex number
+let regex = /(?<identifier>[[:alpha:]]\w*) = (?<hex>[0-9A-F]+)/
+// regex: Regex<(Substring, identifier: Substring, hex: Substring)>
+
+// A regex for extracting a currency (dollars or pounds) and amount from input 
+// with precisely the form /[$£]\d+\.\d{2}/
+let regex = Regex {
+  Capture { /[$£]/ }
+  TryCapture {
+    /\d+/
+    "."
+    /\d{2}/
+  } transform: {
+    Amount(twoDecimalPlaces: $0)
+  }
+}
+let regex1 = /([ab])?/
+let regex2 = /([ab])|\d+/
+let regex = /([ab]*)cd/
+let regex = /(.)*|\d/
+func matchHexAssignment(_ input: String) -> (String, Int)? {
+  let regex = /(?<identifier>[[:alpha:]]\w*) = (?<hex>[0-9A-F]+)/
+  // regex: Regex<(Substring, identifier: Substring, hex: Substring)>
+  
+  guard let match = input.wholeMatch(of: regex), 
+        let hex = Int(match.hex, radix: 16) 
+  else { return nil }
+  
+  return (String(match.identifier), hex)
+}
+let regex = #/
+(x)x
+/#
+let regex = #/usr/lib/modules/([^/]+)/vmli\#nuz/#
+let regex = #/
+  usr/lib/modules/ # Prefix
+  (?<subpath> [^/]+)
+  /vmlinuz          # The kernel
+/#
+let regex = /\\\w\s*=\s*\d+/
+let regex = #/
+  # Match a line of the format e.g "DEBIT  03/03/2022  Totally Legit Shell Corp  $2,000,000.00"
+  (?<kind>    \w+)                \s\s+
+  (?<date>    \S+)                \s\s+
+  (?<account> (?: (?!\s\s) . )+)  \s\s+ # Note that account names may contain spaces.
+  (?<amount>  .*)
+/#
+let regex = #/
+  a\
+  b\
+  c
+/#
+let regex = #/invalid newline
+/#
+
+/*
+let regex = /[0-9]*/
+*/
+
+let esc = /\ /
+let esc = /\ x/
+let error = /\  /  // may not end with a space
+let error = /\ a /  // may not end with a space
+let noerror = #/ a /#   // extended literals can end with a space
+let noerror = #/\ a /#  // extended literals can end with a space
+let noerror = #/\ /#  // extended literals can end with a space
+let empty = #//#
+let unterminated = #/ / /  / ab#/
+let broken = x+/y/
+let fixed1 = x + /y/
+let fixed2 = x+#/y/#
+
+let nested = /s(z([a)]))x{1,2}  \Q^[xy]])/+$\E, a/
+let nested = /s(z([a)]))x{1,2}  \Q^[xy]])/+$, a/
+let nested = /\ s(z([a)]))x{1,2}  \Q^[xy]])/+$, a // //<-FIXME
+let badquote = #/
+  \Q
+/# abc
+let r = /\Q/1/ //x
+let r = /\ \Q/1/ //x
+let r = #/\Q/1/# //x
+let r = ##/\Q/1/# /## //x
+let nested = /\Q^[xy])+$\E/ // FIXME: xcode does not parse this as a regex because of the `)` (??)
+let nested = /[a\Q]\E]/ //FIXME: should be "character class of ] and a"
+let nested = /ab[^a^~~b--c&&d\Qa\E\f] [\w--\d] foo [:a] foo [:a:] [-a-] [a-c-d]/
+//TODO: "We propose unifying these behaviors by scanning ahead until we hit either [, ], :], or \"
+let chars = /^\a\b[\b]\cX\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z$/
+let chars = /^\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P.\R\S\T\U\V\W\X\Y\Z$/
+let regex = /a{1}{1,}{,2}{1,2} a{ 1 }{ 1 , }{ , 2 }{ 1 , 2 }/
+let nums = /8\u12345\u{ 1 2 3 }\x\x{af}\U89abcdef9\o{12}\07778\N\N{a}\N{U+1a}\N{x-y z}/
+let chars = /\p{is-White_Space a = a} x [:a=b:] [:script=Latin:] \p{alnum}/
+let groups = #/
+  (?:abc)
+  (?|a|b)
+  (?>abc)
+  (?=abc)
+  (?!abc)
+  (?<=abc)
+  (?<!abc)
+  (?*abc)
+  (?<*abc)
+  (*negative_lookbehind:abc) (*nlb:abc) (*nlbfoo)
+  (?xi) (?y{g})
+  (?xiy{g}:abc)
+  (?xi:a b c) (?x:s)
+  (?P<ab-c>def)
+  (?<abc>def)
+  (?'abc'def)
+  (?'Close-Open'>)
+  (a((?:b)(?<c>c)d)(e)f)
+  (a()(?|(b)(c)|(?:d)|(e)))(f)
+  (?|(?<x>a)|(?<x>b))
+  a(?i)b|c|d = a(?i:b)|(?i:c)|(?i:d)
+/#
+let backreferences = #/
+  \g{123}
+  \g{abc-1}
+  \g123
+  \g+1-2
+  \k{1} (not a valid backreference)
+  \k{named+12}
+  \k<named+12>
+  \k'named+12'
+  \123
+  (?P=named+12)
+/#
+let subpatterns = #/
+  \g<named+12>
+  \g'named+12'
+  (?P>named+12)
+  (?&named+12)
+  (?R) (?0)
+  (?+1-2)
+/#
+let conditionals = #/
+  (?(x+) x )
+  (?(+1-2)a)
+  (?(R))
+  (?(R)a)
+  (?(R)a|b)
+  (?(R+1-2)a)
+  (?(R&named+12)a)
+  (?(<+1-2>)a)
+  (?(<named+12>)a)
+  (?('+1-2')a)
+  (?('named+12')a)
+  (?(DEFINE)foo)
+  (?(VERSION=1.1)abc)
+  (?(VERSION>=2.0)abc)
+/#
+let directives = #/
+  (*LIMIT_DEPTH=123) (*LIMIT_HEAP=123) (*LIMIT_MATCH=123)
+  (*CRLF) (*CR) (*ANYCRLF) (*ANY) (*LF) (*NUL)
+  (*BSR_ANYCRLF) (*BSR_UNICODE)
+  (*NOTEMPTY) (*NOTEMPTY_ATSTART)
+  (*NO_AUTO_POSSESS) (*NO_DOTSTAR_ANCHOR) (*NO_JIT) (*NO_START_OPT) (*UTF) (*UCP)
+  
+  (*ACCEPT) (*ACCEPT:x) (*FAIL) (*FAIL:x) (*F) (*F:x)
+  (*MARK:abc) (*:abc)
+  (*MARK) (*) (*FOO) (*CR:x)
+  (*COMMIT) (*PRUNE) (*SKIP) (*THEN)
+/#
+let callout = /(?{{!{}#$%&'()=-~^|[_]`@*:+;<>?/.\\,}}[symbols])c/
+let callouts = #/
+  (?C1)abc(?C"some ""arbitrary"" text")def
+  (?(?C9)(?=a)ab|de)  (?(?C%text%%abc%)(?!=d)ab|de)
+  (*xyz) (*xyz[abc]) (*xyz[ab]{1,2}) (*xyz{1,2}) (*[ab]{1,2})
+  (?{abc})
+  
+  # https://github.com/kkos/oniguruma/blob/master/sample/callout.c
+  ab(*bar{372,I am a bar's argument,あ})c(*FAIL)
+  (?{{!{}#$%&'()=-~^|[_]`@*:+;<>?/.\\,}}[symbols])c
+  \A(...)(?{{{booooooooooooo{{ooo}}ooooooooooz}}}<)
+  \A(?!a(?{in prec-read-not}[xxx]X)b)
+  (?<!a(?{in look-behind-not}X)c)c
+  (?:(*MAX[TA]{7})a|(*MAX[TB]{5})b)*(*CMP{TA,>=,4})
+  
+  (?~|absent|expr)
+  (?~absent) (?~|absent|\O*)
+  (?~|absent)
+  (?~|)
+/#
+
+let comments = #/
+  not a comment
+  # line comment
+  \Q#quoted comment\E
+  not a comment # line comment
+  not a comment
+  ( (?# #(?/*+comment  (?# nesting and escaping not allowed \) )
+  not a comment
+/#
+let interpolations = /foo <{ab().c+bar}>/
+
+let r = /( (?# (?# nesting and escaping not allowed \) )/
+let comments = /# line comment only works in extended (multiline) syntax/
+_ = #/#abc/#  // line comments only work when #/ is followed by a newline
+_ = #/
+#abc
+/#
+
+_ = /abc/
+_ = #/abc/#
+_ = ##/abc/##
+
+func foo<T>(_ x: T...) {}
+foo(/abc/, #/abc/#, ##/abc/##)
+
+let arr = [/abc/, #/abc/#, ##/abc/##]
+
+_ = /\w+/.self
+_ = #/\w+/#.self
+_ = ##/\w+/##.self
+
+_ = /#\/\#\\/
+_ = #/#/\/\#\\/#
+_ = ##/#|\|\#\\/##
+
+//FIXME:
+_ = (#/[*/#, #/+]/#, #/.]/#)
+// expected-error@-1:16 {{cannot parse regular expression: quantifier '+' must appear after expression}}
+// expected-error@-2:10 {{cannot parse regular expression: expected ']'}}
+
+
+// https://github.com/apple/swift/blob/main/test/StringProcessing/Parse/prefix-slash.swift
+_ = /E.e
+(/E.e).foo(/0)
+
+func foo<T, U>(_ x: T, _ y: U) {}
+foo(/E.e, /E.e)
+foo((/E.e), /E.e)
+foo((/)(E.e), /E.e)
+
+func bar<T>(_ x: T) -> Int { 0 }
+_ = bar(/E.e) / 2
+
+let digit = Regex {
+  TryCapture(OneOrMore(.digit)) { Int($0) }
+}
+
+// Should be parsed as two / operators rather than a regex literal:
+// Matches against <digit>+ (' + ' | ' - ') <digit>+
+let regex = Regex {
+   digit
+   / [+-] /
+   digit
+}
+// Escape workaround:
+let regex = Regex {
+   digit
+   /\ [+-] /  // typo in SE-0354?
+   /\ [+-]/
+   digit
+}
+// Extended literal workaround:
+let regex = Regex {
+   digit
+   #/ [+-] /#
+   digit
+}
+
+let a = 0 + 1 // Valid
+let b = 0+1   // Also valid
+let c = 0
++ 1 // Valid operator chain because the newline before '+' is whitespace.
+
+let d = 0 +1 // Not valid, '+' is treated as prefix, which cannot then appear next to '0'.
+let e = 0+ 1 // Same but postfix
+let f = 0
++1 // Not a valid operator chain, same as 'd', except '+1' is no longer sequenced with '0'.
+
+// Infix '/' is never in an expression position in valid code (unless unapplied).
+let a = 1 / 2 / 3
+
+// None of these '/^/' cases are in expression position.
+infix operator /^/
+func /^/ (lhs: Int, rhs: Int) -> Int { 0 }
+let b = 0 /^/ 1
+
+// Also fine.
+prefix operator /
+prefix func / (_ x: Int) -> Int { x }
+let c = /0 // No closing '/', so not a regex literal. The '//' of this comment doesn't count either.
+
+let r = /^/
+let r = ^^/x/ // FIXME
+let r = ^^(/x/)
+
+
+//// A regex literal may not start or end with a space or tab.
+
+// Unapplied '/' in a call to 'reduce':
+let x = array.reduce(1, /) / 5
+let y = array.reduce(1, /) + otherArray.reduce(1, /)
+
+// Prefix '/' with another '/' on the same line:
+foo(/a, /b)
+bar(/x) / 2
+
+// Unapplied operators:
+baz(!/, 1) / 2
+qux(/, /)
+qux(/^, /)
+qux(!/, /)
+
+let d = hasSubscript[/] / 2 // Unapplied infix '/' and infix '/'
+
+let e = !/y / .foo() // Prefix '!/' with infix '/' and operand '.foo()'
+
+////  A regex literal will not be parsed if it contains an unbalanced ). 
+
+// Prefix '/' used multiple times on the same line without trailing whitespace:
+(/x).foo(/y)
+bar(/x) + bar(/y)
+
+// Cases where the closing '/' is not used with whitespace:
+bar(/x)/2
+baz(!/, 1)/2
+
+// Prefix '/^' with postfix '/':
+let f = (/^x)/
+
+//// the following cases will become regex literals:
+
+foo(/a, b/) // Will become regex literal '/a, b/'
+qux(/, !/)  // Will become regex literal '/, !/'
+qux(/,/)    // Will become regex literal '/,/'
+
+let g = hasSubscript[/]/2 // Will become regex literal '/]/'
+
+let h = /0; let f = 1/ // Will become the regex literal '/0; let y = 1/'
+let i = /^x/           // Will become the regex literal '/^x/'
+
+//// However they can be readily disambiguated by inserting parentheses:
+
+// Now a prefix and postfix '/':
+foo((/a), b/)
+
+// Now unapplied operators:
+qux((/), !/)
+qux((/),/)
+let g = hasSubscript[(/)]/2
+
+let h = (/0); let f = 1/ // Now prefix '/' and postfix '/'
+let i = (/^x)/           // Now prefix '/^' and postfix '/'
+
+//// or, in some cases, by inserting whitespace:
+
+qux(/, /)
+let g = hasSubscript[/] / 2
+
+
+//// unapplied infix operator with two / characters
+
+baz(/^/) // Will become the regex literal '/^/' rather than an unapplied operator
+
+//// This cannot be disambiguated with parentheses or whitespace, however it can be disambiguated using a closure. For example:
+
+baz({ $0 /^/ $1 }) // Is now infix '/^/'
+
 // MARK: Ownership
 
 

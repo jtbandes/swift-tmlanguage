@@ -4573,6 +4573,10 @@
 						</dict>
 					</array>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regular-expression-literal</string>
+				</dict>
 			</array>
 			<key>repository</key>
 			<dict>
@@ -4680,6 +4684,744 @@
 							<string>invalid.illegal.numeric.other.swift</string>
 						</dict>
 					</array>
+				</dict>
+				<key>regular-expression-literal</key>
+				<dict>
+					<key>comment</key>
+					<string>SE-0354 &amp; SE-0355</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>begin</key>
+							<string>(#+)/\n</string>
+							<key>end</key>
+							<string>/\1</string>
+							<key>name</key>
+							<string>string.regexp.block.swift</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#regex-guts</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#line-comment</string>
+								</dict>
+							</array>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#regex-guts</string>
+										</dict>
+									</array>
+								</dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.string.begin.regexp.swift</string>
+								</dict>
+								<key>12</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.string.end.regexp.swift</string>
+								</dict>
+								<key>13</key>
+								<dict>
+									<key>name</key>
+									<string>invalid.illegal.returns-not-allowed.regexp</string>
+								</dict>
+							</dict>
+							<key>comment</key>
+							<string>
+                Single-line regular expression literals must be matched all in one go
+                in order to avoid ambiguities with operators, and to adhere to certain
+                parsing rules in SE-0354/SE-0355, such as:
+                - A regex literal will not be parsed if it contains an unbalanced ).
+                - A regex may end with a space only if it began with an escaped space
+              </string>
+							<key>match</key>
+							<string>(?x)
+                (((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
+                (?(3)|(?!/))   # is not a comment
+                (?(3)|(?!\s))  # does not start with a space or tab
+                (\\\s)? # (4) may start with an escaped space or tab
+                (?&lt;guts&gt;
+                  (?&gt;   # no backtracking, avoids issues with negative lookbehind at end
+                    (?:
+                      \\Q
+                        (?:(?!\\E)(?!/\2).)*+
+                        (?:\\E
+                          # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+                          | (?(3)|(?&lt;!\s))(?=/\2)
+                        )
+                      | \\.
+                      | \(\?\#[^)]*\)
+                      | \(\?
+                          # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
+                          \{(?&lt;g1&gt;\{)?+(?&lt;g2&gt;\{)?+(?&lt;g3&gt;\{)?+(?&lt;g4&gt;\{)?+(?&lt;g5&gt;\{)?+
+                          .+?
+                          \}(?(&lt;g1&gt;)\})(?(&lt;g2&gt;)\})(?(&lt;g3&gt;)\})(?(&lt;g4&gt;)\})(?(&lt;g5&gt;)\})
+                          (?:\[(?!\d)\w+\])?
+                          [X&lt;&gt;]?
+                        \)
+                      | (?&lt;class&gt;\[ (?:\\. | [^\[\]] | \g&lt;class&gt;)+ \])
+                      | \(\g&lt;guts&gt;?+\)
+                      | (?:(?!/\2)[^()\[\\])+  # any character (until end)
+                    )+
+                  )
+                )?+
+                # may end with a space only if it is an extended literal or contains only a single escaped space
+                (?(3)|(?(5)(?&lt;!\s)))
+                (/\2)     # (12)
+                | \#+/.+(\n)
+              </string>
+							<key>name</key>
+							<string>string.regexp.line.swift</string>
+						</dict>
+					</array>
+					<key>repository</key>
+					<dict>
+						<key>backreference-or-subpattern</key>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>esc</key>
+								<dict>
+									<key>name</key>
+									<string>constant.character.escape.backslash.regexp</string>
+								</dict>
+								<key>keyw</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.other.back-reference.regexp</string>
+								</dict>
+								<key>name</key>
+								<dict>
+									<key>name</key>
+									<string>variable.language.group-name.regexp</string>
+								</dict>
+								<key>num</key>
+								<dict>
+									<key>name</key>
+									<string>constant.numeric.integer.decimal.regexp</string>
+								</dict>
+								<key>op</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.operator.recursion-level.regexp</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(?x)
+                (?&lt;esc&gt;\\g)(?&lt;NumberRef&gt; (?&lt;num&gt;[+-]?\d+)(?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )
+                | (?&lt;esc&gt;\\k\{)(?&lt;NamedRef&gt; (?&lt;name&gt;(?!\d)\w+) (?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )(?&lt;esc&gt;\})
+                | (?&lt;esc&gt;\\g\{)(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;\})
+                | (?&lt;esc&gt;\\[gk]&lt;)(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;&gt;)
+                | (?&lt;esc&gt;\\[gk]')(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;')
+                | (?&lt;keyw&gt;\(\?(?:P[=&gt;]|&amp;))\g&lt;NamedRef&gt;(?&lt;keyw&gt;\))
+                | (?&lt;keyw&gt;\(\?R\))
+                | (?&lt;keyw&gt;\(\?)\g&lt;NumberRef&gt;(?&lt;keyw&gt;\))
+                | (?&lt;keyw&gt;\\[1-9][0-9]+)
+              </string>
+						</dict>
+						<key>backtracking-directive-or-global-matching-option</key>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+								<key>4</key>
+								<dict>
+									<key>name</key>
+									<string>variable.language.tag.regexp</string>
+								</dict>
+								<key>5</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+								<key>6</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.operator.assignment.regexp</string>
+								</dict>
+								<key>7</key>
+								<dict>
+									<key>name</key>
+									<string>constant.numeric.integer.decimal.regexp</string>
+								</dict>
+								<key>8</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+								<key>9</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.directive.regexp</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(?x)
+                (\(\*)
+                (?:
+                  (ACCEPT|FAIL|F|MARK(?=:)|(?=:)|COMMIT|PRUNE|SKIP|THEN)
+                    (?:(:)([^)]+))?
+                  | (?:(LIMIT_(?:DEPTH|HEAP|MATCH))(=)(\d+))
+                  | (
+                      CRLF | CR | ANYCRLF | ANY | LF | NUL
+                      | BSR_ANYCRLF | BSR_UNICODE
+                      | NOTEMPTY_ATSTART | NOTEMPTY
+                      | NO_AUTO_POSSESS | NO_DOTSTAR_ANCHOR
+                      | NO_JIT | NO_START_OPT | UTF | UCP
+                    )
+                )
+                (\))
+              </string>
+						</dict>
+						<key>callout</key>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>keyw</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.control.callout.regexp</string>
+								</dict>
+								<key>name</key>
+								<dict>
+									<key>name</key>
+									<string>entity.name.function.callout.regexp</string>
+								</dict>
+								<key>num</key>
+								<dict>
+									<key>name</key>
+									<string>constant.numeric.integer.decimal.regexp</string>
+								</dict>
+								<key>tag</key>
+								<dict>
+									<key>name</key>
+									<string>variable.language.tag-name.regexp</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(?x)
+                # PCRECallout
+                \((?&lt;keyw&gt;\?C)
+                  (?:
+                    (?&lt;num&gt;\d+)
+                    | `(?&lt;name&gt;(?:[^`]|``)*)`
+                    | '(?&lt;name&gt;(?:[^']|'')*)'
+                    | "(?&lt;name&gt;(?:[^"]|"")*)"
+                    | \^(?&lt;name&gt;(?:[^\^]|\^\^)*)\^
+                    | %(?&lt;name&gt;(?:[^%]|%%)*)%
+                    | #(?&lt;name&gt;(?:[^#]|##)*)#
+                    | \$(?&lt;name&gt;(?:[^$]|\$\$)*)\$
+                    | \{(?&lt;name&gt;(?:[^}]|\}\})*)\}
+                  )?
+                \)
+                # NamedCallout
+                | \((?&lt;keyw&gt;\*)
+                    (?&lt;name&gt;(?!\d)\w+)
+                    (?:\[(?&lt;tag&gt;(?!\d)\w+)\])?
+                    (?:\{ [^,}]+ (?:,[^,}]+)* \})?
+                  \)
+                # InterpolatedCallout
+                | \((?&lt;keyw&gt;\?)
+                    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
+                    (\{(?&lt;g1&gt;\{)?+(?&lt;g2&gt;\{)?+(?&lt;g3&gt;\{)?+(?&lt;g4&gt;\{)?+(?&lt;g5&gt;\{)?+) .+? \}(?(&lt;g1&gt;)\})(?(&lt;g2&gt;)\})(?(&lt;g3&gt;)\})(?(&lt;g4&gt;)\})(?(&lt;g5&gt;)\})
+                    (?:\[(?&lt;tag&gt;(?!\d)\w+)\])?
+                    (?&lt;keyw&gt;[X&lt;&gt;]?)
+                  \)
+              </string>
+							<key>name</key>
+							<string>meta.callout.regexp</string>
+						</dict>
+						<key>custom-char-class</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>begin</key>
+									<string>\[(\^)?</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>1</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.negation.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\]</string>
+									<key>name</key>
+									<string>constant.other.character-class.set.regexp</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#custom-char-class-members</string>
+										</dict>
+									</array>
+								</dict>
+							</array>
+						</dict>
+						<key>custom-char-class-members</key>
+						<dict>
+							<key>comment</key>
+							<string>TODO: should also include atoms?</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>comment</key>
+									<string>\b inside a character class represents a backspace</string>
+									<key>match</key>
+									<string>\\b</string>
+									<key>name</key>
+									<string>constant.character.escape.backslash.regexp</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#custom-char-class</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#quote</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#set-operators</string>
+								</dict>
+							</array>
+						</dict>
+						<key>group-option-toggle</key>
+						<dict>
+							<key>comment</key>
+							<string>A matching option sequence may be part of an "isolated group" which has an implicit scope that wraps the remaining elements of the current group</string>
+							<key>match</key>
+							<string>(?x)
+                \(\?
+                (?:
+                  \^(?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+                  | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})+
+                  | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})* - (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+                )
+                \)
+              </string>
+							<key>name</key>
+							<string>keyword.other.option-toggle.regexp</string>
+						</dict>
+						<key>group-or-conditional</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>begin</key>
+									<string>\((\?~)</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>1</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.control.conditional.absent.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\)</string>
+									<key>name</key>
+									<string>meta.group.absent.regexp</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#regex-guts</string>
+										</dict>
+									</array>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>(?x)
+                    # KnownConditionalStart
+                    \( (?&lt;cond&gt;\?\()
+                      (?:
+                        (?&lt;NumberRef&gt; (?&lt;num&gt;[+-]?\d+)(?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )
+                        | (?&lt;cond&gt;R) \g&lt;NumberRef&gt;?
+                        | (?&lt;cond&gt;R&amp;) (?&lt;NamedRef&gt; (?&lt;name&gt;(?!\d)\w+) (?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )
+                        | (?&lt;cond&gt;&lt;) (?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;) (?&lt;cond&gt;&gt;)
+                        | (?&lt;cond&gt;') (?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;) (?&lt;cond&gt;')
+                        | (?&lt;cond&gt;DEFINE)
+                        | (?&lt;cond&gt;VERSION)(?&lt;compar&gt;&gt;?=)(?&lt;num&gt;\d+\.\d+)
+                      )
+                    (?&lt;cond&gt;\))
+                    | \((?&lt;cond&gt;\?)(?=\()
+                  </string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>compar</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.comparison.regexp</string>
+										</dict>
+										<key>cond</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.control.conditional.regexp</string>
+										</dict>
+										<key>name</key>
+										<dict>
+											<key>name</key>
+											<string>variable.language.group-name.regexp</string>
+										</dict>
+										<key>num</key>
+										<dict>
+											<key>name</key>
+											<string>constant.numeric.integer.decimal.regexp</string>
+										</dict>
+										<key>op</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.recursion-level.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\)</string>
+									<key>name</key>
+									<string>meta.group.conditional.regexp</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#regex-guts</string>
+										</dict>
+									</array>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>(?x)
+                    \(
+                    (?&lt;opts&gt;
+                      # BasicGroupKind
+                      \?
+                      (?:
+                        (?:[:|&gt;=!*] | &lt;[=!*])
+                        # named groups
+                        | P?&lt; (?:(?&lt;name&gt;(?!\d)\w+) (?&lt;bal&gt;-))? (?&lt;name&gt;(?!\d)\w+) &gt;
+                        | ' (?:(?&lt;name&gt;(?!\d)\w+) (?&lt;bal&gt;-))? (?&lt;name&gt;(?!\d)\w+) '
+                        # matching options
+                        | (?:
+                          \^(?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+                          | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})+
+                          | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})* - (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+                        ):  # case without : is handled by group-option-toggle
+                      )
+                      # PCRE2GroupKind
+                      | \*(
+                        atomic
+                        |pla|positive_lookahead
+                        |nla|negative_lookahead
+                        |plb|positive_lookbehind
+                        |nlb|negative_lookbehind
+                        |napla|non_atomic_positive_lookahead
+                        |naplb|non_atomic_positive_lookbehind
+                        |sr|script_run
+                        |asr|atomic_script_run
+                      ):
+                    )?+
+                  </string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>bal</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.balancing-group.regexp</string>
+										</dict>
+										<key>compar</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.comparison.regexp</string>
+										</dict>
+										<key>name</key>
+										<dict>
+											<key>name</key>
+											<string>variable.language.group-name.regexp</string>
+										</dict>
+										<key>num</key>
+										<dict>
+											<key>name</key>
+											<string>constant.numeric.integer.decimal.regexp</string>
+										</dict>
+										<key>op</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.operator.recursion-level.regexp</string>
+										</dict>
+										<key>opts</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.other.group-options.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\)</string>
+									<key>name</key>
+									<string>meta.group.regexp</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#regex-guts</string>
+										</dict>
+									</array>
+								</dict>
+							</array>
+						</dict>
+						<key>line-comment</key>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.comment.regexp</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(\#).*$</string>
+							<key>name</key>
+							<string>comment.line.regexp</string>
+						</dict>
+						<key>regex-guts</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>begin</key>
+									<string>\\Q</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>constant.character.escape.backslash.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\\E|(\n)</string>
+									<key>endCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>constant.character.escape.backslash.regexp</string>
+										</dict>
+										<key>1</key>
+										<dict>
+											<key>name</key>
+											<string>invalid.illegal.returns-not-allowed.regexp</string>
+										</dict>
+									</dict>
+									<key>name</key>
+									<string>string.quoted.other.regexp.swift</string>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>\(\?\#</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>punctuation.definition.comment.begin.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\)</string>
+									<key>endCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>punctuation.definition.comment.end.regexp</string>
+										</dict>
+									</dict>
+									<key>name</key>
+									<string>comment.block.regexp</string>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>&lt;\{</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>punctuation.section.embedded.begin.regexp</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>\}&gt;</string>
+									<key>endCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>punctuation.section.embedded.end.regexp</string>
+										</dict>
+									</dict>
+									<key>name</key>
+									<string>meta.embedded.expression.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>(?x)
+                    \\u\{\s*(?:[0-9a-fA-F]+\s*)+\}
+                    | \\u[0-9a-fA-F]{4}
+                    | \\x\{[0-9a-fA-F]+\}
+                    | \\x[0-9a-fA-F]{0,2}
+                    | \\U[0-9a-fA-F]{8}
+                    | \\o\{[0-7]+\}
+                    | \\0[0-7]{0,3}
+                    | \\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}
+                  </string>
+									<key>name</key>
+									<string>constant.character.numeric.regexp</string>
+								</dict>
+								<dict>
+									<key>captures</key>
+									<dict>
+										<key>1</key>
+										<dict>
+											<key>name</key>
+											<string>support.variable.character-property.regexp</string>
+										</dict>
+										<key>2</key>
+										<dict>
+											<key>name</key>
+											<string>support.variable.character-property.regexp</string>
+										</dict>
+									</dict>
+									<key>match</key>
+									<string>(?x)
+                    \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
+                    | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
+                  </string>
+									<key>name</key>
+									<string>constant.other.character-class.set.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>[$^]|\\[AbBGyYzZ]|\\K</string>
+									<key>name</key>
+									<string>keyword.control.anchor.regexp</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#backtracking-directive-or-global-matching-option</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#callout</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#backreference-or-subpattern</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\.|\\[CdDhHNORsSvVwWX]</string>
+									<key>name</key>
+									<string>constant.character.character-class.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\\c.</string>
+									<key>name</key>
+									<string>constant.character.entity.control-character.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\\[^c]</string>
+									<key>name</key>
+									<string>constant.character.escape.backslash.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\|</string>
+									<key>name</key>
+									<string>keyword.operator.or.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>[*+?]</string>
+									<key>name</key>
+									<string>keyword.operator.quantifier.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\{\s*\d+\s*(?:,\s*\d*\s*)?\}|\{\s*,\s*\d+\s*\}</string>
+									<key>name</key>
+									<string>keyword.operator.quantifier.regexp</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#custom-char-class</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#group-option-toggle</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#group-or-conditional</string>
+								</dict>
+							</array>
+						</dict>
+						<key>set-operators</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>match</key>
+									<string>&amp;&amp;</string>
+									<key>name</key>
+									<string>keyword.operator.intersection.regexp.swift</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>--</string>
+									<key>name</key>
+									<string>keyword.operator.subtraction.regexp.swift</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>\~\~</string>
+									<key>name</key>
+									<string>keyword.operator.symmetric-difference.regexp.swift</string>
+								</dict>
+							</array>
+						</dict>
+					</dict>
 				</dict>
 				<key>string</key>
 				<dict>
