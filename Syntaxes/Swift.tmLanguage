@@ -1282,6 +1282,12 @@
 						</dict>
 						<dict>
 							<key>match</key>
+							<string>\b(?:repeat|each)\b</string>
+							<key>name</key>
+							<string>keyword.control.loop.swift</string>
+						</dict>
+						<dict>
+							<key>match</key>
 							<string>\b(?:inout|isolated|borrowing|consuming)\b</string>
 							<key>name</key>
 							<string>storage.modifier.swift</string>
@@ -1844,6 +1850,12 @@
 							<string>Swift 2: constraints inside the generic param list</string>
 							<key>include</key>
 							<string>#generic-where-clause</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\beach\b</string>
+							<key>name</key>
+							<string>keyword.control.loop.swift</string>
 						</dict>
 						<dict>
 							<key>captures</key>
@@ -4314,7 +4326,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?:while|for|in)\b</string>
+					<string>(?&lt;!\.)\b(?:while|for|in|each)\b</string>
 					<key>name</key>
 					<string>keyword.control.loop.swift</string>
 				</dict>

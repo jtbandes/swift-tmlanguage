@@ -302,6 +302,44 @@ func generic<A, B, C>() {}
 func generic<OldStyle where T: Equatable>(arg: Int) throws -> Int {}
 func generic<NewStyle>(arg: Int) throws -> Int where T: Equatable, T == Int {}
 
+// MARK: SE-0393 Parameter Packs
+
+func all<each Wrapped>(_ optional: repeat (each Wrapped)?) -> (repeat each Wrapped)? {}
+func < <each Element: Comparable>(lhs: (repeat each Element), rhs: (repeat each Element)) -> Bool
+func zip<each S>(_ sequence: repeat each S) where repeat each S: Sequence { }
+
+func makePairs<each First, each Second>(
+  firsts first: repeat each First,
+  seconds second: repeat each Second
+) -> (repeat Pair<each First, each Second>) {
+  return (repeat Pair(each first, each second))
+}
+
+func tuplify<each T>(_ t: repeat each T) -> (repeat each T) {
+  return (repeat each t)
+}
+
+func forward<each U>(u: repeat each U) {
+  let _ = tuplify(repeat each u) //  T := {repeat each U}
+  let _ = tuplify(repeat each u, 10) // T := {repeat each U, Int}
+  let _ = tuplify(repeat each u, repeat each u) // T := {repeat each U, repeat each U}
+  let _ = tuplify(repeat [each u]) // T := {repeat Array<each U>}
+}
+
+// shape(Q) = 2 * shape(R) + 1
+// shape(Q) = shape(S) + 2
+func solve<each Q, each R, each S>(q: repeat each Q, r: repeat each R, s: repeat each S)
+    where (repeat each Q) == (Int, repeat each R, repeat each R), 
+          (repeat each Q) == (repeat each S, String, Bool) { }
+
+func variadic<each T: Sequence>(_: repeat each T) -> (repeat (each T).Element) { }
+
+func variadic<each T, each U>(
+  t: repeat each T, 
+  u: repeat each U
+) -> (Int, repeat ((each T) -> each U)) { }
+
+
 // MARK: Operators
 
 x+y, x++y, x +++ y
@@ -407,7 +445,7 @@ let, operator, $123, precedencegroup, protocol, struct, subscript, typealias,
 var, fileprivate, internal, private, public, static, defer, if, guard, do,
 repeat, else, for, in, while, return, break, continue, as?, fallthrough,
 switch, case, default, where, catch, as, Any, false, is, nil, rethrows,
-super, self, Self, throw, true, try, throws, nil, open, package
+super, self, Self, throw, true, try, throws, nil, open, package, each
 
 // MARK: SE-0354 Regex Literals
 
