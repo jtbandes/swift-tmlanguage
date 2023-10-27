@@ -84,7 +84,7 @@ struct Foo {
 
 UIView.animate(withDuration: 0.3) {
   self.view.alpha = 0
-} completion: { _ in  // FIXME
+} completion: { _ in
   self.view.removeFromSuperview()
 }
 // equivalent to
@@ -110,6 +110,19 @@ BlockObserver { aOperation in
 outerLoop: for foo in bar {
   break outerLoop
 }
+
+if foo {}
+while foo {}
+guard foo else {}
+if bar && baz {}
+if let bar = bar {}
+
+// while has to end at EOL because it might be the end of a repeat-while
+repeat {}
+while condition {}
+repeat {}
+while condition
+thisIsAFunction {}
 
 // MARK: Type definitions
 

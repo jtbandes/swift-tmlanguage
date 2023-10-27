@@ -1193,6 +1193,66 @@
 				</dict>
 			</array>
 		</dict>
+		<key>conditionals</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;!\.)\b(if|guard|switch|for)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#keywords</string>
+								</dict>
+							</array>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\{)</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expressions-without-trailing-closures</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;!\.)\b(while)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#keywords</string>
+								</dict>
+							</array>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>while can be the end of a repeat-while statement so doesn't necessarily have braces after it</string>
+					<key>end</key>
+					<string>(?=\{)|$</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expressions-without-trailing-closures</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>declarations</key>
 		<dict>
 			<key>patterns</key>
@@ -3848,6 +3908,104 @@
 		</dict>
 		<key>expressions</key>
 		<dict>
+			<key>comment</key>
+			<string>trailing closures need to be parsed before other member references</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#expressions-without-trailing-closures-or-member-references</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#trailing-closure</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#member-reference</string>
+				</dict>
+			</array>
+			<key>repository</key>
+			<dict>
+				<key>trailing-closure</key>
+				<dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.function.any-method.swift</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+							</dict>
+							<key>comment</key>
+							<string>foo { body } -- a call with a trailing closure and no argument clause</string>
+							<key>match</key>
+							<string>(#?(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))(?=\s*\{)</string>
+							<key>name</key>
+							<string>meta.function-call.trailing-closure-only.swift</string>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.function.any-method.trailing-closure-label.swift</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.definition.identifier.swift</string>
+								</dict>
+								<key>4</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.separator.argument-label.swift</string>
+								</dict>
+							</dict>
+							<key>comment</key>
+							<string>foo: { body } -- labeled-trailing-closure (SE-0279)</string>
+							<key>match</key>
+							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(:)(?=\s*\{)</string>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>expressions-without-trailing-closures</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#expressions-without-trailing-closures-or-member-references</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#member-references</string>
+				</dict>
+			</array>
+		</dict>
+		<key>expressions-without-trailing-closures-or-member-references</key>
+		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -3896,6 +4054,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#conditionals</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#keywords</string>
 				</dict>
 				<dict>
@@ -3913,10 +4075,6 @@
 				<dict>
 					<key>include</key>
 					<string>#parenthesized-expression</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#member-reference</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -4217,61 +4375,6 @@
 								</dict>
 							</array>
 						</dict>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
-									<string>support.function.any-method.swift</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-								<key>3</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-							</dict>
-							<key>comment</key>
-							<string>foo { body } -- a call with a trailing closure and no argument clause</string>
-							<key>match</key>
-							<string>(#?(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))(?=\s*\{)</string>
-							<key>name</key>
-							<string>meta.function-call.trailing-closure-only.swift</string>
-						</dict>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
-									<string>support.function.any-method.trailing-closure-label.swift</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-								<key>3</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-								<key>4</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.separator.argument-label.swift</string>
-								</dict>
-							</dict>
-							<key>comment</key>
-							<string>foo: { body } -- labeled-trailing-closure (SE-0279)</string>
-							<key>match</key>
-							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(:)(?=\s*\{)</string>
-						</dict>
 					</array>
 				</dict>
 				<key>macro-expansion</key>
@@ -4280,34 +4383,6 @@
 					<string>(#(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))</string>
 					<key>name</key>
 					<string>support.function.any-method.swift</string>
-				</dict>
-				<key>member-reference</key>
-				<dict>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
-									<string>variable.other.swift</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-								<key>3</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.definition.identifier.swift</string>
-								</dict>
-							</dict>
-							<key>match</key>
-							<string>(?&lt;=\.)((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))</string>
-						</dict>
-					</array>
 				</dict>
 				<key>parenthesized-expression</key>
 				<dict>
@@ -5954,6 +6029,34 @@
 					</dict>
 				</dict>
 			</dict>
+		</dict>
+		<key>member-reference</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.swift</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.identifier.swift</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.identifier.swift</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;=\.)((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))</string>
+				</dict>
+			</array>
 		</dict>
 		<key>operators</key>
 		<dict>
