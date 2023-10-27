@@ -4489,6 +4489,12 @@
 					<string>keyword.control.loop.swift</string>
 				</dict>
 				<dict>
+					<key>match</key>
+					<string>\bany\b(?=\s*`?[\p{L}_])</string>
+					<key>name</key>
+					<string>keyword.operator.type.existential.swift</string>
+				</dict>
+				<dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
