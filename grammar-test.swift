@@ -143,6 +143,8 @@ protocol Foo {
   func functionBodyNotAllowedHere<T>() async throws -> Int {}
   init(norHere: Int) async throws {}
   init(norHere: Int) throws async {}
+
+  public subscript(fitsBagelsAt index: Int) -> Bool { get }
 }
 protocol Foo: Equatable {}
 protocol Foo: Equatable, Indexable {}

@@ -1267,6 +1267,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#function-subscript</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#typed-variable-declaration</string>
 				</dict>
 				<dict>
@@ -1844,6 +1848,81 @@
 						<dict>
 							<key>include</key>
 							<string>#available-types</string>
+						</dict>
+					</array>
+				</dict>
+				<key>function-subscript</key>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;!\.)\b(subscript)\s*(?=\(|&lt;)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.swift</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\})|$</string>
+					<key>name</key>
+					<string>meta.definition.function.subscript.swift</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#generic-parameter-clause</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#parameter-clause</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#function-result</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#async-throws</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#generic-where-clause</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>(\{)</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.section.function.begin.swift</string>
+								</dict>
+							</dict>
+							<key>end</key>
+							<string>(\})</string>
+							<key>endCaptures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.section.function.end.swift</string>
+								</dict>
+							</dict>
+							<key>name</key>
+							<string>meta.definition.function.body.swift</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>$self</string>
+								</dict>
+							</array>
 						</dict>
 					</array>
 				</dict>
