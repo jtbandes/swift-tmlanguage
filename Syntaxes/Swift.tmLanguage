@@ -766,7 +766,7 @@
 								</dict>
 							</dict>
 							<key>end</key>
-							<string>^</string>
+							<string>$</string>
 							<key>name</key>
 							<string>comment.line.triple-slash.documentation.swift</string>
 						</dict>
@@ -782,7 +782,7 @@
 								</dict>
 							</dict>
 							<key>end</key>
-							<string>^</string>
+							<string>$</string>
 							<key>name</key>
 							<string>comment.line.double-slash.documentation.swift</string>
 						</dict>
@@ -798,7 +798,7 @@
 								</dict>
 							</dict>
 							<key>end</key>
-							<string>^</string>
+							<string>$</string>
 							<key>name</key>
 							<string>comment.line.double-slash.swift</string>
 						</dict>

@@ -200,7 +200,6 @@ extension BankAccount {
 }
 distributed actor A {
   init(system: AnyDistributedActorSystem) // ✅ ok
-  // FIXME:
   init(y: Int, system: AnyDistributedActorSystem) // ✅ ok
   init(canThrow: Bool, system: AnyDistributedActorSystem) async throws // ✅ ok, effects are ok too
 }
@@ -209,7 +208,6 @@ distributed actor Game {
   distributed var result: GameResult {}
   
   distributed func ok() // ✅ ok, no parameters
-  // FIXME:
   distributed func greet(name: String) -> String // ✅ ok, String is Codable
 }
 func test(actor: IsolationExample) async throws {
