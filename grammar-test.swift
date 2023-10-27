@@ -544,7 +544,7 @@ let r = /\ \Q/1/ //x
 let r = #/\Q/1/# //x
 let r = ##/\Q/1/# /## //x
 let nested = /\Q^[xy])+$\E/ // FIXME: xcode does not parse this as a regex because of the `)` (??)
-let nested = /[a\Q]\E]/ //FIXME: should be "character class of ] and a"
+let nested = /[a\Q]\E]/
 let nested = /ab[^a^~~b--c&&d\Qa\E\f] [\w--\d] foo [:a] foo [:a:] [-a-] [a-c-d]/
 //TODO: "We propose unifying these behaviors by scanning ahead until we hit either [, ], :], or \"
 let chars = /^\a\b[\b]\cX\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z$/
@@ -552,6 +552,7 @@ let chars = /^\A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P.\R\S\T\U\V\W\X\Y\Z$/
 let regex = /a{1}{1,}{,2}{1,2} a{ 1 }{ 1 , }{ , 2 }{ 1 , 2 }/
 let nums = /8\u12345\u{ 1 2 3 }\x\x{af}\U89abcdef9\o{12}\07778\N\N{a}\N{U+1a}\N{x-y z}/
 let chars = /\p{is-White_Space a = a} x [:a=b:] [:script=Latin:] \p{alnum}/
+let chars = /[\p{is-White_Space a = a} \N{a}\N{U+1a}\N{x-y z} \Qfoo]\E ]/
 let groups = #/
   (?:abc)
   (?|a|b)

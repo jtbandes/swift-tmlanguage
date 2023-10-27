@@ -5134,6 +5134,29 @@
 							<key>name</key>
 							<string>meta.callout.regexp</string>
 						</dict>
+						<key>character-properties</key>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.variable.character-property.regexp</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>support.variable.character-property.regexp</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(?x)
+                \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
+                | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
+              </string>
+							<key>name</key>
+							<string>constant.other.character-class.set.regexp</string>
+						</dict>
 						<key>custom-char-class</key>
 						<dict>
 							<key>patterns</key>
@@ -5188,6 +5211,14 @@
 								<dict>
 									<key>include</key>
 									<string>#set-operators</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#unicode-scalars</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#character-properties</string>
 								</dict>
 							</array>
 						</dict>
@@ -5387,38 +5418,43 @@
 							<key>name</key>
 							<string>comment.line.regexp</string>
 						</dict>
+						<key>quote</key>
+						<dict>
+							<key>begin</key>
+							<string>\\Q</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>constant.character.escape.backslash.regexp</string>
+								</dict>
+							</dict>
+							<key>end</key>
+							<string>\\E|(\n)</string>
+							<key>endCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>constant.character.escape.backslash.regexp</string>
+								</dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>invalid.illegal.returns-not-allowed.regexp</string>
+								</dict>
+							</dict>
+							<key>name</key>
+							<string>string.quoted.other.regexp.swift</string>
+						</dict>
 						<key>regex-guts</key>
 						<dict>
 							<key>patterns</key>
 							<array>
 								<dict>
-									<key>begin</key>
-									<string>\\Q</string>
-									<key>beginCaptures</key>
-									<dict>
-										<key>0</key>
-										<dict>
-											<key>name</key>
-											<string>constant.character.escape.backslash.regexp</string>
-										</dict>
-									</dict>
-									<key>end</key>
-									<string>\\E|(\n)</string>
-									<key>endCaptures</key>
-									<dict>
-										<key>0</key>
-										<dict>
-											<key>name</key>
-											<string>constant.character.escape.backslash.regexp</string>
-										</dict>
-										<key>1</key>
-										<dict>
-											<key>name</key>
-											<string>invalid.illegal.returns-not-allowed.regexp</string>
-										</dict>
-									</dict>
-									<key>name</key>
-									<string>string.quoted.other.regexp.swift</string>
+									<key>include</key>
+									<string>#quote</string>
 								</dict>
 								<dict>
 									<key>begin</key>
@@ -5469,41 +5505,12 @@
 									<string>meta.embedded.expression.regexp</string>
 								</dict>
 								<dict>
-									<key>match</key>
-									<string>(?x)
-                    \\u\{\s*(?:[0-9a-fA-F]+\s*)+\}
-                    | \\u[0-9a-fA-F]{4}
-                    | \\x\{[0-9a-fA-F]+\}
-                    | \\x[0-9a-fA-F]{0,2}
-                    | \\U[0-9a-fA-F]{8}
-                    | \\o\{[0-7]+\}
-                    | \\0[0-7]{0,3}
-                    | \\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}
-                  </string>
-									<key>name</key>
-									<string>constant.character.numeric.regexp</string>
+									<key>include</key>
+									<string>#unicode-scalars</string>
 								</dict>
 								<dict>
-									<key>captures</key>
-									<dict>
-										<key>1</key>
-										<dict>
-											<key>name</key>
-											<string>support.variable.character-property.regexp</string>
-										</dict>
-										<key>2</key>
-										<dict>
-											<key>name</key>
-											<string>support.variable.character-property.regexp</string>
-										</dict>
-									</dict>
-									<key>match</key>
-									<string>(?x)
-                    \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
-                    | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
-                  </string>
-									<key>name</key>
-									<string>constant.other.character-class.set.regexp</string>
+									<key>include</key>
+									<string>#character-properties</string>
 								</dict>
 								<dict>
 									<key>match</key>
@@ -5596,6 +5603,22 @@
 									<string>keyword.operator.symmetric-difference.regexp.swift</string>
 								</dict>
 							</array>
+						</dict>
+						<key>unicode-scalars</key>
+						<dict>
+							<key>match</key>
+							<string>(?x)
+                    \\u\{\s*(?:[0-9a-fA-F]+\s*)+\}
+                    | \\u[0-9a-fA-F]{4}
+                    | \\x\{[0-9a-fA-F]+\}
+                    | \\x[0-9a-fA-F]{0,2}
+                    | \\U[0-9a-fA-F]{8}
+                    | \\o\{[0-7]+\}
+                    | \\0[0-7]{0,3}
+                    | \\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}
+                  </string>
+							<key>name</key>
+							<string>constant.character.numeric.regexp</string>
 						</dict>
 					</dict>
 				</dict>
