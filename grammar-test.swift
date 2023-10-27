@@ -132,6 +132,7 @@ class Foo: Bar { }
 class Foo<T where T: Equatable>: Bar { }
 class Foo<T>: Bar where T: Equatable { }
 class `var` {}
+class`var` {}
 class var x: Int
 
 protocol Foo {
@@ -212,7 +213,7 @@ distributed actor Game {
   distributed func greet(name: String) -> String // ✅ ok, String is Codable
 }
 func test(actor: IsolationExample) async throws {
-  try await actor.notDistributed() // FIXME
+  try await actor.notDistributed()
 }
 
 distributed actor Robot {
