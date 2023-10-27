@@ -778,7 +778,7 @@ qux(/, !/)  // Will become regex literal '/, !/'
 qux(/,/)    // Will become regex literal '/,/'
 
 let g = hasSubscript[/]/2 // Will become regex literal '/]/'
-
+]
 let h = /0; let f = 1/ // Will become the regex literal '/0; let y = 1/'
 let i = /^x/           // Will become the regex literal '/^x/'
 
@@ -808,6 +808,99 @@ baz(/^/) // Will become the regex literal '/^/' rather than an unapplied operato
 //// This cannot be disambiguated with parentheses or whitespace, however it can be disambiguated using a closure. For example:
 
 baz({ $0 /^/ $1 }) // Is now infix '/^/'
+
+
+// MARK: Macros
+
+if #available(macOS 10.12, iOS 9.1.2, UIKitForMac 1, fixme, *) {}
+if #unavailable(iOS 13, *) { loadMainWindow() }
+#selector(MyClass.func)
+#selector(getter: MyClass.func) #selector(setter: MyClass.func)
+#keyPath(self.parent.name)
+#colorLiteral(), #imageLiteral(), #fileLiteral()
+#file, #line, #function, #dsohandle, #filePath
+
+@freestanding(expression) macro stringify<T>(_: T) -> (T, String)
+
+@freestanding(expression) macro someMacroWithOpaqueResult() -> some Collection<UInt8>
+
+var a = #someMacroWithOpaqueResult
+a = #someMacroWithOpaqueResult // cannot assign value with type of macro expansion here to opaque type from macro expansion above
+
+@freestanding(expression) macro prohibitBinaryOperators<T>(_ value: T, operators: [String]) -> T =
+    #externalMacro(module: "ExampleMacros", type: "ProhibitBinaryOperators")
+@freestanding(expression) macro addBlocker<T>(_ value: T) -> T = #prohibitBinaryOperators(value, operators: ["+"])
+
+#addBlocker(x + y * z)
+
+macro externalMacro<T>(module: String, type: String) -> T
+
+@freestanding(expression) macro fileID<T: ExpressibleByStringLiteral>() -> T
+@freestanding(expression) macro file<T: ExpressibleByStringLiteral>() -> T
+@freestanding(expression) macro filePath<T: ExpressibleByStringLiteral>() -> T
+@freestanding(expression) macro function<T: ExpressibleByStringLiteral>() -> T
+@freestanding(expression) macro line<T: ExpressibleByIntegerLiteral>() -> T
+@freestanding(expression) macro column<T: ExpressibleByIntegerLiteral>() -> T
+@freestanding(expression) macro dsohandle() -> UnsafeRawPointer
+@freestanding(expression) macro selector<T>(_ method: T) -> Selector
+@freestanding(expression) macro selector<T>(getter property: T) -> Selector
+@freestanding(expression) macro selector<T>(setter property: T) -> Selector
+@freestanding(expression) macro keyPath<T>(_ property: T) -> String
+@freestanding(expression) macro colorLiteral<T: ExpressibleByColorLiteral>(red: Float, green: Float, blue: Float, alpha: Float) -> T
+@freestanding(expression) macro imageLiteral<T: ExpressibleByImageLiteral>(resourceName: String) -> T
+@freestanding(expression) macro fileLiteral<T: ExpressibleByFileReferenceLiteral>(resourceName: String) -> T
+
+
+@attached(peer, names: overloaded)
+macro AddCompletionHandler(parameterName: String = "completionHandler")
+
+@AddCompletionHandler(parameterName: "onCompletion")
+func fetchAvatar(_ username: String) async -> Image? { ... }
+
+
+@attached(member, names: named(rawValue), arbitrary) macro OptionSetMembers()
+
+struct MyStruct {
+  var storage: [AnyHashable: Any] = [:]
+  
+  @DictionaryStorage
+  var name: String
+  
+  @DictionaryStorage(key: "birth_date")
+  var birthDate: Date?
+}
+
+@attached(member, names: named(rawValue), arbitrary)
+@attached(conformance)
+macro OptionSet()
+
+@attached(peer, prefixed(_))
+@attached(accessor)
+macro Clamping<T: Comparable>(min: T, max: T) = #externalMacro(module: "MyMacros", type: "ClampingMacro")
+
+@attached(peer) macro myMacro(_: Int)
+@attached(peer, names: named(y)) macro myMacro(_: Double)
+
+func f(_: Int, body: (Int) -> Void)
+func f(_: Double, body: (Double) -> Void)
+
+f(1) { x in
+  @myMacro(x) func g() { }
+  print(y)
+}
+
+@attached(peer, names: arbitrary)
+macro IntroduceArbitraryPeers<T>(_: T) = #externalMacro(...)
+
+@IntroduceArbitraryPeers(MyType().x)
+struct S {}
+
+struct MyType {
+  var x: AnotherType
+}
+
+@attached(extendsion, conformances: MyProtocol, names: named(requirement))
+macro MyProtocol = #externalMacro(...)
 
 // MARK: Ownership
 

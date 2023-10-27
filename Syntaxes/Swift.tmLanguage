@@ -1237,6 +1237,10 @@
 					<key>include</key>
 					<string>#typealias</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#macro</string>
+				</dict>
 			</array>
 			<key>repository</key>
 			<dict>
@@ -2293,6 +2297,74 @@
 							</array>
 						</dict>
 					</dict>
+				</dict>
+				<key>macro</key>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+						\b
+						(macro)
+						\s+
+						((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))
+						\s*
+						(?=\(|&lt;|=)
+					</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.swift</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.swift</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.identifier.swift</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.identifier.swift</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>$|(?=;|//|/\*|\}|=)</string>
+					<key>name</key>
+					<string>meta.definition.macro.swift</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#generic-parameter-clause</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#parameter-clause</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#function-result</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#async-throws</string>
+						</dict>
+						<dict>
+							<key>comment</key>
+							<string>Swift 3: generic constraints after the parameters and return type</string>
+							<key>include</key>
+							<string>#generic-where-clause</string>
+						</dict>
+					</array>
 				</dict>
 				<key>operator</key>
 				<dict>
@@ -3828,7 +3900,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#function-call-expression</string>
+					<string>#function-or-macro-call-expression</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#macro-expansion</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -4056,13 +4132,13 @@
 						</dict>
 					</array>
 				</dict>
-				<key>function-call-expression</key>
+				<key>function-or-macro-call-expression</key>
 				<dict>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>begin</key>
-							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(\()</string>
+							<string>(#?(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(\()</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>1</key>
@@ -4163,7 +4239,7 @@
 							<key>comment</key>
 							<string>foo { body } -- a call with a trailing closure and no argument clause</string>
 							<key>match</key>
-							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))(?=\s*\{)</string>
+							<string>(#?(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))(?=\s*\{)</string>
 							<key>name</key>
 							<string>meta.function-call.trailing-closure-only.swift</string>
 						</dict>
@@ -4197,6 +4273,13 @@
 							<string>((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))\s*(:)(?=\s*\{)</string>
 						</dict>
 					</array>
+				</dict>
+				<key>macro-expansion</key>
+				<dict>
+					<key>match</key>
+					<string>(#(?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))</string>
+					<key>name</key>
+					<string>support.function.any-method.swift</string>
 				</dict>
 				<key>member-reference</key>
 				<dict>
@@ -4534,6 +4617,12 @@
 					<string>\B#(colorLiteral|imageLiteral|fileLiteral)\b</string>
 					<key>name</key>
 					<string>support.function.object-literal.swift</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\B#externalMacro\b</string>
+					<key>name</key>
+					<string>support.function.builtin-macro.swift</string>
 				</dict>
 				<dict>
 					<key>match</key>
