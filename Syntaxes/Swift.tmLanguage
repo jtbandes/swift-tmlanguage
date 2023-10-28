@@ -1840,7 +1840,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?!\G)(?=\{|\bwhere\b|;)|$</string>
+					<string>(?!\G)(?=\{|\bwhere\b|;|=)|$</string>
 					<key>name</key>
 					<string>meta.function-result.swift</string>
 					<key>patterns</key>

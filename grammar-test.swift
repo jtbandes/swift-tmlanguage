@@ -197,7 +197,7 @@ extension BankAccount {
   func deposit(amount: Double, to account: isolated BankAccount)
   nonisolated func safeAccountNumberDisplayString() -> String
   nonisolated var description: String {}
-  // nonisolated override var id: ID { get }
+  nonisolated override var id: ID { get }
   nonisolated public func encode(to encoder: Encoder) throws
 }
 distributed actor A {
@@ -916,7 +916,7 @@ struct MyType {
   var x: AnotherType
 }
 
-@attached(extendsion, conformances: MyProtocol, names: named(requirement))
+@attached(extension, conformances: MyProtocol, names: named(requirement))
 macro MyProtocol = #externalMacro(...)
 
 // MARK: Ownership
