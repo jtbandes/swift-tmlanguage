@@ -372,6 +372,8 @@ precedencegroup ExamplePrecedence {
   associativity: left assignment: true
 }
 
+infix operator ?= :ComparisonPrecedence
+
 // MARK: Other expressions
 
 compoundFunctionName(_:arg1:arg2:), #selector(foo(bar:))
@@ -682,7 +684,7 @@ _ = /#\/\#\\/
 _ = #/#/\/\#\\/#
 _ = ##/#|\|\#\\/##
 
-//FIXME:
+//FIXME: (or maybe not worth fixing)
 _ = (#/[*/#, #/+]/#, #/.]/#)
 // expected-error@-1:16 {{cannot parse regular expression: quantifier '+' must appear after expression}}
 // expected-error@-2:10 {{cannot parse regular expression: expected ']'}}
