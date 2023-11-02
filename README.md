@@ -1,20 +1,28 @@
-# Installation
+# Swift language grammar
 
-You can install this bundle in TextMate by opening the preferences and going to the bundles tab. After installation it will be automatically updated for you.
+**Swift.tmLanguage** is a TextMate [language grammar](https://macromates.com/manual/en/language_grammars) for the [Swift programming language](https://www.swift.org).
 
-# General
+```swift
+func foo<T>(x: T) async throws -> Int where T: Equatable {}
+```
 
-* [Bundle Styleguide](http://kb.textmate.org/bundle_styleguide) — _before you make changes_
-* [Commit Styleguide](http://kb.textmate.org/commit_styleguide) — _before you send a pull request_
-* [Writing Bug Reports](http://kb.textmate.org/writing_bug_reports) — _before you report an issue_
+This grammar is used for [syntax highlighting](https://en.wikipedia.org/wiki/Syntax_highlighting) by several popular projects, including:
 
-# License
+- GitHub, via [Linguist](https://github.com/github-linguist/linguist)
+- [Visual Studio Code](https://github.com/microsoft/vscode/tree/main/extensions/swift)
 
-If not otherwise specified (see below), files in this repository fall under the following license:
+The language grammar is available in three formats:
 
-	Permission to copy, use, modify, sell and distribute this
-	software is granted. This software is provided "as is" without
-	express or implied warranty, and with no claim as to its
-	suitability for any purpose.
+- [Swift.tmLanguage.yaml](Swift.tmLanguage.yaml) — the canonical copy intended for human editing
+- [Swift.tmLanguage.json](Swift.tmLanguage.json) — generated from the YAML
+- [Swift.tmLanguage](Syntaxes/Swift.tmLanguage) — generated from the JSON
 
-An exception is made for files in readable text which contain their own license information, or files where an accompanying file exists (in the same directory) with a “-license” suffix added to the base-name name of the original file, and an extension of txt, html, or similar. For example “tidy” is accompanied by “tidy-license.txt”.
+## Maintenance status
+
+The Swift grammar was developed for years at [textmate/swift.tmbundle](https://github.com/textmate/swift.tmbundle), which is no longer actively maintained. Development of the grammar continues here.
+
+This grammar is maintained by [**@jtbandes**](https://github.com/jtbandes) as a passion project. If you'd like to support past and future development, please consider [sponsoring me 💖](https://github.com/sponsors/jtbandes)!
+
+## License
+
+This project is licensed under the terms of the [MIT license](LICENSE.md).
