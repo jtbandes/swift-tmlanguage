@@ -15,8 +15,8 @@
         "1": {
           "name": "invalid.illegal.await-must-precede-throws.swift"
         },
-        "2": { "name": "keyword.control.exception.swift" },
-        "3": { "name": "keyword.control.async.swift" }
+        "2": { "name": "storage.modifier.exception.swift" },
+        "3": { "name": "storage.modifier.async.swift" }
       }
     },
 
@@ -638,12 +638,12 @@
         { "include": "#attributes" },
 
         {
-          "name": "keyword.control.async.swift",
+          "name": "storage.modifier.async.swift",
           "match": "\\basync\\b"
         },
 
         {
-          "name": "keyword.control.exception.swift",
+          "name": "storage.modifier.exception.swift",
           "match": "\\b(?:throws|rethrows)\\b"
         },
 
@@ -1248,7 +1248,7 @@
       },
       "endCaptures": {
         "1": { "name": "punctuation.definition.parameters.end.swift" },
-        "2": { "name": "keyword.control.async.swift" }
+        "2": { "name": "storage.modifier.async.swift" }
       },
       "patterns": [{ "include": "#declarations-parameter-list" }]
     },
@@ -1722,7 +1722,7 @@
       "begin": "(?x)\n\\b(?:(async)\\s+)?(let|var)\\b\\s+\n(?<q>`?)[\\p{L}_][\\p{L}_\\p{N}\\p{M}]*(\\k<q>)\\s*\n:",
       "end": "(?=$|[={])",
       "beginCaptures": {
-        "1": { "name": "keyword.control.async.swift" },
+        "1": { "name": "storage.modifier.async.swift" },
         "2": { "name": "keyword.other.declaration-specifier.swift" }
       },
       "patterns": [{ "include": "#declarations-available-types" }]
@@ -2052,7 +2052,12 @@
 
         {
           "name": "keyword.control.exception.swift",
-          "match": "(?<!\\.)\\b(?:catch|throws?|rethrows|try)\\b|\\btry[?!]\\B"
+          "match": "(?<!\\.)\\b(?:catch|throw|try)\\b|\\btry[?!]\\B"
+        },
+
+        {
+          "name": "storage.modifier.exception.swift",
+          "match": "(?<!\\.)\\b(?:throws|rethrows)\\b"
         },
 
         {
@@ -2067,7 +2072,7 @@
         {
           "match": "(?<!\\.)\\b(?:(async)\\s+)?(let|var)\\b",
           "captures": {
-            "1": { "name": "keyword.control.async.swift" },
+            "1": { "name": "storage.modifier.async.swift" },
             "2": { "name": "keyword.other.declaration-specifier.swift" }
           }
         },

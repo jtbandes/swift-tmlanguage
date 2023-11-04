@@ -14,8 +14,8 @@ repository:
     match: \b(?:(throws\s+async|rethrows\s+async)|(throws|rethrows)|(async))\b
     captures:
       1: { name: invalid.illegal.await-must-precede-throws.swift }
-      2: { name: keyword.control.exception.swift }
-      3: { name: keyword.control.async.swift }
+      2: { name: storage.modifier.exception.swift }
+      3: { name: storage.modifier.async.swift }
 
   attributes:
     patterns:
@@ -449,10 +449,10 @@ repository:
       - include: "#builtin-types"
       - include: "#attributes"
 
-      - name: keyword.control.async.swift
+      - name: storage.modifier.async.swift
         match: \basync\b
 
-      - name: keyword.control.exception.swift
+      - name: storage.modifier.exception.swift
         match: \b(?:throws|rethrows)\b
 
       - name: keyword.operator.type.opaque.swift
@@ -1022,7 +1022,7 @@ repository:
       1: { name: punctuation.definition.parameters.begin.swift }
     endCaptures:
       1: { name: punctuation.definition.parameters.end.swift }
-      2: { name: keyword.control.async.swift }
+      2: { name: storage.modifier.async.swift }
     patterns:
       - include: "#declarations-parameter-list"
 
@@ -1438,7 +1438,7 @@ repository:
       :
     end: (?=$|[={])
     beginCaptures:
-      1: { name: keyword.control.async.swift }
+      1: { name: storage.modifier.async.swift }
       2: { name: keyword.other.declaration-specifier.swift }
     patterns:
       - include: "#declarations-available-types"
@@ -1662,7 +1662,10 @@ repository:
           2: { name: keyword.control.await.swift }
 
       - name: keyword.control.exception.swift
-        match: (?<!\.)\b(?:catch|throws?|rethrows|try)\b|\btry[?!]\B
+        match: (?<!\.)\b(?:catch|throw|try)\b|\btry[?!]\B
+
+      - name: storage.modifier.exception.swift
+        match: (?<!\.)\b(?:throws|rethrows)\b
 
       # extra scopes for do-catch snippet
       - match: (?<!\.)\b(do)\b(\s*)
@@ -1672,7 +1675,7 @@ repository:
 
       - match: (?<!\.)\b(?:(async)\s+)?(let|var)\b
         captures:
-          1: { name: keyword.control.async.swift }
+          1: { name: storage.modifier.async.swift }
           2: { name: keyword.other.declaration-specifier.swift }
 
       - name: keyword.other.declaration-specifier.swift

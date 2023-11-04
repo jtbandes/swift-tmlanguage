@@ -41,12 +41,12 @@
           <key>2</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.exception.swift</string>
+            <string>storage.modifier.exception.swift</string>
           </dict>
           <key>3</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.async.swift</string>
+            <string>storage.modifier.async.swift</string>
           </dict>
         </dict>
       </dict>
@@ -1323,13 +1323,13 @@
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.control.async.swift</string>
+            <string>storage.modifier.async.swift</string>
             <key>match</key>
             <string>\basync\b</string>
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.control.exception.swift</string>
+            <string>storage.modifier.exception.swift</string>
             <key>match</key>
             <string>\b(?:throws|rethrows)\b</string>
           </dict>
@@ -2726,7 +2726,7 @@
           <key>2</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.async.swift</string>
+            <string>storage.modifier.async.swift</string>
           </dict>
         </dict>
         <key>patterns</key>
@@ -3924,7 +3924,7 @@
           <key>1</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.async.swift</string>
+            <string>storage.modifier.async.swift</string>
           </dict>
           <key>2</key>
           <dict>
@@ -4581,7 +4581,13 @@
             <key>name</key>
             <string>keyword.control.exception.swift</string>
             <key>match</key>
-            <string>(?&lt;!\.)\b(?:catch|throws?|rethrows|try)\b|\btry[?!]\B</string>
+            <string>(?&lt;!\.)\b(?:catch|throw|try)\b|\btry[?!]\B</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>storage.modifier.exception.swift</string>
+            <key>match</key>
+            <string>(?&lt;!\.)\b(?:throws|rethrows)\b</string>
           </dict>
           <dict>
             <key>comment</key>
@@ -4610,7 +4616,7 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.async.swift</string>
+                <string>storage.modifier.async.swift</string>
               </dict>
               <key>2</key>
               <dict>
