@@ -3655,7 +3655,7 @@
           <key>1</key>
           <dict>
             <key>name</key>
-            <string>constant.other.swift</string>
+            <string>variable.other.enummember.swift</string>
           </dict>
         </dict>
         <key>patterns</key>

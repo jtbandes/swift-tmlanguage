@@ -123,6 +123,8 @@ while condition {}
 repeat {}
 while condition
 thisIsAFunction {}
+if foo
+bar {}
 
 // MARK: Type definitions
 
@@ -462,6 +464,8 @@ var, fileprivate, internal, private, public, static, defer, if, guard, do,
 repeat, else, for, in, while, return, break, continue, as?, fallthrough,
 switch, case, default, where, catch, as, Any, false, is, nil, rethrows,
 super, self, Self, throw, true, try, throws, nil, open, package, each
+
+{} // unclear why removing this breaks some things such as "Regex {}" below
 
 // MARK: SE-0354 Regex Literals
 

@@ -1344,7 +1344,7 @@ repository:
     begin: (?x)((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
     end: (?<=\))|(?![=(])
     beginCaptures:
-      1: { name: constant.other.swift }
+      1: { name: variable.other.enummember.swift }
     patterns:
       - include: "#comments"
       - include: "#declarations-type-enum-associated-values"
