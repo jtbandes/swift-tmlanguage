@@ -153,68 +153,67 @@ repository:
   builtin-types:
     # Types provided in the standard library
     patterns:
-      - include: "#builtin-class-type"
-      - include: "#builtin-enum-type"
-      - include: "#builtin-protocol-type"
-      - include: "#builtin-struct-type"
-      - include: "#builtin-typealias"
+      - include: "#builtin-types-builtin-class-type"
+      - include: "#builtin-types-builtin-enum-type"
+      - include: "#builtin-types-builtin-protocol-type"
+      - include: "#builtin-types-builtin-struct-type"
+      - include: "#builtin-types-builtin-typealias"
 
       - name: support.type.any.swift
         match: \bAny\b
 
-    repository:
-      builtin-class-type:
-        # Builtin class types
-        name: support.class.swift
-        match: \b(Managed(Buffer|ProtoBuffer)|NonObjectiveCBase|AnyGenerator)\b
+  builtin-types-builtin-class-type:
+    # Builtin class types
+    name: support.class.swift
+    match: \b(Managed(Buffer|ProtoBuffer)|NonObjectiveCBase|AnyGenerator)\b
 
-      builtin-enum-type:
-        patterns:
-          # CommandLine is an enum, but it acts like a constant
-          - name: support.constant.swift
-            match: \b(?:CommandLine|Process(?=\.))\b
+  builtin-types-builtin-enum-type:
+    patterns:
+      # CommandLine is an enum, but it acts like a constant
+      - name: support.constant.swift
+        match: \b(?:CommandLine|Process(?=\.))\b
 
-          # The return type of a function that never returns
-          - name: support.constant.never.swift
-            match: \bNever\b
+      # The return type of a function that never returns
+      - name: support.constant.never.swift
+        match: \bNever\b
 
-          # Enum types in the standard library in Swift 3
-          - name: support.type.swift
-            match: \b(?:ImplicitlyUnwrappedOptional|Representation|MemoryLayout|FloatingPointClassification|SetIndexRepresentation|SetIteratorRepresentation|FloatingPointRoundingRule|UnicodeDecodingResult|Optional|DictionaryIndexRepresentation|AncestorRepresentation|DisplayStyle|PlaygroundQuickLook|Never|FloatingPointSign|Bit|DictionaryIteratorRepresentation)\b
+      # Enum types in the standard library in Swift 3
+      - name: support.type.swift
+        match: \b(?:ImplicitlyUnwrappedOptional|Representation|MemoryLayout|FloatingPointClassification|SetIndexRepresentation|SetIteratorRepresentation|FloatingPointRoundingRule|UnicodeDecodingResult|Optional|DictionaryIndexRepresentation|AncestorRepresentation|DisplayStyle|PlaygroundQuickLook|Never|FloatingPointSign|Bit|DictionaryIteratorRepresentation)\b
 
-          # Enum types in the standard library in Swift 2 only
-          - name: support.type.swift
-            match: \b(?:MirrorDisposition|QuickLookObject)\b
+      # Enum types in the standard library in Swift 2 only
+      - name: support.type.swift
+        match: \b(?:MirrorDisposition|QuickLookObject)\b
 
-      builtin-protocol-type:
-        patterns:
-          # Protocols in the standard library in Swift 3
-          - name: support.type.swift
-            match: \b(?:Ra(?:n(?:domAccess(?:Collection|Indexable)|geReplaceable(?:Collection|Indexable))|wRepresentable)|M(?:irrorPath|utable(?:Collection|Indexable))|Bi(?:naryFloatingPoint|twiseOperations|directional(?:Collection|Indexable))|S(?:tr(?:ideable|eamable)|igned(?:Number|Integer)|e(?:tAlgebra|quence))|Hashable|C(?:o(?:llection|mparable)|ustom(?:Reflectable|StringConvertible|DebugStringConvertible|PlaygroundQuickLookable|LeafReflectable)|VarArg)|TextOutputStream|I(?:n(?:teger(?:Arithmetic)?|dexable(?:Base)?)|teratorProtocol)|OptionSet|Un(?:signedInteger|icodeCodec)|E(?:quatable|rror|xpressibleBy(?:BooleanLiteral|String(?:Interpolation|Literal)|NilLiteral|IntegerLiteral|DictionaryLiteral|UnicodeScalarLiteral|ExtendedGraphemeClusterLiteral|FloatLiteral|ArrayLiteral))|FloatingPoint|L(?:osslessStringConvertible|azy(?:SequenceProtocol|CollectionProtocol))|A(?:nyObject|bsoluteValuable))\b
+  builtin-types-builtin-protocol-type:
+    patterns:
+      # Protocols in the standard library in Swift 3
+      - name: support.type.swift
+        match: \b(?:Ra(?:n(?:domAccess(?:Collection|Indexable)|geReplaceable(?:Collection|Indexable))|wRepresentable)|M(?:irrorPath|utable(?:Collection|Indexable))|Bi(?:naryFloatingPoint|twiseOperations|directional(?:Collection|Indexable))|S(?:tr(?:ideable|eamable)|igned(?:Number|Integer)|e(?:tAlgebra|quence))|Hashable|C(?:o(?:llection|mparable)|ustom(?:Reflectable|StringConvertible|DebugStringConvertible|PlaygroundQuickLookable|LeafReflectable)|VarArg)|TextOutputStream|I(?:n(?:teger(?:Arithmetic)?|dexable(?:Base)?)|teratorProtocol)|OptionSet|Un(?:signedInteger|icodeCodec)|E(?:quatable|rror|xpressibleBy(?:BooleanLiteral|String(?:Interpolation|Literal)|NilLiteral|IntegerLiteral|DictionaryLiteral|UnicodeScalarLiteral|ExtendedGraphemeClusterLiteral|FloatLiteral|ArrayLiteral))|FloatingPoint|L(?:osslessStringConvertible|azy(?:SequenceProtocol|CollectionProtocol))|A(?:nyObject|bsoluteValuable))\b
 
-          # Protocols in the standard library in Swift 2 only
-          - name: support.type.swift
-            match: \b(?:Ran(?:domAccessIndexType|geReplaceableCollectionType)|GeneratorType|M(?:irror(?:Type|PathType)|utable(?:Sliceable|CollectionType))|B(?:i(?:twiseOperationsType|directionalIndexType)|oolean(?:Type|LiteralConvertible))|S(?:tring(?:InterpolationConvertible|LiteralConvertible)|i(?:nkType|gned(?:NumberType|IntegerType))|e(?:tAlgebraType|quenceType)|liceable)|NilLiteralConvertible|C(?:ollectionType|VarArgType)|Inte(?:rvalType|ger(?:Type|LiteralConvertible|ArithmeticType))|O(?:utputStreamType|ptionSetType)|DictionaryLiteralConvertible|Un(?:signedIntegerType|icode(?:ScalarLiteralConvertible|CodecType))|E(?:rrorType|xten(?:sibleCollectionType|dedGraphemeClusterLiteralConvertible))|F(?:orwardIndexType|loat(?:ingPointType|LiteralConvertible))|A(?:nyCollectionType|rrayLiteralConvertible))\b
+      # Protocols in the standard library in Swift 2 only
+      - name: support.type.swift
+        match: \b(?:Ran(?:domAccessIndexType|geReplaceableCollectionType)|GeneratorType|M(?:irror(?:Type|PathType)|utable(?:Sliceable|CollectionType))|B(?:i(?:twiseOperationsType|directionalIndexType)|oolean(?:Type|LiteralConvertible))|S(?:tring(?:InterpolationConvertible|LiteralConvertible)|i(?:nkType|gned(?:NumberType|IntegerType))|e(?:tAlgebraType|quenceType)|liceable)|NilLiteralConvertible|C(?:ollectionType|VarArgType)|Inte(?:rvalType|ger(?:Type|LiteralConvertible|ArithmeticType))|O(?:utputStreamType|ptionSetType)|DictionaryLiteralConvertible|Un(?:signedIntegerType|icode(?:ScalarLiteralConvertible|CodecType))|E(?:rrorType|xten(?:sibleCollectionType|dedGraphemeClusterLiteralConvertible))|F(?:orwardIndexType|loat(?:ingPointType|LiteralConvertible))|A(?:nyCollectionType|rrayLiteralConvertible))\b
 
-      builtin-struct-type:
-        patterns:
-          # Structs in the standard library in Swift 3
-          - name: support.type.swift
-            match: \b(?:R(?:e(?:peat(?:ed)?|versed(?:RandomAccess(?:Collection|Index)|Collection|Index))|an(?:domAccessSlice|ge(?:Replaceable(?:RandomAccessSlice|BidirectionalSlice|Slice)|Generator)?))|Generator(?:Sequence|OfOne)|M(?:irror|utable(?:Ran(?:domAccessSlice|geReplaceable(?:RandomAccessSlice|BidirectionalSlice|Slice))|BidirectionalSlice|Slice)|anagedBufferPointer)|B(?:idirectionalSlice|ool)|S(?:t(?:aticString|ri(?:ng|deT(?:hrough(?:Generator|Iterator)?|o(?:Generator|Iterator)?)))|et(?:I(?:ndex|terator))?|lice)|HalfOpenInterval|C(?:haracter(?:View)?|o(?:ntiguousArray|untable(?:Range|ClosedRange)|llectionOfOne)|OpaquePointer|losed(?:Range(?:I(?:ndex|terator))?|Interval)|VaListPointer)|I(?:n(?:t(?:16|8|32|64)?|d(?:ices|ex(?:ing(?:Generator|Iterator))?))|terator(?:Sequence|OverOne)?)|Zip2(?:Sequence|Iterator)|O(?:paquePointer|bjectIdentifier)|D(?:ictionary(?:I(?:ndex|terator)|Literal)?|ouble|efault(?:RandomAccessIndices|BidirectionalIndices|Indices))|U(?:n(?:safe(?:RawPointer|Mutable(?:RawPointer|BufferPointer|Pointer)|BufferPointer(?:Generator|Iterator)?|Pointer)|icodeScalar(?:View)?|foldSequence|managed)|TF(?:16(?:View)?|8(?:View)?|32)|Int(?:16|8|32|64)?)|Join(?:Generator|ed(?:Sequence|Iterator))|PermutationGenerator|E(?:numerate(?:Generator|Sequence|d(?:Sequence|Iterator))|mpty(?:Generator|Collection|Iterator))|Fl(?:oat(?:80)?|atten(?:Generator|BidirectionalCollection(?:Index)?|Sequence|Collection(?:Index)?|Iterator))|L(?:egacyChildren|azy(?:RandomAccessCollection|Map(?:RandomAccessCollection|Generator|BidirectionalCollection|Sequence|Collection|Iterator)|BidirectionalCollection|Sequence|Collection|Filter(?:Generator|BidirectionalCollection|Sequence|Collection|I(?:ndex|terator))))|A(?:ny(?:RandomAccessCollection|Generator|BidirectionalCollection|Sequence|Hashable|Collection|I(?:ndex|terator))|utoreleasingUnsafeMutablePointer|rray(?:Slice)?))\b
+  builtin-types-builtin-struct-type:
+    patterns:
+      # Structs in the standard library in Swift 3
+      - name: support.type.swift
+        match: \b(?:R(?:e(?:peat(?:ed)?|versed(?:RandomAccess(?:Collection|Index)|Collection|Index))|an(?:domAccessSlice|ge(?:Replaceable(?:RandomAccessSlice|BidirectionalSlice|Slice)|Generator)?))|Generator(?:Sequence|OfOne)|M(?:irror|utable(?:Ran(?:domAccessSlice|geReplaceable(?:RandomAccessSlice|BidirectionalSlice|Slice))|BidirectionalSlice|Slice)|anagedBufferPointer)|B(?:idirectionalSlice|ool)|S(?:t(?:aticString|ri(?:ng|deT(?:hrough(?:Generator|Iterator)?|o(?:Generator|Iterator)?)))|et(?:I(?:ndex|terator))?|lice)|HalfOpenInterval|C(?:haracter(?:View)?|o(?:ntiguousArray|untable(?:Range|ClosedRange)|llectionOfOne)|OpaquePointer|losed(?:Range(?:I(?:ndex|terator))?|Interval)|VaListPointer)|I(?:n(?:t(?:16|8|32|64)?|d(?:ices|ex(?:ing(?:Generator|Iterator))?))|terator(?:Sequence|OverOne)?)|Zip2(?:Sequence|Iterator)|O(?:paquePointer|bjectIdentifier)|D(?:ictionary(?:I(?:ndex|terator)|Literal)?|ouble|efault(?:RandomAccessIndices|BidirectionalIndices|Indices))|U(?:n(?:safe(?:RawPointer|Mutable(?:RawPointer|BufferPointer|Pointer)|BufferPointer(?:Generator|Iterator)?|Pointer)|icodeScalar(?:View)?|foldSequence|managed)|TF(?:16(?:View)?|8(?:View)?|32)|Int(?:16|8|32|64)?)|Join(?:Generator|ed(?:Sequence|Iterator))|PermutationGenerator|E(?:numerate(?:Generator|Sequence|d(?:Sequence|Iterator))|mpty(?:Generator|Collection|Iterator))|Fl(?:oat(?:80)?|atten(?:Generator|BidirectionalCollection(?:Index)?|Sequence|Collection(?:Index)?|Iterator))|L(?:egacyChildren|azy(?:RandomAccessCollection|Map(?:RandomAccessCollection|Generator|BidirectionalCollection|Sequence|Collection|Iterator)|BidirectionalCollection|Sequence|Collection|Filter(?:Generator|BidirectionalCollection|Sequence|Collection|I(?:ndex|terator))))|A(?:ny(?:RandomAccessCollection|Generator|BidirectionalCollection|Sequence|Hashable|Collection|I(?:ndex|terator))|utoreleasingUnsafeMutablePointer|rray(?:Slice)?))\b
 
-          # Structs in the standard library in Swift 2 only
-          - name: support.type.swift
-            match: \b(?:R(?:everse(?:RandomAccess(?:Collection|Index)|Collection|Index)|awByte)|Map(?:Generator|Sequence|Collection)|S(?:inkOf|etGenerator)|Zip2Generator|DictionaryGenerator|Filter(?:Generator|Sequence|Collection(?:Index)?)|LazyForwardCollection|Any(?:RandomAccessIndex|BidirectionalIndex|Forward(?:Collection|Index)))\b
+      # Structs in the standard library in Swift 2 only
+      - name: support.type.swift
+        match: \b(?:R(?:everse(?:RandomAccess(?:Collection|Index)|Collection|Index)|awByte)|Map(?:Generator|Sequence|Collection)|S(?:inkOf|etGenerator)|Zip2Generator|DictionaryGenerator|Filter(?:Generator|Sequence|Collection(?:Index)?)|LazyForwardCollection|Any(?:RandomAccessIndex|BidirectionalIndex|Forward(?:Collection|Index)))\b
 
-      builtin-typealias:
-        patterns:
-          # Typealiases in the standard library in Swift 3
-          - name: support.type.swift
-            match: \b(?:Raw(?:Significand|Exponent|Value)|B(?:ooleanLiteralType|uffer|ase)|S(?:t(?:orage|r(?:i(?:ngLiteralType|de)|eam(?:1|2)))|ubSequence)|NativeBuffer|C(?:hild(?:ren)?|Bool|S(?:hort|ignedChar)|odeUnit|Char(?:16|32)?|Int|Double|Unsigned(?:Short|Char|Int|Long(?:Long)?)|Float|WideChar|Long(?:Long)?)|I(?:n(?:t(?:Max|egerLiteralType)|d(?:ices|ex(?:Distance)?))|terator)|Distance|U(?:n(?:icodeScalar(?:Type|Index|View|LiteralType)|foldFirstSequence)|TF(?:16(?:Index|View)|8Index)|IntMax)|E(?:lement(?:s)?|x(?:tendedGraphemeCluster(?:Type|LiteralType)|ponent))|V(?:oid|alue)|Key|Float(?:32|LiteralType|64)|AnyClass)\b
+  builtin-types-builtin-typealias:
+    patterns:
+      # Typealiases in the standard library in Swift 3
+      - name: support.type.swift
+        match: \b(?:Raw(?:Significand|Exponent|Value)|B(?:ooleanLiteralType|uffer|ase)|S(?:t(?:orage|r(?:i(?:ngLiteralType|de)|eam(?:1|2)))|ubSequence)|NativeBuffer|C(?:hild(?:ren)?|Bool|S(?:hort|ignedChar)|odeUnit|Char(?:16|32)?|Int|Double|Unsigned(?:Short|Char|Int|Long(?:Long)?)|Float|WideChar|Long(?:Long)?)|I(?:n(?:t(?:Max|egerLiteralType)|d(?:ices|ex(?:Distance)?))|terator)|Distance|U(?:n(?:icodeScalar(?:Type|Index|View|LiteralType)|foldFirstSequence)|TF(?:16(?:Index|View)|8Index)|IntMax)|E(?:lement(?:s)?|x(?:tendedGraphemeCluster(?:Type|LiteralType)|ponent))|V(?:oid|alue)|Key|Float(?:32|LiteralType|64)|AnyClass)\b
 
-          # Typealiases in the standard library in Swift 2 only
-          - name: support.type.swift
-            match: \b(?:Generator|PlaygroundQuickLook|UWord|Word)\b
+      # Typealiases in the standard library in Swift 2 only
+      - name: support.type.swift
+        match: \b(?:Generator|PlaygroundQuickLook|UWord|Word)\b
 
   code-block:
     begin: \{
@@ -241,7 +240,7 @@ repository:
         endCaptures:
           0: { name: punctuation.definition.comment.end.swift }
         patterns:
-          - include: "#nested"
+          - include: "#comments-nested"
 
       - name: comment.block.documentation.playground.swift
         begin: "/\\*:"
@@ -251,7 +250,7 @@ repository:
         endCaptures:
           0: { name: punctuation.definition.comment.end.swift }
         patterns:
-          - include: "#nested"
+          - include: "#comments-nested"
 
       - name: comment.block.swift
         begin: /\*
@@ -261,7 +260,7 @@ repository:
         endCaptures:
           0: { name: punctuation.definition.comment.end.swift }
         patterns:
-          - include: "#nested"
+          - include: "#comments-nested"
 
       - name: invalid.illegal.unexpected-end-of-block-comment.swift
         match: \*/
@@ -289,12 +288,11 @@ repository:
             beginCaptures:
               0: { name: punctuation.definition.comment.swift }
 
-    repository:
-      nested:
-        begin: /\*
-        end: \*/
-        patterns:
-          - include: "#nested"
+  comments-nested:
+    begin: /\*
+    end: \*/
+    patterns:
+      - include: "#comments-nested"
 
   compiler-control:
     patterns:
@@ -432,510 +430,760 @@ repository:
 
   declarations:
     patterns:
-      - include: "#function"
-      - include: "#function-initializer"
-      - include: "#function-subscript"
-      - include: "#typed-variable-declaration"
-      - include: "#import"
-      - include: "#operator"
-      - include: "#precedencegroup"
-      - include: "#protocol"
-      - include: "#type"
-      - include: "#extension"
-      - include: "#typealias"
-      - include: "#macro"
+      - include: "#declarations-function"
+      - include: "#declarations-function-initializer"
+      - include: "#declarations-function-subscript"
+      - include: "#declarations-typed-variable-declaration"
+      - include: "#declarations-import"
+      - include: "#declarations-operator"
+      - include: "#declarations-precedencegroup"
+      - include: "#declarations-protocol"
+      - include: "#declarations-type"
+      - include: "#declarations-extension"
+      - include: "#declarations-typealias"
+      - include: "#declarations-macro"
 
-    repository:
-      available-types:
-        patterns:
-          - include: "#comments"
-          - include: "#builtin-types"
-          - include: "#attributes"
+  declarations-available-types:
+    patterns:
+      - include: "#comments"
+      - include: "#builtin-types"
+      - include: "#attributes"
 
-          - name: keyword.control.async.swift
-            match: \basync\b
+      - name: keyword.control.async.swift
+        match: \basync\b
 
-          - name: keyword.control.exception.swift
-            match: \b(?:throws|rethrows)\b
+      - name: keyword.control.exception.swift
+        match: \b(?:throws|rethrows)\b
 
-          - name: keyword.operator.type.opaque.swift
-            match: \bsome\b
+      - name: keyword.operator.type.opaque.swift
+        match: \bsome\b
 
-          - name: keyword.operator.type.existential.swift
-            match: \bany\b
+      - name: keyword.operator.type.existential.swift
+        match: \bany\b
 
-          - name: keyword.control.loop.swift
-            match: \b(?:repeat|each)\b
+      - name: keyword.control.loop.swift
+        match: \b(?:repeat|each)\b
 
-          - name: storage.modifier.swift
-            match: \b(?:inout|isolated|borrowing|consuming)\b
+      - name: storage.modifier.swift
+        match: \b(?:inout|isolated|borrowing|consuming)\b
 
-          - name: variable.language.swift
-            match: \bSelf\b
+      - name: variable.language.swift
+        match: \bSelf\b
 
-          - match: (?<![/=\-+!*%<>&|\^~.])(->)(?![/=\-+!*%<>&|\^~.])
-            captures:
-              1: { name: keyword.operator.type.function.swift }
+      - match: (?<![/=\-+!*%<>&|\^~.])(->)(?![/=\-+!*%<>&|\^~.])
+        captures:
+          1: { name: keyword.operator.type.function.swift }
 
-          # Swift 3: A & B
-          - match: (?<![/=\-+!*%<>&|\^~.])(&)(?![/=\-+!*%<>&|\^~.])
-            captures:
-              1: { name: keyword.operator.type.composition.swift }
+      # Swift 3: A & B
+      - match: (?<![/=\-+!*%<>&|\^~.])(&)(?![/=\-+!*%<>&|\^~.])
+        captures:
+          1: { name: keyword.operator.type.composition.swift }
 
-          - name: keyword.operator.type.optional.swift
-            match: "[?!]"
+      - name: keyword.operator.type.optional.swift
+        match: "[?!]"
 
-          - name: keyword.operator.function.variadic-parameter.swift
-            match: \.\.\.
+      - name: keyword.operator.function.variadic-parameter.swift
+        match: \.\.\.
 
-          # Swift 2: protocol<A, B>
-          - name: keyword.operator.type.composition.swift
-            match: \bprotocol\b
+      # Swift 2: protocol<A, B>
+      - name: keyword.operator.type.composition.swift
+        match: \bprotocol\b
 
-          - name: keyword.operator.type.metatype.swift
-            match: (?<=\.)(?:Protocol|Type)\b
+      - name: keyword.operator.type.metatype.swift
+        match: (?<=\.)(?:Protocol|Type)\b
 
-          - include: "#tuple-type"
-          - include: "#collection-type"
-          - include: "#generic-argument-clause"
+      - include: "#declarations-available-types-tuple-type"
+      - include: "#declarations-available-types-collection-type"
+      - include: "#declarations-generic-argument-clause"
 
-        repository:
-          collection-type:
-            # array and dictionary types [Value] and [Key: Value]
-            begin: \[
-            end: \]|(?=[>){}])
-            beginCaptures:
-              0: { name: punctuation.section.collection-type.begin.swift }
-            endCaptures:
-              0: { name: punctuation.section.collection-type.end.swift }
-            patterns:
-              - include: "#available-types"
+  declarations-available-types-collection-type:
+    # array and dictionary types [Value] and [Key: Value]
+    begin: \[
+    end: \]|(?=[>){}])
+    beginCaptures:
+      0: { name: punctuation.section.collection-type.begin.swift }
+    endCaptures:
+      0: { name: punctuation.section.collection-type.end.swift }
+    patterns:
+      - include: "#declarations-available-types"
 
-              - begin: ":"
-                end: (?=\]|[>){}])
-                beginCaptures:
-                  0: { name: punctuation.separator.key-value.swift }
-                patterns:
-                  - name: invalid.illegal.extra-colon-in-dictionary-type.swift
-                    match: ":"
-                  - include: "#available-types"
-
-          tuple-type:
-            begin: \(
-            end: \)|(?=[>\]{}])
-            beginCaptures:
-              0: { name: punctuation.section.tuple-type.begin.swift }
-            endCaptures:
-              0: { name: punctuation.section.tuple-type.end.swift }
-            patterns:
-              - include: "#available-types"
-
-      extension:
-        name: meta.definition.type.$1.swift
-        begin: \b(extension)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-        end: (?<=\})
+      - begin: ":"
+        end: (?=\]|[>){}])
         beginCaptures:
-          1: { name: storage.type.$1.swift }
-          2:
-            name: entity.name.type.swift
-            patterns:
-              - include: "#available-types"
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
+          0: { name: punctuation.separator.key-value.swift }
         patterns:
-          - include: "#comments"
-          # SE-0143: Conditional Conformances
-          - include: "#generic-where-clause"
-          - include: "#inheritance-clause"
+          - name: invalid.illegal.extra-colon-in-dictionary-type.swift
+            match: ":"
+          - include: "#declarations-available-types"
 
-          - name: meta.definition.type.body.swift
-            begin: \{
-            end: \}
-            beginCaptures:
-              0: { name: punctuation.definition.type.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.type.end.swift }
-            patterns:
-              - include: $self
+  declarations-available-types-tuple-type:
+    begin: \(
+    end: \)|(?=[>\]{}])
+    beginCaptures:
+      0: { name: punctuation.section.tuple-type.begin.swift }
+    endCaptures:
+      0: { name: punctuation.section.tuple-type.end.swift }
+    patterns:
+      - include: "#declarations-available-types"
 
-      function:
-        name: meta.definition.function.swift
-        begin: |-
-          (?x)
-          \b
-          (func)
-          \s+
+  declarations-extension:
+    name: meta.definition.type.$1.swift
+    begin: \b(extension)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+    end: (?<=\})
+    beginCaptures:
+      1: { name: storage.type.$1.swift }
+      2:
+        name: entity.name.type.swift
+        patterns:
+          - include: "#declarations-available-types"
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      # SE-0143: Conditional Conformances
+      - include: "#declarations-generic-where-clause"
+      - include: "#declarations-inheritance-clause"
+
+      - name: meta.definition.type.body.swift
+        begin: \{
+        end: \}
+        beginCaptures:
+          0: { name: punctuation.definition.type.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.type.end.swift }
+        patterns:
+          - include: $self
+
+  declarations-function:
+    name: meta.definition.function.swift
+    begin: |-
+      (?x)
+      \b
+      (func)
+      \s+
+      (
+        (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
+        | (?:
           (
-            (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
-            | (?:
-              (
-                (?<oph>                # operator-head
-                  [/=\-+!*%<>&|^~?]
-                  | [\x{00A1}-\x{00A7}]
-                  | [\x{00A9}\x{00AB}]
-                  | [\x{00AC}\x{00AE}]
-                  | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
-                  | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
-                  | [\x{2030}-\x{203E}]
-                  | [\x{2041}-\x{2053}]
-                  | [\x{2055}-\x{205E}]
-                  | [\x{2190}-\x{23FF}]
-                  | [\x{2500}-\x{2775}]
-                  | [\x{2794}-\x{2BFF}]
-                  | [\x{2E00}-\x{2E7F}]
-                  | [\x{3001}-\x{3003}]
-                  | [\x{3008}-\x{3030}]
-                )
-                (
-                  \g<oph>
-                  | (?<opc>                # operator-character
-                    [\x{0300}-\x{036F}]
-                    | [\x{1DC0}-\x{1DFF}]
-                    | [\x{20D0}-\x{20FF}]
-                    | [\x{FE00}-\x{FE0F}]
-                    | [\x{FE20}-\x{FE2F}]
-                    | [\x{E0100}-\x{E01EF}]
-                  )
-                )*
-              )
-              | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
+            (?<oph>                # operator-head
+              [/=\-+!*%<>&|^~?]
+              | [\x{00A1}-\x{00A7}]
+              | [\x{00A9}\x{00AB}]
+              | [\x{00AC}\x{00AE}]
+              | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
+              | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
+              | [\x{2030}-\x{203E}]
+              | [\x{2041}-\x{2053}]
+              | [\x{2055}-\x{205E}]
+              | [\x{2190}-\x{23FF}]
+              | [\x{2500}-\x{2775}]
+              | [\x{2794}-\x{2BFF}]
+              | [\x{2E00}-\x{2E7F}]
+              | [\x{3001}-\x{3003}]
+              | [\x{3008}-\x{3030}]
             )
-          )
-          \s*
-          (?=\(|<)
-        end: (?<=\})|$(?# functions in protocol declarations or generated interfaces have no body)
-        beginCaptures:
-          1: { name: storage.type.function.swift }
-          2: { name: entity.name.function.swift }
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
-        patterns:
-          - include: "#comments"
-          - include: "#generic-parameter-clause"
-          - include: "#parameter-clause"
-          - include: "#function-result"
-          - include: "#async-throws"
-          # Swift 3: generic constraints after the parameters and return type
-          - include: "#generic-where-clause"
-
-          - name: meta.definition.function.body.swift
-            begin: (\{)
-            end: (\})
-            beginCaptures:
-              1: { name: punctuation.section.function.begin.swift }
-            endCaptures:
-              1: { name: punctuation.section.function.end.swift }
-            patterns:
-              - include: $self
-
-      function-initializer:
-        name: meta.definition.function.initializer.swift
-        begin: (?<!\.)\b(init[?!]*(?# only one is valid, but we want the in⇥ snippet to produce something that looks good))\s*(?=\(|<)
-        end: (?<=\})|$
-        beginCaptures:
-          1:
-            name: storage.type.function.swift
-            patterns:
-              - name: invalid.illegal.character-not-allowed-here.swift
-                match: (?<=[?!])[?!]+
-        patterns:
-          - include: "#comments"
-          - include: "#generic-parameter-clause"
-          - include: "#parameter-clause"
-          - include: "#async-throws"
-          # Swift 3: generic constraints after the parameters and return type
-          - include: "#generic-where-clause"
-
-          - name: meta.definition.function.body.swift
-            begin: (\{)
-            end: (\})
-            beginCaptures:
-              1: { name: punctuation.section.function.begin.swift }
-            endCaptures:
-              1: { name: punctuation.section.function.end.swift }
-            patterns:
-              - include: $self
-
-      function-result:
-        name: meta.function-result.swift
-        begin: (?<![/=\-+!*%<>&|\^~.])(->)(?![/=\-+!*%<>&|\^~.])\s*
-        end: (?!\G)(?=\{|\bwhere\b|;|=)|$
-        beginCaptures:
-          1: { name: keyword.operator.function-result.swift }
-        patterns:
-          - include: "#available-types"
-
-      function-subscript:
-        name: meta.definition.function.subscript.swift
-        begin: (?<!\.)\b(subscript)\s*(?=\(|<)
-        end: (?<=\})|$
-        beginCaptures:
-          1: { name: storage.type.function.swift }
-        patterns:
-          - include: "#comments"
-          - include: "#generic-parameter-clause"
-          - include: "#parameter-clause"
-          - include: "#function-result"
-          - include: "#async-throws"
-          - include: "#generic-where-clause"
-
-          - name: meta.definition.function.body.swift
-            begin: (\{)
-            end: (\})
-            beginCaptures:
-              1: { name: punctuation.section.function.begin.swift }
-            endCaptures:
-              1: { name: punctuation.section.function.end.swift }
-            patterns:
-              - include: $self
-
-      generic-argument-clause:
-        name: meta.generic-argument-clause.swift
-        begin: <
-        end: ">|(?=[)\\]{}])"
-        beginCaptures:
-          0: { name: punctuation.separator.generic-argument-clause.begin.swift }
-        endCaptures:
-          0: { name: punctuation.separator.generic-argument-clause.end.swift }
-        patterns:
-          - include: "#available-types"
-
-      generic-parameter-clause:
-        name: meta.generic-parameter-clause.swift
-        begin: <
-        end: ">|(?=[^\\w\\d:<>\\s,=&`])(?# characters besides these are never valid in a generic param list -- even if it's not really a valid clause, we should stop trying to parse it if we see one of them.)"
-        beginCaptures:
-          0: { name: punctuation.separator.generic-parameter-clause.begin.swift }
-        endCaptures:
-          0: { name: punctuation.separator.generic-parameter-clause.end.swift }
-        patterns:
-          - include: "#comments"
-          # Swift 2: constraints inside the generic param list
-          - include: "#generic-where-clause"
-
-          - name: keyword.control.loop.swift
-            match: \beach\b
-
-          - match: \b((?!\d)\w[\w\d]*)\b
-            captures:
-              1: { name: variable.language.generic-parameter.swift }
-
-          - name: punctuation.separator.generic-parameters.swift
-            match: ","
-
-          - name: meta.generic-parameter-constraint.swift
-            begin: (:)\s*
-            end: (?=[,>]|(?!\G)\bwhere\b)
-            beginCaptures:
-              1: { name: punctuation.separator.generic-parameter-constraint.swift }
-            patterns:
-              - name: entity.other.inherited-class.swift
-                begin: \G
-                end: (?=[,>]|(?!\G)\bwhere\b)
-                patterns:
-                  - include: "#type-identifier"
-                  - include: "#type-operators"
-
-      generic-where-clause:
-        name: meta.generic-where-clause.swift
-        begin: \b(where)\b\s*
-        end: (?!\G)$|(?=[>{};\n]|//|/\*)
-        beginCaptures:
-          1: { name: keyword.other.generic-constraint-introducer.swift }
-        patterns:
-          - include: "#comments"
-          - include: "#requirement-list"
-
-        repository:
-          requirement-list:
-            begin: \G|,\s*
-            end: (?=[,>{};\n]|//|/\*)
-            patterns:
-              - include: "#comments"
-              - include: "#constraint"
-              - include: "#available-types"
-
-              - name: meta.generic-where-clause.same-type-requirement.swift
-                begin: (?<![/=\-+!*%<>&|\^~.])(==)(?![/=\-+!*%<>&|\^~.])
-                end: (?=\s*[,>{};\n]|//|/\*)
-                beginCaptures:
-                  1: { name: keyword.operator.generic-constraint.same-type.swift }
-                patterns:
-                  - include: "#available-types"
-
-              - name: meta.generic-where-clause.conformance-requirement.swift
-                begin: (?<![/=\-+!*%<>&|\^~.])(:)(?![/=\-+!*%<>&|\^~.])
-                end: (?=\s*[,>{};\n]|//|/\*)
-                beginCaptures:
-                  1: { name: keyword.operator.generic-constraint.conforms-to.swift }
-                patterns:
-                  - contentName: entity.other.inherited-class.swift
-                    begin: \G\s*
-                    end: (?=\s*[,>{};\n]|//|/\*)
-                    patterns:
-                      - include: "#available-types"
-
-      import:
-        name: meta.import.swift
-        begin: (?<!\.)\b(import)\s+
-        end: (;)|$\n?|(?=//|/\*)
-        beginCaptures:
-          1: { name: keyword.control.import.swift }
-        endCaptures:
-          1: { name: punctuation.terminator.statement.swift }
-        patterns:
-          - begin: \G(?!;|$|//|/\*)(?:(typealias|struct|class|actor|enum|protocol|var|func)\s+)?
-            end: (?=;|$|//|/\*)
-            beginCaptures:
-              1: { name: storage.modifier.swift }
-            patterns:
-              - name: entity.name.type.swift
-                match: |-
-                  (?x)
-                  (?<=\G|\.)
-                  (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
-                captures:
-                  1: { name: punctuation.definition.identifier.swift }
-                  2: { name: punctuation.definition.identifier.swift }
-
-              - name: entity.name.type.swift
-                match: |-
-                  (?x)
-                  (?<=\G|\.)
-                  \$[0-9]+
-
-              - name: entity.name.type.swift
-                match: |-
-                  (?x)
-                  (?<=\G|\.)
-                  (?:
-                    (
-                      (?<oph>                # operator-head
-                        [/=\-+!*%<>&|^~?]
-                        | [\x{00A1}-\x{00A7}]
-                        | [\x{00A9}\x{00AB}]
-                        | [\x{00AC}\x{00AE}]
-                        | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
-                        | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
-                        | [\x{2030}-\x{203E}]
-                        | [\x{2041}-\x{2053}]
-                        | [\x{2055}-\x{205E}]
-                        | [\x{2190}-\x{23FF}]
-                        | [\x{2500}-\x{2775}]
-                        | [\x{2794}-\x{2BFF}]
-                        | [\x{2E00}-\x{2E7F}]
-                        | [\x{3001}-\x{3003}]
-                        | [\x{3008}-\x{3030}]
-                      )
-                      (
-                        \g<oph>
-                        | (?<opc>                # operator-character
-                          [\x{0300}-\x{036F}]
-                          | [\x{1DC0}-\x{1DFF}]
-                          | [\x{20D0}-\x{20FF}]
-                          | [\x{FE00}-\x{FE0F}]
-                          | [\x{FE20}-\x{FE2F}]
-                          | [\x{E0100}-\x{E01EF}]
-                        )
-                      )*
-                    )
-                    | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
-                  )
-                  (?=\.|;|$|//|/\*|\s)
-                captures:
-                  1:
-                    patterns:
-                      - name: invalid.illegal.dot-not-allowed-here.swift
-                        match: \.
-
-              - name: punctuation.separator.import.swift
-                match: \.
-
-              - name: invalid.illegal.character-not-allowed-here.swift
-                begin: (?!\s*(;|$|//|/\*))
-                end: (?=\s*(;|$|//|/\*))
-
-      inheritance-clause:
-        name: meta.inheritance-clause.swift
-        begin: (:)(?=\s*\{)|(:)\s*
-        end: (?!\G)$|(?=[={}]|(?!\G)\bwhere\b)
-        beginCaptures:
-          1: { name: invalid.illegal.empty-inheritance-clause.swift }
-          2: { name: punctuation.separator.inheritance-clause.swift }
-        patterns:
-          - begin: \bclass\b
-            end: (?=[={}]|(?!\G)\bwhere\b)
-            beginCaptures:
-              0: { name: storage.type.class.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#more-types"
-
-          - begin: \G
-            end: (?!\G)$|(?=[={}]|(?!\G)\bwhere\b)
-            patterns:
-              - include: "#comments"
-              - include: "#inherited-type"
-              - include: "#more-types"
-              - include: "#type-operators"
-
-        repository:
-          inherited-type:
-            name: entity.other.inherited-class.swift
-            begin: (?=[`\p{L}_])
-            end: (?!\G)
-            patterns:
-              - include: "#type-identifier"
-
-          more-types:
-            name: meta.inheritance-list.more-types
-            begin: ",\\s*"
-            end: (?!\G)(?!//|/\*)|(?=[,={}]|(?!\G)\bwhere\b)
-            patterns:
-              - include: "#comments"
-              - include: "#inherited-type"
-              - include: "#more-types"
-              - include: "#type-operators"
-
-      macro:
-        name: meta.definition.macro.swift
-        begin: |-
-          (?x)
-          \b
-          (macro)
-          \s+
-          ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-          \s*
-          (?=\(|<|=)
-        end: $|(?=;|//|/\*|\}|=)
-        beginCaptures:
-          1: { name: storage.type.function.swift }
-          2: { name: entity.name.function.swift }
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
-        patterns:
-          - include: "#comments"
-          - include: "#generic-parameter-clause"
-          - include: "#parameter-clause"
-          - include: "#function-result"
-          - include: "#async-throws"
-          # Swift 3: generic constraints after the parameters and return type
-          - include: "#generic-where-clause"
-
-      operator:
-        name: meta.definition.operator.swift
-        begin: |-
-          (?x)
-          (?:
-            \b(prefix|infix|postfix)
-            \s+
-          )?
-          \b
-          (operator)
-          \s+
-          (
             (
-              (?<oph>                  # operator-head
+              \g<oph>
+              | (?<opc>                # operator-character
+                [\x{0300}-\x{036F}]
+                | [\x{1DC0}-\x{1DFF}]
+                | [\x{20D0}-\x{20FF}]
+                | [\x{FE00}-\x{FE0F}]
+                | [\x{FE20}-\x{FE2F}]
+                | [\x{E0100}-\x{E01EF}]
+              )
+            )*
+          )
+          | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
+        )
+      )
+      \s*
+      (?=\(|<)
+    end: (?<=\})|$(?# functions in protocol declarations or generated interfaces have no body)
+    beginCaptures:
+      1: { name: storage.type.function.swift }
+      2: { name: entity.name.function.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#declarations-function-result"
+      - include: "#async-throws"
+      # Swift 3: generic constraints after the parameters and return type
+      - include: "#declarations-generic-where-clause"
+
+      - name: meta.definition.function.body.swift
+        begin: (\{)
+        end: (\})
+        beginCaptures:
+          1: { name: punctuation.section.function.begin.swift }
+        endCaptures:
+          1: { name: punctuation.section.function.end.swift }
+        patterns:
+          - include: $self
+
+  declarations-function-initializer:
+    name: meta.definition.function.initializer.swift
+    begin: (?<!\.)\b(init[?!]*(?# only one is valid, but we want the in⇥ snippet to produce something that looks good))\s*(?=\(|<)
+    end: (?<=\})|$
+    beginCaptures:
+      1:
+        name: storage.type.function.swift
+        patterns:
+          - name: invalid.illegal.character-not-allowed-here.swift
+            match: (?<=[?!])[?!]+
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#async-throws"
+      # Swift 3: generic constraints after the parameters and return type
+      - include: "#declarations-generic-where-clause"
+
+      - name: meta.definition.function.body.swift
+        begin: (\{)
+        end: (\})
+        beginCaptures:
+          1: { name: punctuation.section.function.begin.swift }
+        endCaptures:
+          1: { name: punctuation.section.function.end.swift }
+        patterns:
+          - include: $self
+
+  declarations-function-result:
+    name: meta.function-result.swift
+    begin: (?<![/=\-+!*%<>&|\^~.])(->)(?![/=\-+!*%<>&|\^~.])\s*
+    end: (?!\G)(?=\{|\bwhere\b|;|=)|$
+    beginCaptures:
+      1: { name: keyword.operator.function-result.swift }
+    patterns:
+      - include: "#declarations-available-types"
+
+  declarations-function-subscript:
+    name: meta.definition.function.subscript.swift
+    begin: (?<!\.)\b(subscript)\s*(?=\(|<)
+    end: (?<=\})|$
+    beginCaptures:
+      1: { name: storage.type.function.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#declarations-function-result"
+      - include: "#async-throws"
+      - include: "#declarations-generic-where-clause"
+
+      - name: meta.definition.function.body.swift
+        begin: (\{)
+        end: (\})
+        beginCaptures:
+          1: { name: punctuation.section.function.begin.swift }
+        endCaptures:
+          1: { name: punctuation.section.function.end.swift }
+        patterns:
+          - include: $self
+
+  declarations-generic-argument-clause:
+    name: meta.generic-argument-clause.swift
+    begin: <
+    end: ">|(?=[)\\]{}])"
+    beginCaptures:
+      0: { name: punctuation.separator.generic-argument-clause.begin.swift }
+    endCaptures:
+      0: { name: punctuation.separator.generic-argument-clause.end.swift }
+    patterns:
+      - include: "#declarations-available-types"
+
+  declarations-generic-parameter-clause:
+    name: meta.generic-parameter-clause.swift
+    begin: <
+    end: ">|(?=[^\\w\\d:<>\\s,=&`])(?# characters besides these are never valid in a generic param list -- even if it's not really a valid clause, we should stop trying to parse it if we see one of them.)"
+    beginCaptures:
+      0: { name: punctuation.separator.generic-parameter-clause.begin.swift }
+    endCaptures:
+      0: { name: punctuation.separator.generic-parameter-clause.end.swift }
+    patterns:
+      - include: "#comments"
+      # Swift 2: constraints inside the generic param list
+      - include: "#declarations-generic-where-clause"
+
+      - name: keyword.control.loop.swift
+        match: \beach\b
+
+      - match: \b((?!\d)\w[\w\d]*)\b
+        captures:
+          1: { name: variable.language.generic-parameter.swift }
+
+      - name: punctuation.separator.generic-parameters.swift
+        match: ","
+
+      - name: meta.generic-parameter-constraint.swift
+        begin: (:)\s*
+        end: (?=[,>]|(?!\G)\bwhere\b)
+        beginCaptures:
+          1: { name: punctuation.separator.generic-parameter-constraint.swift }
+        patterns:
+          - name: entity.other.inherited-class.swift
+            begin: \G
+            end: (?=[,>]|(?!\G)\bwhere\b)
+            patterns:
+              - include: "#declarations-type-identifier"
+              - include: "#declarations-type-operators"
+
+  declarations-generic-where-clause:
+    name: meta.generic-where-clause.swift
+    begin: \b(where)\b\s*
+    end: (?!\G)$|(?=[>{};\n]|//|/\*)
+    beginCaptures:
+      1: { name: keyword.other.generic-constraint-introducer.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-where-clause-requirement-list"
+
+  declarations-generic-where-clause-requirement-list:
+    begin: \G|,\s*
+    end: (?=[,>{};\n]|//|/\*)
+    patterns:
+      - include: "#comments"
+      - include: "#constraint"
+      - include: "#declarations-available-types"
+
+      - name: meta.generic-where-clause.same-type-requirement.swift
+        begin: (?<![/=\-+!*%<>&|\^~.])(==)(?![/=\-+!*%<>&|\^~.])
+        end: (?=\s*[,>{};\n]|//|/\*)
+        beginCaptures:
+          1: { name: keyword.operator.generic-constraint.same-type.swift }
+        patterns:
+          - include: "#declarations-available-types"
+
+      - name: meta.generic-where-clause.conformance-requirement.swift
+        begin: (?<![/=\-+!*%<>&|\^~.])(:)(?![/=\-+!*%<>&|\^~.])
+        end: (?=\s*[,>{};\n]|//|/\*)
+        beginCaptures:
+          1: { name: keyword.operator.generic-constraint.conforms-to.swift }
+        patterns:
+          - contentName: entity.other.inherited-class.swift
+            begin: \G\s*
+            end: (?=\s*[,>{};\n]|//|/\*)
+            patterns:
+              - include: "#declarations-available-types"
+
+  declarations-import:
+    name: meta.import.swift
+    begin: (?<!\.)\b(import)\s+
+    end: (;)|$\n?|(?=//|/\*)
+    beginCaptures:
+      1: { name: keyword.control.import.swift }
+    endCaptures:
+      1: { name: punctuation.terminator.statement.swift }
+    patterns:
+      - begin: \G(?!;|$|//|/\*)(?:(typealias|struct|class|actor|enum|protocol|var|func)\s+)?
+        end: (?=;|$|//|/\*)
+        beginCaptures:
+          1: { name: storage.modifier.swift }
+        patterns:
+          - name: entity.name.type.swift
+            match: |-
+              (?x)
+              (?<=\G|\.)
+              (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
+            captures:
+              1: { name: punctuation.definition.identifier.swift }
+              2: { name: punctuation.definition.identifier.swift }
+
+          - name: entity.name.type.swift
+            match: |-
+              (?x)
+              (?<=\G|\.)
+              \$[0-9]+
+
+          - name: entity.name.type.swift
+            match: |-
+              (?x)
+              (?<=\G|\.)
+              (?:
+                (
+                  (?<oph>                # operator-head
+                    [/=\-+!*%<>&|^~?]
+                    | [\x{00A1}-\x{00A7}]
+                    | [\x{00A9}\x{00AB}]
+                    | [\x{00AC}\x{00AE}]
+                    | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
+                    | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
+                    | [\x{2030}-\x{203E}]
+                    | [\x{2041}-\x{2053}]
+                    | [\x{2055}-\x{205E}]
+                    | [\x{2190}-\x{23FF}]
+                    | [\x{2500}-\x{2775}]
+                    | [\x{2794}-\x{2BFF}]
+                    | [\x{2E00}-\x{2E7F}]
+                    | [\x{3001}-\x{3003}]
+                    | [\x{3008}-\x{3030}]
+                  )
+                  (
+                    \g<oph>
+                    | (?<opc>                # operator-character
+                      [\x{0300}-\x{036F}]
+                      | [\x{1DC0}-\x{1DFF}]
+                      | [\x{20D0}-\x{20FF}]
+                      | [\x{FE00}-\x{FE0F}]
+                      | [\x{FE20}-\x{FE2F}]
+                      | [\x{E0100}-\x{E01EF}]
+                    )
+                  )*
+                )
+                | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
+              )
+              (?=\.|;|$|//|/\*|\s)
+            captures:
+              1:
+                patterns:
+                  - name: invalid.illegal.dot-not-allowed-here.swift
+                    match: \.
+
+          - name: punctuation.separator.import.swift
+            match: \.
+
+          - name: invalid.illegal.character-not-allowed-here.swift
+            begin: (?!\s*(;|$|//|/\*))
+            end: (?=\s*(;|$|//|/\*))
+
+  declarations-inheritance-clause:
+    name: meta.inheritance-clause.swift
+    begin: (:)(?=\s*\{)|(:)\s*
+    end: (?!\G)$|(?=[={}]|(?!\G)\bwhere\b)
+    beginCaptures:
+      1: { name: invalid.illegal.empty-inheritance-clause.swift }
+      2: { name: punctuation.separator.inheritance-clause.swift }
+    patterns:
+      - begin: \bclass\b
+        end: (?=[={}]|(?!\G)\bwhere\b)
+        beginCaptures:
+          0: { name: storage.type.class.swift }
+        patterns:
+          - include: "#comments"
+          - include: "#declarations-inheritance-clause-more-types"
+
+      - begin: \G
+        end: (?!\G)$|(?=[={}]|(?!\G)\bwhere\b)
+        patterns:
+          - include: "#comments"
+          - include: "#declarations-inheritance-clause-inherited-type"
+          - include: "#declarations-inheritance-clause-more-types"
+          - include: "#declarations-type-operators"
+
+  declarations-inheritance-clause-inherited-type:
+    name: entity.other.inherited-class.swift
+    begin: (?=[`\p{L}_])
+    end: (?!\G)
+    patterns:
+      - include: "#declarations-type-identifier"
+
+  declarations-inheritance-clause-more-types:
+    name: meta.inheritance-list.more-types
+    begin: ",\\s*"
+    end: (?!\G)(?!//|/\*)|(?=[,={}]|(?!\G)\bwhere\b)
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-inheritance-clause-inherited-type"
+      - include: "#declarations-inheritance-clause-more-types"
+      - include: "#declarations-type-operators"
+
+  declarations-macro:
+    name: meta.definition.macro.swift
+    begin: |-
+      (?x)
+      \b
+      (macro)
+      \s+
+      ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+      \s*
+      (?=\(|<|=)
+    end: $|(?=;|//|/\*|\}|=)
+    beginCaptures:
+      1: { name: storage.type.function.swift }
+      2: { name: entity.name.function.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#declarations-function-result"
+      - include: "#async-throws"
+      # Swift 3: generic constraints after the parameters and return type
+      - include: "#declarations-generic-where-clause"
+
+  declarations-operator:
+    name: meta.definition.operator.swift
+    begin: |-
+      (?x)
+      (?:
+        \b(prefix|infix|postfix)
+        \s+
+      )?
+      \b
+      (operator)
+      \s+
+      (
+        (
+          (?<oph>                  # operator-head
+            [/=\-+!*%<>&|^~?]
+            | [\x{00A1}-\x{00A7}]
+            | [\x{00A9}\x{00AB}]
+            | [\x{00AC}\x{00AE}]
+            | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
+            | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
+            | [\x{2030}-\x{203E}]
+            | [\x{2041}-\x{2053}]
+            | [\x{2055}-\x{205E}]
+            | [\x{2190}-\x{23FF}]
+            | [\x{2500}-\x{2775}]
+            | [\x{2794}-\x{2BFF}]
+            | [\x{2E00}-\x{2E7F}]
+            | [\x{3001}-\x{3003}]
+            | [\x{3008}-\x{3030}]
+          )
+          (
+            \g<oph>
+            | \.                  # Invalid dot
+            | (?<opc>                # operator-character
+              [\x{0300}-\x{036F}]
+              | [\x{1DC0}-\x{1DFF}]
+              | [\x{20D0}-\x{20FF}]
+              | [\x{FE00}-\x{FE0F}]
+              | [\x{FE20}-\x{FE2F}]
+              | [\x{E0100}-\x{E01EF}]
+            )
+          )*+
+        )
+        | ( \. ( \g<oph> | \g<opc> | \. )++ )      # Dot operators
+      )
+      \s*
+    end: (;)|$\n?|(?=//|/\*)
+    beginCaptures:
+      1: { name: storage.modifier.swift }
+      2: { name: storage.type.function.operator.swift }
+      3: { name: entity.name.function.operator.swift }
+      4:
+        patterns:
+          - name: invalid.illegal.dot-not-allowed-here.swift
+            match: \.
+    endCaptures:
+      1: { name: punctuation.terminator.statement.swift }
+    patterns:
+      - include: "#declarations-operator-swift2"
+      - include: "#declarations-operator-swift3"
+
+      - name: invalid.illegal.character-not-allowed-here.swift
+        match: ((?!$|;|//|/\*)\S)+
+
+  declarations-operator-swift2:
+    begin: \G(\{)
+    end: (\})
+    beginCaptures:
+      1: { name: punctuation.definition.operator.begin.swift }
+    endCaptures:
+      1: { name: punctuation.definition.operator.end.swift }
+    patterns:
+      - include: "#comments"
+
+      - match: \b(associativity)\s+(left|right)\b
+        captures:
+          1: { name: storage.modifier.swift }
+          2: { name: keyword.other.operator.associativity.swift }
+
+      - match: \b(precedence)\s+([0-9]+)\b
+        captures:
+          1: { name: storage.modifier.swift }
+          2: { name: constant.numeric.integer.swift }
+
+      - match: \b(assignment)\b
+        captures:
+          1: { name: storage.modifier.swift }
+
+  declarations-operator-swift3:
+    match: \G(:)\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+    captures:
+      2:
+        name: entity.other.inherited-class.swift
+        patterns:
+          - include: "#declarations-types-precedencegroup"
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+
+  declarations-parameter-clause:
+    name: meta.parameter-clause.swift
+    begin: (\()
+    end: (\))(?:\s*(async)\b)?
+    beginCaptures:
+      1: { name: punctuation.definition.parameters.begin.swift }
+    endCaptures:
+      1: { name: punctuation.definition.parameters.end.swift }
+      2: { name: keyword.control.async.swift }
+    patterns:
+      - include: "#declarations-parameter-list"
+
+  declarations-parameter-list:
+    patterns:
+      # External parameter labels are considered part of the function name
+      - match: ((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q1>))\s+((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q2>))(?=\s*:)
+        captures:
+          1: { name: entity.name.function.swift }
+          2: { name: punctuation.definition.identifier.swift }
+          3: { name: punctuation.definition.identifier.swift }
+          4: { name: variable.parameter.function.swift }
+          5: { name: punctuation.definition.identifier.swift }
+          6: { name: punctuation.definition.identifier.swift }
+
+      # If no external label is given, the name is both the external label and the internal variable name
+      - match: (((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)))(?=\s*:)
+        captures:
+          1: { name: variable.parameter.function.swift }
+          2: { name: entity.name.function.swift }
+          3: { name: punctuation.definition.identifier.swift }
+          4: { name: punctuation.definition.identifier.swift }
+
+      - begin: :\s*(?!\s)
+        end: (?=[,)])
+        patterns:
+          - include: "#declarations-available-types"
+
+          - name: invalid.illegal.extra-colon-in-parameter-list.swift
+            match: ":"
+
+          # a parameter's default value
+          - begin: =
+            end: (?=[,)])
+            beginCaptures:
+              0: { name: keyword.operator.assignment.swift }
+            patterns:
+              - include: "#expressions"
+
+  declarations-precedencegroup:
+    name: meta.definition.precedencegroup.swift
+    begin: \b(precedencegroup)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(?=\{)
+    end: (?!\G)
+    beginCaptures:
+      1: { name: storage.type.precedencegroup.swift }
+      2: { name: entity.name.type.precedencegroup.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - begin: \{
+        end: \}
+        beginCaptures:
+          0: { name: punctuation.definition.precedencegroup.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.precedencegroup.end.swift }
+        patterns:
+          - include: "#comments"
+
+          - match: \b(higherThan|lowerThan)\s*:\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+            captures:
+              1: { name: storage.modifier.swift }
+              2:
+                name: entity.other.inherited-class.swift
+                patterns:
+                  - include: "#declarations-types-precedencegroup"
+              3: { name: punctuation.definition.identifier.swift }
+              4: { name: punctuation.definition.identifier.swift }
+
+          - match: \b(associativity)\b(?:\s*:\s*(right|left|none)\b)?
+            captures:
+              1: { name: storage.modifier.swift }
+              2: { name: keyword.other.operator.associativity.swift }
+
+          - match: \b(assignment)\b(?:\s*:\s*(true|false)\b)?
+            captures:
+              1: { name: storage.modifier.swift }
+              2: { name: constant.language.boolean.swift }
+
+  declarations-protocol:
+    name: meta.definition.type.protocol.swift
+    begin: \b(protocol)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+    end: (?<=\})
+    beginCaptures:
+      1: { name: storage.type.$1.swift }
+      2: { name: entity.name.type.$1.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-inheritance-clause"
+      # SE-0142: Permit where clauses to constrain associated types
+      - include: "#declarations-generic-where-clause"
+
+      - name: meta.definition.type.body.swift
+        begin: \{
+        end: \}
+        beginCaptures:
+          0: { name: punctuation.definition.type.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.type.end.swift }
+        patterns:
+          - include: "#declarations-protocol-protocol-method"
+          - include: "#declarations-protocol-protocol-initializer"
+          - include: "#declarations-protocol-associated-type"
+          - include: $self
+
+  declarations-protocol-associated-type:
+    name: meta.definition.associatedtype.swift
+    begin: \b(associatedtype)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
+    end: (?!\G)$|(?=[;}]|$)
+    beginCaptures:
+      1: { name: keyword.other.declaration-specifier.swift }
+      2: { name: variable.language.associatedtype.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#declarations-inheritance-clause"
+      # SE-0142: Permit where clauses to constrain associated types
+      - include: "#declarations-generic-where-clause"
+      - include: "#declarations-typealias-assignment"
+
+  declarations-protocol-protocol-initializer:
+    name: meta.definition.function.initializer.swift
+    begin: (?<!\.)\b(init[?!]*(?# only one is valid, but we want the in⇥ snippet to produce something that looks good))\s*(?=\(|<)
+    end: $|(?=;|//|/\*|\})
+    beginCaptures:
+      1:
+        name: storage.type.function.swift
+        patterns:
+          - name: invalid.illegal.character-not-allowed-here.swift
+            match: (?<=[?!])[?!]+
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#async-throws"
+      # Swift 3: generic constraints after the parameters and return type
+      - include: "#declarations-generic-where-clause"
+
+      - name: invalid.illegal.function-body-not-allowed-in-protocol.swift
+        begin: \{
+        end: \}
+        beginCaptures:
+          0: { name: punctuation.section.function.begin.swift }
+        endCaptures:
+          0: { name: punctuation.section.function.end.swift }
+        patterns:
+          - include: $self
+
+  declarations-protocol-protocol-method:
+    name: meta.definition.function.swift
+    begin: |-
+      (?x)
+      \b
+      (func)
+      \s+
+      (
+        (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
+          | (?:
+            (
+              (?<oph>                # operator-head
                 [/=\-+!*%<>&|^~?]
                 | [\x{00A1}-\x{00A7}]
                 | [\x{00A9}\x{00AB}]
@@ -954,7 +1202,6 @@ repository:
               )
               (
                 \g<oph>
-                | \.                  # Invalid dot
                 | (?<opc>                # operator-character
                   [\x{0300}-\x{036F}]
                   | [\x{1DC0}-\x{1DFF}]
@@ -963,154 +1210,42 @@ repository:
                   | [\x{FE20}-\x{FE2F}]
                   | [\x{E0100}-\x{E01EF}]
                 )
-              )*+
+              )*
             )
-            | ( \. ( \g<oph> | \g<opc> | \. )++ )      # Dot operators
+            | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
           )
-          \s*
-        end: (;)|$\n?|(?=//|/\*)
+        )
+      \s*
+      (?=\(|<)
+    end: $|(?=;|//|/\*|\})
+    beginCaptures:
+      1: { name: storage.type.function.swift }
+      2: { name: entity.name.function.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-parameter-clause"
+      - include: "#declarations-function-result"
+      - include: "#async-throws"
+      # Swift 3: generic constraints after the parameters and return type
+      - include: "#declarations-generic-where-clause"
+
+      - name: invalid.illegal.function-body-not-allowed-in-protocol.swift
+        begin: \{
+        end: \}
         beginCaptures:
-          1: { name: storage.modifier.swift }
-          2: { name: storage.type.function.operator.swift }
-          3: { name: entity.name.function.operator.swift }
-          4:
-            patterns:
-              - name: invalid.illegal.dot-not-allowed-here.swift
-                match: \.
+          0: { name: punctuation.section.function.begin.swift }
         endCaptures:
-          1: { name: punctuation.terminator.statement.swift }
+          0: { name: punctuation.section.function.end.swift }
         patterns:
-          - include: "#swift2"
-          - include: "#swift3"
+          - include: $self
 
-          - name: invalid.illegal.character-not-allowed-here.swift
-            match: ((?!$|;|//|/\*)\S)+
-
-        repository:
-          swift2:
-            begin: \G(\{)
-            end: (\})
-            beginCaptures:
-              1: { name: punctuation.definition.operator.begin.swift }
-            endCaptures:
-              1: { name: punctuation.definition.operator.end.swift }
-            patterns:
-              - include: "#comments"
-
-              - match: \b(associativity)\s+(left|right)\b
-                captures:
-                  1: { name: storage.modifier.swift }
-                  2: { name: keyword.other.operator.associativity.swift }
-
-              - match: \b(precedence)\s+([0-9]+)\b
-                captures:
-                  1: { name: storage.modifier.swift }
-                  2: { name: constant.numeric.integer.swift }
-
-              - match: \b(assignment)\b
-                captures:
-                  1: { name: storage.modifier.swift }
-
-          swift3:
-            match: \G(:)\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-            captures:
-              2:
-                name: entity.other.inherited-class.swift
-                patterns:
-                  - include: "#types-precedencegroup"
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.identifier.swift }
-
-      parameter-clause:
-        name: meta.parameter-clause.swift
-        begin: (\()
-        end: (\))(?:\s*(async)\b)?
-        beginCaptures:
-          1: { name: punctuation.definition.parameters.begin.swift }
-        endCaptures:
-          1: { name: punctuation.definition.parameters.end.swift }
-          2: { name: keyword.control.async.swift }
-        patterns:
-          - include: "#parameter-list"
-
-      parameter-list:
-        patterns:
-          # External parameter labels are considered part of the function name
-          - match: ((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q1>))\s+((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q2>))(?=\s*:)
-            captures:
-              1: { name: entity.name.function.swift }
-              2: { name: punctuation.definition.identifier.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: variable.parameter.function.swift }
-              5: { name: punctuation.definition.identifier.swift }
-              6: { name: punctuation.definition.identifier.swift }
-
-          # If no external label is given, the name is both the external label and the internal variable name
-          - match: (((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)))(?=\s*:)
-            captures:
-              1: { name: variable.parameter.function.swift }
-              2: { name: entity.name.function.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.identifier.swift }
-
-          - begin: :\s*(?!\s)
-            end: (?=[,)])
-            patterns:
-              - include: "#available-types"
-
-              - name: invalid.illegal.extra-colon-in-parameter-list.swift
-                match: ":"
-
-              # a parameter's default value
-              - begin: =
-                end: (?=[,)])
-                beginCaptures:
-                  0: { name: keyword.operator.assignment.swift }
-                patterns:
-                  - include: "#expressions"
-
-      precedencegroup:
-        name: meta.definition.precedencegroup.swift
-        begin: \b(precedencegroup)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(?=\{)
-        end: (?!\G)
-        beginCaptures:
-          1: { name: storage.type.precedencegroup.swift }
-          2: { name: entity.name.type.precedencegroup.swift }
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
-        patterns:
-          - begin: \{
-            end: \}
-            beginCaptures:
-              0: { name: punctuation.definition.precedencegroup.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.precedencegroup.end.swift }
-            patterns:
-              - include: "#comments"
-
-              - match: \b(higherThan|lowerThan)\s*:\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-                captures:
-                  1: { name: storage.modifier.swift }
-                  2:
-                    name: entity.other.inherited-class.swift
-                    patterns:
-                      - include: "#types-precedencegroup"
-                  3: { name: punctuation.definition.identifier.swift }
-                  4: { name: punctuation.definition.identifier.swift }
-
-              - match: \b(associativity)\b(?:\s*:\s*(right|left|none)\b)?
-                captures:
-                  1: { name: storage.modifier.swift }
-                  2: { name: keyword.other.operator.associativity.swift }
-
-              - match: \b(assignment)\b(?:\s*:\s*(true|false)\b)?
-                captures:
-                  1: { name: storage.modifier.swift }
-                  2: { name: constant.language.boolean.swift }
-
-      protocol:
-        name: meta.definition.type.protocol.swift
-        begin: \b(protocol)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+  declarations-type:
+    patterns:
+      - name: meta.definition.type.$1.swift
+        begin: \b(class(?!\s+(?:func|var|let)\b)|struct|actor)\b\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
         end: (?<=\})
         beginCaptures:
           1: { name: storage.type.$1.swift }
@@ -1119,180 +1254,10 @@ repository:
           4: { name: punctuation.definition.identifier.swift }
         patterns:
           - include: "#comments"
-          - include: "#inheritance-clause"
-          # SE-0142: Permit where clauses to constrain associated types
-          - include: "#generic-where-clause"
-
-          - name: meta.definition.type.body.swift
-            begin: \{
-            end: \}
-            beginCaptures:
-              0: { name: punctuation.definition.type.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.type.end.swift }
-            patterns:
-              - include: "#protocol-method"
-              - include: "#protocol-initializer"
-              - include: "#associated-type"
-              - include: $self
-
-        repository:
-          associated-type:
-            name: meta.definition.associatedtype.swift
-            begin: \b(associatedtype)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
-            end: (?!\G)$|(?=[;}]|$)
-            beginCaptures:
-              1: { name: keyword.other.declaration-specifier.swift }
-              2: { name: variable.language.associatedtype.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.identifier.swift }
-            patterns:
-              - include: "#inheritance-clause"
-              # SE-0142: Permit where clauses to constrain associated types
-              - include: "#generic-where-clause"
-              - include: "#typealias-assignment"
-
-          protocol-initializer:
-            name: meta.definition.function.initializer.swift
-            begin: (?<!\.)\b(init[?!]*(?# only one is valid, but we want the in⇥ snippet to produce something that looks good))\s*(?=\(|<)
-            end: $|(?=;|//|/\*|\})
-            beginCaptures:
-              1:
-                name: storage.type.function.swift
-                patterns:
-                  - name: invalid.illegal.character-not-allowed-here.swift
-                    match: (?<=[?!])[?!]+
-            patterns:
-              - include: "#comments"
-              - include: "#generic-parameter-clause"
-              - include: "#parameter-clause"
-              - include: "#async-throws"
-              # Swift 3: generic constraints after the parameters and return type
-              - include: "#generic-where-clause"
-
-              - name: invalid.illegal.function-body-not-allowed-in-protocol.swift
-                begin: \{
-                end: \}
-                beginCaptures:
-                  0: { name: punctuation.section.function.begin.swift }
-                endCaptures:
-                  0: { name: punctuation.section.function.end.swift }
-                patterns:
-                  - include: $self
-
-          protocol-method:
-            name: meta.definition.function.swift
-            begin: |-
-              (?x)
-              \b
-              (func)
-              \s+
-              (
-                (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)
-                  | (?:
-                    (
-                      (?<oph>                # operator-head
-                        [/=\-+!*%<>&|^~?]
-                        | [\x{00A1}-\x{00A7}]
-                        | [\x{00A9}\x{00AB}]
-                        | [\x{00AC}\x{00AE}]
-                        | [\x{00B0}-\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}]
-                        | [\x{2016}-\x{2017}\x{2020}-\x{2027}]
-                        | [\x{2030}-\x{203E}]
-                        | [\x{2041}-\x{2053}]
-                        | [\x{2055}-\x{205E}]
-                        | [\x{2190}-\x{23FF}]
-                        | [\x{2500}-\x{2775}]
-                        | [\x{2794}-\x{2BFF}]
-                        | [\x{2E00}-\x{2E7F}]
-                        | [\x{3001}-\x{3003}]
-                        | [\x{3008}-\x{3030}]
-                      )
-                      (
-                        \g<oph>
-                        | (?<opc>                # operator-character
-                          [\x{0300}-\x{036F}]
-                          | [\x{1DC0}-\x{1DFF}]
-                          | [\x{20D0}-\x{20FF}]
-                          | [\x{FE00}-\x{FE0F}]
-                          | [\x{FE20}-\x{FE2F}]
-                          | [\x{E0100}-\x{E01EF}]
-                        )
-                      )*
-                    )
-                    | ( \. ( \g<oph> | \g<opc> | \. )+ )      # Dot operators
-                  )
-                )
-              \s*
-              (?=\(|<)
-            end: $|(?=;|//|/\*|\})
-            beginCaptures:
-              1: { name: storage.type.function.swift }
-              2: { name: entity.name.function.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.identifier.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#generic-parameter-clause"
-              - include: "#parameter-clause"
-              - include: "#function-result"
-              - include: "#async-throws"
-              # Swift 3: generic constraints after the parameters and return type
-              - include: "#generic-where-clause"
-
-              - name: invalid.illegal.function-body-not-allowed-in-protocol.swift
-                begin: \{
-                end: \}
-                beginCaptures:
-                  0: { name: punctuation.section.function.begin.swift }
-                endCaptures:
-                  0: { name: punctuation.section.function.end.swift }
-                patterns:
-                  - include: $self
-
-      type:
-        patterns:
-          - name: meta.definition.type.$1.swift
-            begin: \b(class(?!\s+(?:func|var|let)\b)|struct|actor)\b\s*((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-            end: (?<=\})
-            beginCaptures:
-              1: { name: storage.type.$1.swift }
-              2: { name: entity.name.type.$1.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.identifier.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#generic-parameter-clause"
-              # Swift 3: generic constraints after the generic param list
-              - include: "#generic-where-clause"
-              - include: "#inheritance-clause"
-
-              - name: meta.definition.type.body.swift
-                begin: \{
-                end: \}
-                beginCaptures:
-                  0: { name: punctuation.definition.type.begin.swift }
-                endCaptures:
-                  0: { name: punctuation.definition.type.end.swift }
-                patterns:
-                  - include: $self
-          - include: "#type-enum"
-
-      type-enum:
-        name: meta.definition.type.$1.swift
-        begin: \b(enum)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-        end: (?<=\})
-        beginCaptures:
-          1: { name: storage.type.$1.swift }
-          2: { name: entity.name.type.$1.swift }
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
-        patterns:
-          - include: "#comments"
-          - include: "#generic-parameter-clause"
+          - include: "#declarations-generic-parameter-clause"
           # Swift 3: generic constraints after the generic param list
-          - include: "#generic-where-clause"
-          - include: "#inheritance-clause"
+          - include: "#declarations-generic-where-clause"
+          - include: "#declarations-inheritance-clause"
 
           - name: meta.definition.type.body.swift
             begin: \{
@@ -1302,187 +1267,212 @@ repository:
             endCaptures:
               0: { name: punctuation.definition.type.end.swift }
             patterns:
-              - include: "#enum-case-clause"
               - include: $self
+      - include: "#declarations-type-enum"
 
-        repository:
-          associated-values:
-            begin: \G\(
-            end: \)
-            beginCaptures:
-              0: { name: punctuation.definition.parameters.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.parameters.end.swift }
-            patterns:
-              - include: "#comments"
+  declarations-type-enum:
+    name: meta.definition.type.$1.swift
+    begin: \b(enum)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+    end: (?<=\})
+    beginCaptures:
+      1: { name: storage.type.$1.swift }
+      2: { name: entity.name.type.$1.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-generic-parameter-clause"
+      # Swift 3: generic constraints after the generic param list
+      - include: "#declarations-generic-where-clause"
+      - include: "#declarations-inheritance-clause"
 
-              - begin: |-
-                  (?x)
-                  (?:(_)|((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q1>))
-                  \s+
-                  (((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q2>))
-                  \s*(:)
-                end: (?=[,)\]])
-                beginCaptures:
-                  1: { name: entity.name.function.swift }
-                  2: { name: invalid.illegal.distinct-labels-not-allowed.swift }
-                  5: { name: variable.parameter.function.swift }
-                  7: { name: punctuation.separator.argument-label.swift }
-                patterns:
-                  - include: "#available-types"
-
-              - begin: (((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q>))\s*(:)
-                end: (?=[,)\]])
-                beginCaptures:
-                  1: { name: entity.name.function.swift }
-                  2: { name: variable.parameter.function.swift }
-                  4: { name: punctuation.separator.argument-label.swift }
-                patterns:
-                  - include: "#available-types"
-
-              # an element without a label (i.e. anything else)
-              - begin: (?![,)\]])(?=\S)
-                end: (?=[,)\]])
-                patterns:
-                  - include: "#available-types"
-
-                  - name: invalid.illegal.extra-colon-in-parameter-list.swift
-                    match: ":"
-
-          enum-case:
-            begin: (?x)((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
-            end: (?<=\))|(?![=(])
-            beginCaptures:
-              1: { name: constant.other.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#associated-values"
-              - include: "#raw-value-assignment"
-
-          enum-case-clause:
-            begin: \b(case)\b\s*
-            end: (?=[;}])|(?!\G)(?!//|/\*)(?=[^\s,])
-            beginCaptures:
-              1: { name: storage.type.enum.case.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#enum-case"
-              - include: "#more-cases"
-
-          more-cases:
-            name: meta.enum-case.more-cases
-            begin: ",\\s*"
-            end: (?!\G)(?!//|/\*)(?=[;}]|[^\s,])
-            patterns:
-              - include: "#comments"
-              - include: "#enum-case"
-              - include: "#more-cases"
-
-          raw-value-assignment:
-            begin: (=)\s*
-            end: (?!\G)
-            beginCaptures:
-              1: { name: keyword.operator.assignment.swift }
-            patterns:
-              - include: "#comments"
-              - include: "#literals"
-
-      type-identifier:
-        begin: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
-        end: (?!<)
+      - name: meta.definition.type.body.swift
+        begin: \{
+        end: \}
         beginCaptures:
-          1:
-            name: meta.type-name.swift
-            patterns:
-              - include: "#builtin-types"
-          2: { name: punctuation.definition.identifier.swift }
-          3: { name: punctuation.definition.identifier.swift }
+          0: { name: punctuation.definition.type.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.type.end.swift }
         patterns:
-          - begin: (?=<)
-            end: (?!\G)
-            patterns:
-              - include: "#generic-argument-clause"
+          - include: "#declarations-type-enum-enum-case-clause"
+          - include: $self
 
-      type-operators:
-        patterns:
-          # Swift 3: A & B
-          - match: (?<![/=\-+!*%<>&|\^~.])(&)(?![/=\-+!*%<>&|\^~.])
-            captures:
-              1: { name: keyword.operator.type.composition.swift }
+  declarations-type-enum-associated-values:
+    begin: \G\(
+    end: \)
+    beginCaptures:
+      0: { name: punctuation.definition.parameters.begin.swift }
+    endCaptures:
+      0: { name: punctuation.definition.parameters.end.swift }
+    patterns:
+      - include: "#comments"
 
-          # SE-0390: Noncopyable structs and enums
-          - match: (?<![/=\-+!*%<>&|\^~.])(~)(?![/=\-+!*%<>&|\^~.])
-            captures:
-              1: { name: keyword.operator.type.requirement-suppression.swift }
-
-      typealias:
-        name: meta.definition.typealias.swift
-        begin: \b(typealias)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
-        end: (?!\G)$|(?=;|//|/\*|$)
-        beginCaptures:
-          1: { name: keyword.other.declaration-specifier.swift }
-          2: { name: entity.name.type.typealias.swift }
-          3: { name: punctuation.definition.identifier.swift }
-          4: { name: punctuation.definition.identifier.swift }
-        patterns:
-          - begin: \G(?=<)
-            end: (?!\G)
-            patterns:
-              - include: "#generic-parameter-clause"
-          - include: "#typealias-assignment"
-
-      typealias-assignment:
-        begin: (=)\s*
-        end: (?!\G)$|(?=;|//|/\*|$)
-        beginCaptures:
-          1: { name: keyword.operator.assignment.swift }
-        patterns:
-          - include: "#available-types"
-
-      typed-variable-declaration:
-        begin: |-
+      - begin: |-
           (?x)
-          \b(?:(async)\s+)?(let|var)\b\s+
-          (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)\s*
-          :
-        end: (?=$|[={])
+          (?:(_)|((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q1>))
+          \s+
+          (((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q2>))
+          \s*(:)
+        end: (?=[,)\]])
         beginCaptures:
-          1: { name: keyword.control.async.swift }
-          2: { name: keyword.other.declaration-specifier.swift }
+          1: { name: entity.name.function.swift }
+          2: { name: invalid.illegal.distinct-labels-not-allowed.swift }
+          5: { name: variable.parameter.function.swift }
+          7: { name: punctuation.separator.argument-label.swift }
         patterns:
-          - include: "#available-types"
+          - include: "#declarations-available-types"
 
-      types-precedencegroup:
+      - begin: (((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*\k<q>))\s*(:)
+        end: (?=[,)\]])
+        beginCaptures:
+          1: { name: entity.name.function.swift }
+          2: { name: variable.parameter.function.swift }
+          4: { name: punctuation.separator.argument-label.swift }
         patterns:
-          # Precedence groups in the standard library
-          - name: support.type.swift
-            match: \b(?:BitwiseShift|Assignment|RangeFormation|Casting|Addition|NilCoalescing|Comparison|LogicalConjunction|LogicalDisjunction|Default|Ternary|Multiplication|FunctionArrow)Precedence\b
+          - include: "#declarations-available-types"
+
+      # an element without a label (i.e. anything else)
+      - begin: (?![,)\]])(?=\S)
+        end: (?=[,)\]])
+        patterns:
+          - include: "#declarations-available-types"
+
+          - name: invalid.illegal.extra-colon-in-parameter-list.swift
+            match: ":"
+
+  declarations-type-enum-enum-case:
+    begin: (?x)((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
+    end: (?<=\))|(?![=(])
+    beginCaptures:
+      1: { name: constant.other.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-type-enum-associated-values"
+      - include: "#declarations-type-enum-raw-value-assignment"
+
+  declarations-type-enum-enum-case-clause:
+    begin: \b(case)\b\s*
+    end: (?=[;}])|(?!\G)(?!//|/\*)(?=[^\s,])
+    beginCaptures:
+      1: { name: storage.type.enum.case.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-type-enum-enum-case"
+      - include: "#declarations-type-enum-more-cases"
+
+  declarations-type-enum-more-cases:
+    name: meta.enum-case.more-cases
+    begin: ",\\s*"
+    end: (?!\G)(?!//|/\*)(?=[;}]|[^\s,])
+    patterns:
+      - include: "#comments"
+      - include: "#declarations-type-enum-enum-case"
+      - include: "#declarations-type-enum-more-cases"
+
+  declarations-type-enum-raw-value-assignment:
+    begin: (=)\s*
+    end: (?!\G)
+    beginCaptures:
+      1: { name: keyword.operator.assignment.swift }
+    patterns:
+      - include: "#comments"
+      - include: "#literals"
+
+  declarations-type-identifier:
+    begin: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
+    end: (?!<)
+    beginCaptures:
+      1:
+        name: meta.type-name.swift
+        patterns:
+          - include: "#builtin-types"
+      2: { name: punctuation.definition.identifier.swift }
+      3: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - begin: (?=<)
+        end: (?!\G)
+        patterns:
+          - include: "#declarations-generic-argument-clause"
+
+  declarations-type-operators:
+    patterns:
+      # Swift 3: A & B
+      - match: (?<![/=\-+!*%<>&|\^~.])(&)(?![/=\-+!*%<>&|\^~.])
+        captures:
+          1: { name: keyword.operator.type.composition.swift }
+
+      # SE-0390: Noncopyable structs and enums
+      - match: (?<![/=\-+!*%<>&|\^~.])(~)(?![/=\-+!*%<>&|\^~.])
+        captures:
+          1: { name: keyword.operator.type.requirement-suppression.swift }
+
+  declarations-typealias:
+    name: meta.definition.typealias.swift
+    begin: \b(typealias)\s+((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*
+    end: (?!\G)$|(?=;|//|/\*|$)
+    beginCaptures:
+      1: { name: keyword.other.declaration-specifier.swift }
+      2: { name: entity.name.type.typealias.swift }
+      3: { name: punctuation.definition.identifier.swift }
+      4: { name: punctuation.definition.identifier.swift }
+    patterns:
+      - begin: \G(?=<)
+        end: (?!\G)
+        patterns:
+          - include: "#declarations-generic-parameter-clause"
+      - include: "#declarations-typealias-assignment"
+
+  declarations-typealias-assignment:
+    begin: (=)\s*
+    end: (?!\G)$|(?=;|//|/\*|$)
+    beginCaptures:
+      1: { name: keyword.operator.assignment.swift }
+    patterns:
+      - include: "#declarations-available-types"
+
+  declarations-typed-variable-declaration:
+    begin: |-
+      (?x)
+      \b(?:(async)\s+)?(let|var)\b\s+
+      (?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>)\s*
+      :
+    end: (?=$|[={])
+    beginCaptures:
+      1: { name: keyword.control.async.swift }
+      2: { name: keyword.other.declaration-specifier.swift }
+    patterns:
+      - include: "#declarations-available-types"
+
+  declarations-types-precedencegroup:
+    patterns:
+      # Precedence groups in the standard library
+      - name: support.type.swift
+        match: \b(?:BitwiseShift|Assignment|RangeFormation|Casting|Addition|NilCoalescing|Comparison|LogicalConjunction|LogicalDisjunction|Default|Ternary|Multiplication|FunctionArrow)Precedence\b
 
   expressions:
     # trailing closures need to be parsed before other member references
     patterns:
       - include: "#expressions-without-trailing-closures-or-member-references"
-      - include: "#trailing-closure"
+      - include: "#expressions-trailing-closure"
       - include: "#member-reference"
 
-    repository:
-      trailing-closure:
-        patterns:
-          # foo { body } -- a call with a trailing closure and no argument clause
-          - name: meta.function-call.trailing-closure-only.swift
-            match: (#?(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))(?=\s*\{)
-            captures:
-              1: { name: support.function.any-method.swift }
-              2: { name: punctuation.definition.identifier.swift }
-              3: { name: punctuation.definition.identifier.swift }
+  expressions-trailing-closure:
+    patterns:
+      # foo { body } -- a call with a trailing closure and no argument clause
+      - name: meta.function-call.trailing-closure-only.swift
+        match: (#?(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))(?=\s*\{)
+        captures:
+          1: { name: support.function.any-method.swift }
+          2: { name: punctuation.definition.identifier.swift }
+          3: { name: punctuation.definition.identifier.swift }
 
-          # foo: { body } -- labeled-trailing-closure (SE-0279)
-          - match: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(:)(?=\s*\{)
-            captures:
-              1: { name: support.function.any-method.trailing-closure-label.swift }
-              2: { name: punctuation.definition.identifier.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.separator.argument-label.swift }
+      # foo: { body } -- labeled-trailing-closure (SE-0279)
+      - match: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(:)(?=\s*\{)
+        captures:
+          1: { name: support.function.any-method.trailing-closure-label.swift }
+          2: { name: punctuation.definition.identifier.swift }
+          3: { name: punctuation.definition.identifier.swift }
+          4: { name: punctuation.separator.argument-label.swift }
 
   expressions-without-trailing-closures:
     patterns:
@@ -1494,155 +1484,154 @@ repository:
       - include: "#comments"
       - include: "#code-block"
       - include: "#attributes"
-      - include: "#closure-parameter"
+      - include: "#expressions-without-trailing-closures-or-member-references-closure-parameter"
       - include: "#literals"
       - include: "#operators"
       - include: "#builtin-types"
       - include: "#builtin-functions"
       - include: "#builtin-global-functions"
       - include: "#builtin-properties"
-      - include: "#compound-name"
+      - include: "#expressions-without-trailing-closures-or-member-references-compound-name"
       - include: "#conditionals"
       - include: "#keywords"
-      - include: "#function-or-macro-call-expression"
-      - include: "#macro-expansion"
-      - include: "#subscript-expression"
-      - include: "#parenthesized-expression"
-      - include: "#availability-condition"
+      - include: "#expressions-without-trailing-closures-or-member-references-function-or-macro-call-expression"
+      - include: "#expressions-without-trailing-closures-or-member-references-macro-expansion"
+      - include: "#expressions-without-trailing-closures-or-member-references-subscript-expression"
+      - include: "#expressions-without-trailing-closures-or-member-references-parenthesized-expression"
+      - include: "#expressions-without-trailing-closures-or-member-references-availability-condition"
 
       - name: support.variable.discard-value.swift
         match: \b_\b
 
-    repository:
-      availability-condition:
-        begin: \B(#(?:un)?available)(\()
+  expressions-without-trailing-closures-or-member-references-availability-condition:
+    begin: \B(#(?:un)?available)(\()
+    end: \)
+    beginCaptures:
+      1: { name: support.function.availability-condition.swift }
+      2: { name: punctuation.definition.arguments.begin.swift }
+    endCaptures:
+      0: { name: punctuation.definition.arguments.end.swift }
+    patterns:
+      - match: \s*\b((?:iOS|macOS|OSX|watchOS|tvOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))
+        captures:
+          1: { name: keyword.other.platform.os.swift }
+          2: { name: constant.numeric.swift }
+
+      - match: (\*)\s*(.*?)(?=[,)])
+        captures:
+          1: { name: keyword.other.platform.all.swift }
+          2: { name: invalid.illegal.character-not-allowed-here.swift }
+
+      - name: invalid.illegal.character-not-allowed-here.swift
+        match: "[^\\s,)]+"
+
+  expressions-without-trailing-closures-or-member-references-closure-parameter:
+    name: variable.language.closure-parameter.swift
+    match: \$[0-9]+
+
+  expressions-without-trailing-closures-or-member-references-compound-name:
+    # a reference to a function with disambiguating argument labels, such as foo(_:), foo(bar:), etc.
+    match: |-
+      (?x)
+      ((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q1>))           # function name
+      \(
+        (
+          (
+            ((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q2>))   # argument label
+            :                        # colon
+          )+
+        )
+      \)
+    captures:
+      1: { name: entity.name.function.compound-name.swift }
+      2: { name: punctuation.definition.entity.swift }
+      3: { name: punctuation.definition.entity.swift }
+      4:
+        patterns:
+          - name: entity.name.function.compound-name.swift
+            match: "(?<q>`?)(?!_:)[\\p{L}_][\\p{L}_\\p{N}\\p{M}]*(\\k<q>):"
+            captures:
+              1: { name: punctuation.definition.entity.swift }
+              2: { name: punctuation.definition.entity.swift }
+
+  expressions-without-trailing-closures-or-member-references-expression-element-list:
+    patterns:
+      - include: "#comments"
+
+      # an element with a label
+      - begin: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(:)
+        end: (?=[,)\]])
+        beginCaptures:
+          1: { name: support.function.any-method.swift }
+          2: { name: punctuation.definition.identifier.swift }
+          3: { name: punctuation.definition.identifier.swift }
+          4: { name: punctuation.separator.argument-label.swift }
+        patterns:
+          - include: "#expressions"
+
+      # an element without a label (i.e. anything else)
+      - begin: (?![,)\]])(?=\S)
+        end: (?=[,)\]])
+        patterns:
+          - include: "#expressions"
+
+  expressions-without-trailing-closures-or-member-references-function-or-macro-call-expression:
+    patterns:
+      # foo(args) -- a call whose callee is a highlightable name
+      - name: meta.function-call.swift
+        begin: (#?(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(\()
         end: \)
         beginCaptures:
-          1: { name: support.function.availability-condition.swift }
-          2: { name: punctuation.definition.arguments.begin.swift }
+          1: { name: support.function.any-method.swift }
+          2: { name: punctuation.definition.identifier.swift }
+          3: { name: punctuation.definition.identifier.swift }
+          4: { name: punctuation.definition.arguments.begin.swift }
         endCaptures:
           0: { name: punctuation.definition.arguments.end.swift }
         patterns:
-          - match: \s*\b((?:iOS|macOS|OSX|watchOS|tvOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))
-            captures:
-              1: { name: keyword.other.platform.os.swift }
-              2: { name: constant.numeric.swift }
+          - include: "#expressions-without-trailing-closures-or-member-references-expression-element-list"
 
-          - match: (\*)\s*(.*?)(?=[,)])
-            captures:
-              1: { name: keyword.other.platform.all.swift }
-              2: { name: invalid.illegal.character-not-allowed-here.swift }
-
-          - name: invalid.illegal.character-not-allowed-here.swift
-            match: "[^\\s,)]+"
-
-      closure-parameter:
-        name: variable.language.closure-parameter.swift
-        match: \$[0-9]+
-
-      compound-name:
-        # a reference to a function with disambiguating argument labels, such as foo(_:), foo(bar:), etc.
-        match: |-
-          (?x)
-          ((?<q1>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q1>))           # function name
-          \(
-            (
-              (
-                ((?<q2>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q2>))   # argument label
-                :                        # colon
-              )+
-            )
-          \)
-        captures:
-          1: { name: entity.name.function.compound-name.swift }
-          2: { name: punctuation.definition.entity.swift }
-          3: { name: punctuation.definition.entity.swift }
-          4:
-            patterns:
-              - name: entity.name.function.compound-name.swift
-                match: "(?<q>`?)(?!_:)[\\p{L}_][\\p{L}_\\p{N}\\p{M}]*(\\k<q>):"
-                captures:
-                  1: { name: punctuation.definition.entity.swift }
-                  2: { name: punctuation.definition.entity.swift }
-
-      expression-element-list:
-        patterns:
-          - include: "#comments"
-
-          # an element with a label
-          - begin: ((?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(:)
-            end: (?=[,)\]])
-            beginCaptures:
-              1: { name: support.function.any-method.swift }
-              2: { name: punctuation.definition.identifier.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.separator.argument-label.swift }
-            patterns:
-              - include: "#expressions"
-
-          # an element without a label (i.e. anything else)
-          - begin: (?![,)\]])(?=\S)
-            end: (?=[,)\]])
-            patterns:
-              - include: "#expressions"
-
-      function-or-macro-call-expression:
-        patterns:
-          # foo(args) -- a call whose callee is a highlightable name
-          - name: meta.function-call.swift
-            begin: (#?(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))\s*(\()
-            end: \)
-            beginCaptures:
-              1: { name: support.function.any-method.swift }
-              2: { name: punctuation.definition.identifier.swift }
-              3: { name: punctuation.definition.identifier.swift }
-              4: { name: punctuation.definition.arguments.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.arguments.end.swift }
-            patterns:
-              - include: "#expression-element-list"
-
-          # [Int](args) -- a call whose callee is a more complicated expression
-          - name: meta.function-call.swift
-            begin: (?<=[`\])}>\p{L}_\p{N}\p{M}])\s*(\()
-            end: \)
-            beginCaptures:
-              1: { name: punctuation.definition.arguments.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.arguments.end.swift }
-            patterns:
-              - include: "#expression-element-list"
-
-      macro-expansion:
-        name: support.function.any-method.swift
-        match: (#(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
-
-      parenthesized-expression:
-        # correctly matching closure expressions is too hard (depends on trailing "in") so we just tack on some basics to the end of parenthesized-expression
-        begin: \(
-        end: (\))\s*((?:\b(?:async|throws|rethrows)\s)*)
-        beginCaptures:
-          0: { name: punctuation.section.tuple.begin.swift }
-        endCaptures:
-          1: { name: punctuation.section.tuple.end.swift }
-          2:
-            patterns:
-              - name: invalid.illegal.rethrows-only-allowed-on-function-declarations.swift
-                match: \brethrows\b
-              - include: "#async-throws"
-        patterns:
-          - include: "#expression-element-list"
-
-      subscript-expression:
-        name: meta.subscript-expression.swift
-        begin: (?<=[`\p{L}_\p{N}\p{M}])\s*(\[)
-        end: \]
+      # [Int](args) -- a call whose callee is a more complicated expression
+      - name: meta.function-call.swift
+        begin: (?<=[`\])}>\p{L}_\p{N}\p{M}])\s*(\()
+        end: \)
         beginCaptures:
           1: { name: punctuation.definition.arguments.begin.swift }
         endCaptures:
           0: { name: punctuation.definition.arguments.end.swift }
         patterns:
-          - include: "#expression-element-list"
+          - include: "#expressions-without-trailing-closures-or-member-references-expression-element-list"
+
+  expressions-without-trailing-closures-or-member-references-macro-expansion:
+    name: support.function.any-method.swift
+    match: (#(?<q>`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k<q>))
+
+  expressions-without-trailing-closures-or-member-references-parenthesized-expression:
+    # correctly matching closure expressions is too hard (depends on trailing "in") so we just tack on some basics to the end of parenthesized-expression
+    begin: \(
+    end: (\))\s*((?:\b(?:async|throws|rethrows)\s)*)
+    beginCaptures:
+      0: { name: punctuation.section.tuple.begin.swift }
+    endCaptures:
+      1: { name: punctuation.section.tuple.end.swift }
+      2:
+        patterns:
+          - name: invalid.illegal.rethrows-only-allowed-on-function-declarations.swift
+            match: \brethrows\b
+          - include: "#async-throws"
+    patterns:
+      - include: "#expressions-without-trailing-closures-or-member-references-expression-element-list"
+
+  expressions-without-trailing-closures-or-member-references-subscript-expression:
+    name: meta.subscript-expression.swift
+    begin: (?<=[`\p{L}_\p{N}\p{M}])\s*(\[)
+    end: \]
+    beginCaptures:
+      1: { name: punctuation.definition.arguments.begin.swift }
+    endCaptures:
+      0: { name: punctuation.definition.arguments.end.swift }
+    patterns:
+      - include: "#expressions-without-trailing-closures-or-member-references-expression-element-list"
 
   keywords:
     patterns:
@@ -1729,9 +1718,9 @@ repository:
 
   literals:
     patterns:
-      - include: "#boolean"
-      - include: "#numeric"
-      - include: "#string"
+      - include: "#literals-boolean"
+      - include: "#literals-numeric"
+      - include: "#literals-string"
 
       - name: constant.language.nil.swift
         match: \bnil\b
@@ -1758,615 +1747,612 @@ repository:
         patterns:
           - include: "#expressions"
 
-      - include: "#regular-expression-literal"
+      - include: "#literals-regular-expression-literal"
 
-    repository:
-      boolean:
-        name: constant.language.boolean.swift
-        match: \b(true|false)\b
+  literals-boolean:
+    name: constant.language.boolean.swift
+    match: \b(true|false)\b
 
-      numeric:
+  literals-numeric:
+    patterns:
+      # 0.1, -4_2.5, 6.022e23, 10E-5
+      - name: constant.numeric.float.decimal.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9][0-9_]*(?=\.[0-9]|[eE])(?:\.[0-9][0-9_]*)?(?:[eE][-+]?[0-9][0-9_]*)?\b(?!\.[0-9])
+
+      # -0x1.ap2_3, 0x31p-4
+      - name: constant.numeric.float.hexadecimal.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)(?:\.[0-9a-fA-F][0-9a-fA-F_]*)?[pP][-+]?[0-9][0-9_]*\b(?!\.[0-9])
+
+      # 0x1p, 0x1p_2, 0x1.5pa, 0x1.1p+1f, 0x1pz
+      - name: invalid.illegal.numeric.float.invalid-exponent.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)(?:\.[0-9a-fA-F][0-9a-fA-F_]*)?(?:[pP][-+]?\w*)\b(?!\.[0-9])
+
+      # 0x1.5w (note that 0x1.f may be a valid expression)
+      - name: invalid.illegal.numeric.float.missing-exponent.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)\.[0-9][\w.]*
+
+      # -.5, .2f (note that 1.-.5 may be a valid expression)
+      - name: invalid.illegal.numeric.float.missing-leading-zero.swift
+        match: (?<=\s|^)\-?\.[0-9][\w.]*
+
+      # 0b_0_1, 0x_1p+3q
+      - name: invalid.illegal.numeric.leading-underscore.swift
+        match: (\B\-|\b)0[box]_[0-9a-fA-F_]*(?:[pPeE][+-]?\w+)?[\w.]+
+
+      # tuple positional member: not really a numeric literal, but not invalid
+      - match: (?<=[\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9]+\b
+
+      # 0b010, 0b1_0
+      - name: constant.numeric.integer.binary.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0b[01][01_]*\b(?!\.[0-9])
+
+      # 0o1, 0o7_3
+      - name: constant.numeric.integer.octal.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0o[0-7][0-7_]*\b(?!\.[0-9])
+
+      # 02, 3_456
+      - name: constant.numeric.integer.decimal.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9][0-9_]*\b(?!\.[0-9])
+
+      # 0x4, 0xF_7
+      - name: constant.numeric.integer.hexadecimal.swift
+        match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0x[0-9a-fA-F][0-9a-fA-F_]*\b(?!\.[0-9])
+
+      - name: invalid.illegal.numeric.other.swift
+        match: (\B\-|\b)[0-9][\w.]*
+
+  literals-regular-expression-literal:
+    # SE-0354 & SE-0355
+    patterns:
+      - name: string.regexp.block.swift
+        begin: (#+)/\n
+        end: /\1
         patterns:
-          # 0.1, -4_2.5, 6.022e23, 10E-5
-          - name: constant.numeric.float.decimal.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9][0-9_]*(?=\.[0-9]|[eE])(?:\.[0-9][0-9_]*)?(?:[eE][-+]?[0-9][0-9_]*)?\b(?!\.[0-9])
+          - include: "#literals-regular-expression-literal-regex-guts"
+          - include: "#literals-regular-expression-literal-line-comment"
 
-          # -0x1.ap2_3, 0x31p-4
-          - name: constant.numeric.float.hexadecimal.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)(?:\.[0-9a-fA-F][0-9a-fA-F_]*)?[pP][-+]?[0-9][0-9_]*\b(?!\.[0-9])
-
-          # 0x1p, 0x1p_2, 0x1.5pa, 0x1.1p+1f, 0x1pz
-          - name: invalid.illegal.numeric.float.invalid-exponent.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)(?:\.[0-9a-fA-F][0-9a-fA-F_]*)?(?:[pP][-+]?\w*)\b(?!\.[0-9])
-
-          # 0x1.5w (note that 0x1.f may be a valid expression)
-          - name: invalid.illegal.numeric.float.missing-exponent.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)(0x[0-9a-fA-F][0-9a-fA-F_]*)\.[0-9][\w.]*
-
-          # -.5, .2f (note that 1.-.5 may be a valid expression)
-          - name: invalid.illegal.numeric.float.missing-leading-zero.swift
-            match: (?<=\s|^)\-?\.[0-9][\w.]*
-
-          # 0b_0_1, 0x_1p+3q
-          - name: invalid.illegal.numeric.leading-underscore.swift
-            match: (\B\-|\b)0[box]_[0-9a-fA-F_]*(?:[pPeE][+-]?\w+)?[\w.]+
-
-          # tuple positional member: not really a numeric literal, but not invalid
-          - match: (?<=[\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9]+\b
-
-          # 0b010, 0b1_0
-          - name: constant.numeric.integer.binary.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0b[01][01_]*\b(?!\.[0-9])
-
-          # 0o1, 0o7_3
-          - name: constant.numeric.integer.octal.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0o[0-7][0-7_]*\b(?!\.[0-9])
-
-          # 02, 3_456
-          - name: constant.numeric.integer.decimal.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)[0-9][0-9_]*\b(?!\.[0-9])
-
-          # 0x4, 0xF_7
-          - name: constant.numeric.integer.hexadecimal.swift
-            match: (\B\-|\b)(?<![\[\](){}\p{L}_\p{N}\p{M}]\.)0x[0-9a-fA-F][0-9a-fA-F_]*\b(?!\.[0-9])
-
-          - name: invalid.illegal.numeric.other.swift
-            match: (\B\-|\b)[0-9][\w.]*
-
-      regular-expression-literal:
-        # SE-0354 & SE-0355
-        patterns:
-          - name: string.regexp.block.swift
-            begin: (#+)/\n
-            end: /\1
-            patterns:
-              - include: "#regex-guts"
-              - include: "#line-comment"
-
-          # Single-line regular expression literals must be matched all in one go
-          # in order to avoid ambiguities with operators, and to adhere to certain
-          # parsing rules in SE-0354/SE-0355, such as:
-          # - A regex literal will not be parsed if it contains an unbalanced ).
-          # - A regex may end with a space only if it began with an escaped space
-          - name: string.regexp.line.swift
-            match: |-
-              (?x)
-              (((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
-              (?(3)|(?!/))   # is not a comment
-              (?(3)|(?!\s))  # does not start with a space or tab
-              (\\\s)? # (4) may start with an escaped space or tab
-              (?<guts>
-                (?>   # no backtracking, avoids issues with negative lookbehind at end
-                  (?:
-                    \\Q
-                      (?:(?!\\E)(?!/\2).)*+
-                      (?:\\E
-                        # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
-                        | (?(3)|(?<!\s))(?=/\2)
-                      )
-                    | \\.
-                    | \(\?\#[^)]*\)
-                    | \(\?
-                        # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-                        \{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+
-                        .+?
-                        \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
-                        (?:\[(?!\d)\w+\])?
-                        [X<>]?
-                      \)
-                    | (?<class>\[ (?:\\. | [^\[\]] | \g<class>)+ \])
-                    | \(\g<guts>?+\)
-                    | (?:(?!/\2)[^()\[\\])+  # any character (until end)
-                  )+
-                )
-              )?+
-              # may end with a space only if it is an extended literal or contains only a single escaped space
-              (?(3)|(?(5)(?<!\s)))
-              (/\2)     # (12)
-              | \#+/.+(\n)
-            captures:
-              0:
-                patterns:
-                  - include: "#regex-guts"
-              1: { name: punctuation.definition.string.begin.regexp.swift }
-              12: { name: punctuation.definition.string.end.regexp.swift }
-              13: { name: invalid.illegal.returns-not-allowed.regexp }
-
-        repository:
-          backreference-or-subpattern:
-            match: |-
-              (?x)
-              (?<esc>\\g)(?<NumberRef> (?<num>[+-]?\d+)(?:(?<op>[+-])(?<num>\d+))? )
-              | (?<esc>\\k\{)(?<NamedRef> (?<name>(?!\d)\w+) (?:(?<op>[+-])(?<num>\d+))? )(?<esc>\})
-              | (?<esc>\\g\{)(?:\g<NamedRef>|\g<NumberRef>)(?<esc>\})
-              | (?<esc>\\[gk]<)(?:\g<NamedRef>|\g<NumberRef>)(?<esc>>)
-              | (?<esc>\\[gk]')(?:\g<NamedRef>|\g<NumberRef>)(?<esc>')
-              | (?<keyw>\(\?(?:P[=>]|&))\g<NamedRef>(?<keyw>\))
-              | (?<keyw>\(\?R\))
-              | (?<keyw>\(\?)\g<NumberRef>(?<keyw>\))
-              | (?<keyw>\\[1-9][0-9]+)
-            captures:
-              1: { name: constant.character.escape.backslash.regexp }
-              3: { name: constant.numeric.integer.decimal.regexp }
-              4: { name: keyword.operator.recursion-level.regexp }
-              5: { name: constant.numeric.integer.decimal.regexp }
-              6: { name: constant.character.escape.backslash.regexp }
-              8: { name: variable.language.group-name.regexp }
-              9: { name: keyword.operator.recursion-level.regexp }
-              10: { name: constant.numeric.integer.decimal.regexp }
-              11: { name: constant.character.escape.backslash.regexp }
-              12: { name: constant.character.escape.backslash.regexp }
-              13: { name: constant.character.escape.backslash.regexp }
-              14: { name: constant.character.escape.backslash.regexp }
-              15: { name: constant.character.escape.backslash.regexp }
-              16: { name: constant.character.escape.backslash.regexp }
-              17: { name: constant.character.escape.backslash.regexp }
-              18: { name: keyword.other.back-reference.regexp }
-              19: { name: keyword.other.back-reference.regexp }
-              20: { name: keyword.other.back-reference.regexp }
-              21: { name: keyword.other.back-reference.regexp }
-              22: { name: keyword.other.back-reference.regexp }
-              23: { name: keyword.other.back-reference.regexp }
-
-          backtracking-directive-or-global-matching-option:
-            match: |-
-              (?x)
-              (\(\*)
+      # Single-line regular expression literals must be matched all in one go
+      # in order to avoid ambiguities with operators, and to adhere to certain
+      # parsing rules in SE-0354/SE-0355, such as:
+      # - A regex literal will not be parsed if it contains an unbalanced ).
+      # - A regex may end with a space only if it began with an escaped space
+      - name: string.regexp.line.swift
+        match: |-
+          (?x)
+          (((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
+          (?(3)|(?!/))   # is not a comment
+          (?(3)|(?!\s))  # does not start with a space or tab
+          (\\\s)? # (4) may start with an escaped space or tab
+          (?<guts>
+            (?>   # no backtracking, avoids issues with negative lookbehind at end
               (?:
-                (ACCEPT|FAIL|F|MARK(?=:)|(?=:)|COMMIT|PRUNE|SKIP|THEN)
-                  (?:(:)([^)]+))?
-                | (?:(LIMIT_(?:DEPTH|HEAP|MATCH))(=)(\d+))
-                | (
-                    CRLF | CR | ANYCRLF | ANY | LF | NUL
-                    | BSR_ANYCRLF | BSR_UNICODE
-                    | NOTEMPTY_ATSTART | NOTEMPTY
-                    | NO_AUTO_POSSESS | NO_DOTSTAR_ANCHOR
-                    | NO_JIT | NO_START_OPT | UTF | UCP
+                \\Q
+                  (?:(?!\\E)(?!/\2).)*+
+                  (?:\\E
+                    # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+                    | (?(3)|(?<!\s))(?=/\2)
                   )
-              )
-              (\))
-            captures:
-              1: { name: keyword.control.directive.regexp }
-              2: { name: keyword.control.directive.regexp }
-              3: { name: keyword.control.directive.regexp }
-              4: { name: variable.language.tag.regexp }
-              5: { name: keyword.control.directive.regexp }
-              6: { name: keyword.operator.assignment.regexp }
-              7: { name: constant.numeric.integer.decimal.regexp }
-              8: { name: keyword.control.directive.regexp }
-              9: { name: keyword.control.directive.regexp }
-
-          callout:
-            name: meta.callout.regexp
-            match: |-
-              (?x)
-              # PCRECallout
-              \((?<keyw>\?C)
-                (?:
-                  (?<num>\d+)
-                  | `(?<name>(?:[^`]|``)*)`
-                  | '(?<name>(?:[^']|'')*)'
-                  | "(?<name>(?:[^"]|"")*)"
-                  | \^(?<name>(?:[^\^]|\^\^)*)\^
-                  | %(?<name>(?:[^%]|%%)*)%
-                  | #(?<name>(?:[^#]|##)*)#
-                  | \$(?<name>(?:[^$]|\$\$)*)\$
-                  | \{(?<name>(?:[^}]|\}\})*)\}
-                )?
-              \)
-              # NamedCallout
-              | \((?<keyw>\*)
-                  (?<name>(?!\d)\w+)
-                  (?:\[(?<tag>(?!\d)\w+)\])?
-                  (?:\{ [^,}]+ (?:,[^,}]+)* \})?
-                \)
-              # InterpolatedCallout
-              | \((?<keyw>\?)
-                  # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-                  (\{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+) .+? \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
-                  (?:\[(?<tag>(?!\d)\w+)\])?
-                  (?<keyw>[X<>]?)
-                \)
-            captures:
-              1: { name: keyword.control.callout.regexp }
-              2: { name: constant.numeric.integer.decimal.regexp }
-              3: { name: entity.name.function.callout.regexp }
-              4: { name: entity.name.function.callout.regexp }
-              5: { name: entity.name.function.callout.regexp }
-              6: { name: entity.name.function.callout.regexp }
-              7: { name: entity.name.function.callout.regexp }
-              8: { name: entity.name.function.callout.regexp }
-              9: { name: entity.name.function.callout.regexp }
-              10: { name: keyword.control.callout.regexp }
-              11: { name: entity.name.function.callout.regexp }
-              12: { name: variable.language.tag-name.regexp }
-              13: { name: keyword.control.callout.regexp }
-              20: { name: variable.language.tag-name.regexp }
-              21: { name: keyword.control.callout.regexp }
-
-          character-properties:
-            name: constant.other.character-class.set.regexp
-            match: |-
-              (?x)
-              \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
-              | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
-            captures:
-              1: { name: support.variable.character-property.regexp }
-              2: { name: support.variable.character-property.regexp }
-
-          custom-char-class:
+                | \\.
+                | \(\?\#[^)]*\)
+                | \(\?
+                    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
+                    \{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+
+                    .+?
+                    \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
+                    (?:\[(?!\d)\w+\])?
+                    [X<>]?
+                  \)
+                | (?<class>\[ (?:\\. | [^\[\]] | \g<class>)+ \])
+                | \(\g<guts>?+\)
+                | (?:(?!/\2)[^()\[\\])+  # any character (until end)
+              )+
+            )
+          )?+
+          # may end with a space only if it is an extended literal or contains only a single escaped space
+          (?(3)|(?(5)(?<!\s)))
+          (/\2)     # (12)
+          | \#+/.+(\n)
+        captures:
+          0:
             patterns:
-              - name: constant.other.character-class.set.regexp
-                begin: \[(\^)?
-                end: \]
-                beginCaptures:
-                  1: { name: keyword.operator.negation.regexp }
-                patterns:
-                  - include: "#custom-char-class-members"
+              - include: "#literals-regular-expression-literal-regex-guts"
+          1: { name: punctuation.definition.string.begin.regexp.swift }
+          12: { name: punctuation.definition.string.end.regexp.swift }
+          13: { name: invalid.illegal.returns-not-allowed.regexp }
 
-          custom-char-class-members:
-            # TODO: should also include atoms?
-            patterns:
-              # \b inside a character class represents a backspace
-              - name: constant.character.escape.backslash.regexp
-                match: \\b
-              - include: "#custom-char-class"
-              - include: "#quote"
-              - include: "#set-operators"
-              - include: "#unicode-scalars"
-              - include: "#character-properties"
+  literals-regular-expression-literal-backreference-or-subpattern:
+    match: |-
+      (?x)
+      (?<esc>\\g)(?<NumberRef> (?<num>[+-]?\d+)(?:(?<op>[+-])(?<num>\d+))? )
+      | (?<esc>\\k\{)(?<NamedRef> (?<name>(?!\d)\w+) (?:(?<op>[+-])(?<num>\d+))? )(?<esc>\})
+      | (?<esc>\\g\{)(?:\g<NamedRef>|\g<NumberRef>)(?<esc>\})
+      | (?<esc>\\[gk]<)(?:\g<NamedRef>|\g<NumberRef>)(?<esc>>)
+      | (?<esc>\\[gk]')(?:\g<NamedRef>|\g<NumberRef>)(?<esc>')
+      | (?<keyw>\(\?(?:P[=>]|&))\g<NamedRef>(?<keyw>\))
+      | (?<keyw>\(\?R\))
+      | (?<keyw>\(\?)\g<NumberRef>(?<keyw>\))
+      | (?<keyw>\\[1-9][0-9]+)
+    captures:
+      1: { name: constant.character.escape.backslash.regexp }
+      3: { name: constant.numeric.integer.decimal.regexp }
+      4: { name: keyword.operator.recursion-level.regexp }
+      5: { name: constant.numeric.integer.decimal.regexp }
+      6: { name: constant.character.escape.backslash.regexp }
+      8: { name: variable.language.group-name.regexp }
+      9: { name: keyword.operator.recursion-level.regexp }
+      10: { name: constant.numeric.integer.decimal.regexp }
+      11: { name: constant.character.escape.backslash.regexp }
+      12: { name: constant.character.escape.backslash.regexp }
+      13: { name: constant.character.escape.backslash.regexp }
+      14: { name: constant.character.escape.backslash.regexp }
+      15: { name: constant.character.escape.backslash.regexp }
+      16: { name: constant.character.escape.backslash.regexp }
+      17: { name: constant.character.escape.backslash.regexp }
+      18: { name: keyword.other.back-reference.regexp }
+      19: { name: keyword.other.back-reference.regexp }
+      20: { name: keyword.other.back-reference.regexp }
+      21: { name: keyword.other.back-reference.regexp }
+      22: { name: keyword.other.back-reference.regexp }
+      23: { name: keyword.other.back-reference.regexp }
 
-          group-option-toggle:
-            # A matching option sequence may be part of an "isolated group" which has an implicit scope that wraps the remaining elements of the current group
-            name: keyword.other.option-toggle.regexp
-            match: |-
-              (?x)
-              \(\?
-              (?:
+  literals-regular-expression-literal-backtracking-directive-or-global-matching-option:
+    match: |-
+      (?x)
+      (\(\*)
+      (?:
+        (ACCEPT|FAIL|F|MARK(?=:)|(?=:)|COMMIT|PRUNE|SKIP|THEN)
+          (?:(:)([^)]+))?
+        | (?:(LIMIT_(?:DEPTH|HEAP|MATCH))(=)(\d+))
+        | (
+            CRLF | CR | ANYCRLF | ANY | LF | NUL
+            | BSR_ANYCRLF | BSR_UNICODE
+            | NOTEMPTY_ATSTART | NOTEMPTY
+            | NO_AUTO_POSSESS | NO_DOTSTAR_ANCHOR
+            | NO_JIT | NO_START_OPT | UTF | UCP
+          )
+      )
+      (\))
+    captures:
+      1: { name: keyword.control.directive.regexp }
+      2: { name: keyword.control.directive.regexp }
+      3: { name: keyword.control.directive.regexp }
+      4: { name: variable.language.tag.regexp }
+      5: { name: keyword.control.directive.regexp }
+      6: { name: keyword.operator.assignment.regexp }
+      7: { name: constant.numeric.integer.decimal.regexp }
+      8: { name: keyword.control.directive.regexp }
+      9: { name: keyword.control.directive.regexp }
+
+  literals-regular-expression-literal-callout:
+    name: meta.callout.regexp
+    match: |-
+      (?x)
+      # PCRECallout
+      \((?<keyw>\?C)
+        (?:
+          (?<num>\d+)
+          | `(?<name>(?:[^`]|``)*)`
+          | '(?<name>(?:[^']|'')*)'
+          | "(?<name>(?:[^"]|"")*)"
+          | \^(?<name>(?:[^\^]|\^\^)*)\^
+          | %(?<name>(?:[^%]|%%)*)%
+          | #(?<name>(?:[^#]|##)*)#
+          | \$(?<name>(?:[^$]|\$\$)*)\$
+          | \{(?<name>(?:[^}]|\}\})*)\}
+        )?
+      \)
+      # NamedCallout
+      | \((?<keyw>\*)
+          (?<name>(?!\d)\w+)
+          (?:\[(?<tag>(?!\d)\w+)\])?
+          (?:\{ [^,}]+ (?:,[^,}]+)* \})?
+        \)
+      # InterpolatedCallout
+      | \((?<keyw>\?)
+          # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
+          (\{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+) .+? \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
+          (?:\[(?<tag>(?!\d)\w+)\])?
+          (?<keyw>[X<>]?)
+        \)
+    captures:
+      1: { name: keyword.control.callout.regexp }
+      2: { name: constant.numeric.integer.decimal.regexp }
+      3: { name: entity.name.function.callout.regexp }
+      4: { name: entity.name.function.callout.regexp }
+      5: { name: entity.name.function.callout.regexp }
+      6: { name: entity.name.function.callout.regexp }
+      7: { name: entity.name.function.callout.regexp }
+      8: { name: entity.name.function.callout.regexp }
+      9: { name: entity.name.function.callout.regexp }
+      10: { name: keyword.control.callout.regexp }
+      11: { name: entity.name.function.callout.regexp }
+      12: { name: variable.language.tag-name.regexp }
+      13: { name: keyword.control.callout.regexp }
+      20: { name: variable.language.tag-name.regexp }
+      21: { name: keyword.control.callout.regexp }
+
+  literals-regular-expression-literal-character-properties:
+    name: constant.other.character-class.set.regexp
+    match: |-
+      (?x)
+      \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
+      | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
+    captures:
+      1: { name: support.variable.character-property.regexp }
+      2: { name: support.variable.character-property.regexp }
+
+  literals-regular-expression-literal-custom-char-class:
+    patterns:
+      - name: constant.other.character-class.set.regexp
+        begin: \[(\^)?
+        end: \]
+        beginCaptures:
+          1: { name: keyword.operator.negation.regexp }
+        patterns:
+          - include: "#literals-regular-expression-literal-custom-char-class-members"
+
+  literals-regular-expression-literal-custom-char-class-members:
+    # TODO: should also include atoms?
+    patterns:
+      # \b inside a character class represents a backspace
+      - name: constant.character.escape.backslash.regexp
+        match: \\b
+      - include: "#literals-regular-expression-literal-custom-char-class"
+      - include: "#literals-regular-expression-literal-quote"
+      - include: "#literals-regular-expression-literal-set-operators"
+      - include: "#literals-regular-expression-literal-unicode-scalars"
+      - include: "#literals-regular-expression-literal-character-properties"
+
+  literals-regular-expression-literal-group-option-toggle:
+    # A matching option sequence may be part of an "isolated group" which has an implicit scope that wraps the remaining elements of the current group
+    name: keyword.other.option-toggle.regexp
+    match: |-
+      (?x)
+      \(\?
+      (?:
+        \^(?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+        | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})+
+        | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})* - (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
+      )
+      \)
+
+  literals-regular-expression-literal-group-or-conditional:
+    patterns:
+      - name: meta.group.absent.regexp
+        begin: \((\?~)
+        end: \)
+        beginCaptures:
+          1: { name: keyword.control.conditional.absent.regexp }
+        patterns:
+          - include: "#literals-regular-expression-literal-regex-guts"
+
+      - name: meta.group.conditional.regexp
+        begin: |-
+          (?x)
+          # KnownConditionalStart
+          \( (?<cond>\?\()
+            (?:
+              (?<NumberRef> (?<num>[+-]?\d+)(?:(?<op>[+-])(?<num>\d+))? )
+              | (?<cond>R) \g<NumberRef>?
+              | (?<cond>R&) (?<NamedRef> (?<name>(?!\d)\w+) (?:(?<op>[+-])(?<num>\d+))? )
+              | (?<cond><) (?:\g<NamedRef>|\g<NumberRef>) (?<cond>>)
+              | (?<cond>') (?:\g<NamedRef>|\g<NumberRef>) (?<cond>')
+              | (?<cond>DEFINE)
+              | (?<cond>VERSION)(?<compar>>?=)(?<num>\d+\.\d+)
+            )
+          (?<cond>\))
+          | \((?<cond>\?)(?=\()
+        end: \)
+        beginCaptures:
+          1: { name: keyword.control.conditional.regexp }
+          3: { name: constant.numeric.integer.decimal.regexp }
+          4: { name: keyword.operator.recursion-level.regexp }
+          5: { name: constant.numeric.integer.decimal.regexp }
+          6: { name: keyword.control.conditional.regexp }
+          7: { name: keyword.control.conditional.regexp }
+          9: { name: variable.language.group-name.regexp }
+          10: { name: keyword.operator.recursion-level.regexp }
+          11: { name: constant.numeric.integer.decimal.regexp }
+          12: { name: keyword.control.conditional.regexp }
+          13: { name: keyword.control.conditional.regexp }
+          14: { name: keyword.control.conditional.regexp }
+          15: { name: keyword.control.conditional.regexp }
+          16: { name: keyword.control.conditional.regexp }
+          17: { name: keyword.control.conditional.regexp }
+          18: { name: keyword.operator.comparison.regexp }
+          19: { name: constant.numeric.integer.decimal.regexp }
+          20: { name: keyword.control.conditional.regexp }
+          21: { name: keyword.control.conditional.regexp }
+        patterns:
+          - include: "#literals-regular-expression-literal-regex-guts"
+
+      - name: meta.group.regexp
+        begin: |-
+          (?x)
+          \(
+          (
+            # BasicGroupKind
+            \?
+            (?:
+              (?:[:|>=!*] | <[=!*])
+              # named groups
+              | P?< (?:((?!\d)\w+) (-))? ((?!\d)\w+) >
+              | ' (?:((?!\d)\w+) (-))? ((?!\d)\w+) '
+              # matching options
+              | (?:
                 \^(?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
                 | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})+
                 | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})* - (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
-              )
-              \)
-
-          group-or-conditional:
-            patterns:
-              - name: meta.group.absent.regexp
-                begin: \((\?~)
-                end: \)
-                beginCaptures:
-                  1: { name: keyword.control.conditional.absent.regexp }
-                patterns:
-                  - include: "#regex-guts"
-
-              - name: meta.group.conditional.regexp
-                begin: |-
-                  (?x)
-                  # KnownConditionalStart
-                  \( (?<cond>\?\()
-                    (?:
-                      (?<NumberRef> (?<num>[+-]?\d+)(?:(?<op>[+-])(?<num>\d+))? )
-                      | (?<cond>R) \g<NumberRef>?
-                      | (?<cond>R&) (?<NamedRef> (?<name>(?!\d)\w+) (?:(?<op>[+-])(?<num>\d+))? )
-                      | (?<cond><) (?:\g<NamedRef>|\g<NumberRef>) (?<cond>>)
-                      | (?<cond>') (?:\g<NamedRef>|\g<NumberRef>) (?<cond>')
-                      | (?<cond>DEFINE)
-                      | (?<cond>VERSION)(?<compar>>?=)(?<num>\d+\.\d+)
-                    )
-                  (?<cond>\))
-                  | \((?<cond>\?)(?=\()
-                end: \)
-                beginCaptures:
-                  1: { name: keyword.control.conditional.regexp }
-                  3: { name: constant.numeric.integer.decimal.regexp }
-                  4: { name: keyword.operator.recursion-level.regexp }
-                  5: { name: constant.numeric.integer.decimal.regexp }
-                  6: { name: keyword.control.conditional.regexp }
-                  7: { name: keyword.control.conditional.regexp }
-                  9: { name: variable.language.group-name.regexp }
-                  10: { name: keyword.operator.recursion-level.regexp }
-                  11: { name: constant.numeric.integer.decimal.regexp }
-                  12: { name: keyword.control.conditional.regexp }
-                  13: { name: keyword.control.conditional.regexp }
-                  14: { name: keyword.control.conditional.regexp }
-                  15: { name: keyword.control.conditional.regexp }
-                  16: { name: keyword.control.conditional.regexp }
-                  17: { name: keyword.control.conditional.regexp }
-                  18: { name: keyword.operator.comparison.regexp }
-                  19: { name: constant.numeric.integer.decimal.regexp }
-                  20: { name: keyword.control.conditional.regexp }
-                  21: { name: keyword.control.conditional.regexp }
-                patterns:
-                  - include: "#regex-guts"
-
-              - name: meta.group.regexp
-                begin: |-
-                  (?x)
-                  \(
-                  (
-                    # BasicGroupKind
-                    \?
-                    (?:
-                      (?:[:|>=!*] | <[=!*])
-                      # named groups
-                      | P?< (?:((?!\d)\w+) (-))? ((?!\d)\w+) >
-                      | ' (?:((?!\d)\w+) (-))? ((?!\d)\w+) '
-                      # matching options
-                      | (?:
-                        \^(?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
-                        | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})+
-                        | (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})* - (?:[iJmnsUxwDPSW]|xx|y\{[gw]\})*
-                      ):  # case without : is handled by group-option-toggle
-                    )
-                    # PCRE2GroupKind
-                    | \*(
-                      atomic
-                      |pla|positive_lookahead
-                      |nla|negative_lookahead
-                      |plb|positive_lookbehind
-                      |nlb|negative_lookbehind
-                      |napla|non_atomic_positive_lookahead
-                      |naplb|non_atomic_positive_lookbehind
-                      |sr|script_run
-                      |asr|atomic_script_run
-                    ):
-                  )?+
-                end: \)
-                beginCaptures:
-                  1: { name: keyword.other.group-options.regexp }
-                  2: { name: variable.language.group-name.regexp }
-                  3: { name: keyword.operator.balancing-group.regexp }
-                  4: { name: variable.language.group-name.regexp }
-                  5: { name: variable.language.group-name.regexp }
-                  6: { name: keyword.operator.balancing-group.regexp }
-                  7: { name: variable.language.group-name.regexp }
-                patterns:
-                  - include: "#regex-guts"
-
-          line-comment:
-            name: comment.line.regexp
-            match: (\#).*$
-            captures:
-              1: { name: punctuation.definition.comment.regexp }
-
-          quote:
-            name: string.quoted.other.regexp.swift
-            begin: \\Q
-            end: \\E|(\n)
-            beginCaptures:
-              0: { name: constant.character.escape.backslash.regexp }
-            endCaptures:
-              0: { name: constant.character.escape.backslash.regexp }
-              1: { name: invalid.illegal.returns-not-allowed.regexp }
-
-          regex-guts:
-            patterns:
-              - include: "#quote"
-
-              - name: comment.block.regexp
-                begin: \(\?\#
-                end: \)
-                beginCaptures:
-                  0: { name: punctuation.definition.comment.begin.regexp }
-                endCaptures:
-                  0: { name: punctuation.definition.comment.end.regexp }
-
-              - name: meta.embedded.expression.regexp
-                begin: <\{
-                end: \}>
-                beginCaptures:
-                  0: { name: punctuation.section.embedded.begin.regexp }
-                endCaptures:
-                  0: { name: punctuation.section.embedded.end.regexp }
-
-              - include: "#unicode-scalars"
-              - include: "#character-properties"
-
-              - name: keyword.control.anchor.regexp
-                match: "[$^]|\\\\[AbBGyYzZ]|\\\\K"
-
-              - include: "#backtracking-directive-or-global-matching-option"
-              - include: "#callout"
-              - include: "#backreference-or-subpattern"
-
-              - name: constant.character.character-class.regexp
-                match: \.|\\[CdDhHNORsSvVwWX]
-
-              - name: constant.character.entity.control-character.regexp
-                match: \\c.
-
-              - name: constant.character.escape.backslash.regexp
-                match: \\[^c]
-
-              - name: keyword.operator.or.regexp
-                match: \|
-
-              - name: keyword.operator.quantifier.regexp
-                match: "[*+?]"
-
-              - name: keyword.operator.quantifier.regexp
-                match: \{\s*\d+\s*(?:,\s*\d*\s*)?\}|\{\s*,\s*\d+\s*\}
-
-              - include: "#custom-char-class"
-              - include: "#group-option-toggle"
-              - include: "#group-or-conditional"
-
-          set-operators:
-            patterns:
-              - name: keyword.operator.intersection.regexp.swift
-                match: "&&"
-
-              - name: keyword.operator.subtraction.regexp.swift
-                match: --
-
-              - name: keyword.operator.symmetric-difference.regexp.swift
-                match: \~\~
-
-          unicode-scalars:
-            name: constant.character.numeric.regexp
-            match: |-
-              (?x)
-              \\u\{\s*(?:[0-9a-fA-F]+\s*)+\}
-              | \\u[0-9a-fA-F]{4}
-              | \\x\{[0-9a-fA-F]+\}
-              | \\x[0-9a-fA-F]{0,2}
-              | \\U[0-9a-fA-F]{8}
-              | \\o\{[0-7]+\}
-              | \\0[0-7]{0,3}
-              | \\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}
-
-      string:
+              ):  # case without : is handled by group-option-toggle
+            )
+            # PCRE2GroupKind
+            | \*(
+              atomic
+              |pla|positive_lookahead
+              |nla|negative_lookahead
+              |plb|positive_lookbehind
+              |nlb|negative_lookbehind
+              |napla|non_atomic_positive_lookahead
+              |naplb|non_atomic_positive_lookbehind
+              |sr|script_run
+              |asr|atomic_script_run
+            ):
+          )?+
+        end: \)
+        beginCaptures:
+          1: { name: keyword.other.group-options.regexp }
+          2: { name: variable.language.group-name.regexp }
+          3: { name: keyword.operator.balancing-group.regexp }
+          4: { name: variable.language.group-name.regexp }
+          5: { name: variable.language.group-name.regexp }
+          6: { name: keyword.operator.balancing-group.regexp }
+          7: { name: variable.language.group-name.regexp }
         patterns:
-          # SE-0168: Multi-Line String Literals
-          - name: string.quoted.double.block.swift
-            begin: '"""'
-            end: '"""(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.content-after-opening-delimiter.swift
-                match: \G.+(?=""")|\G.+
+          - include: "#literals-regular-expression-literal-regex-guts"
 
-              - name: constant.character.escape.newline.swift
-                match: \\\s*\n
+  literals-regular-expression-literal-line-comment:
+    name: comment.line.regexp
+    match: (\#).*$
+    captures:
+      1: { name: punctuation.definition.comment.regexp }
 
-              - include: "#string-guts"
+  literals-regular-expression-literal-quote:
+    name: string.quoted.other.regexp.swift
+    begin: \\Q
+    end: \\E|(\n)
+    beginCaptures:
+      0: { name: constant.character.escape.backslash.regexp }
+    endCaptures:
+      0: { name: constant.character.escape.backslash.regexp }
+      1: { name: invalid.illegal.returns-not-allowed.regexp }
 
-              # Allow \("""...""") to appear inside a block string
-              - name: invalid.illegal.content-before-closing-delimiter.swift
-                match: \S((?!\\\().)*(?=""")
+  literals-regular-expression-literal-regex-guts:
+    patterns:
+      - include: "#literals-regular-expression-literal-quote"
 
-          - name: string.quoted.double.block.raw.swift
-            begin: '#"""'
-            end: '"""#(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.content-after-opening-delimiter.swift
-                match: \G.+(?=""")|\G.+
+      - name: comment.block.regexp
+        begin: \(\?\#
+        end: \)
+        beginCaptures:
+          0: { name: punctuation.definition.comment.begin.regexp }
+        endCaptures:
+          0: { name: punctuation.definition.comment.end.regexp }
 
-              - name: constant.character.escape.newline.swift
-                match: \\#\s*\n
+      - name: meta.embedded.expression.regexp
+        begin: <\{
+        end: \}>
+        beginCaptures:
+          0: { name: punctuation.section.embedded.begin.regexp }
+        endCaptures:
+          0: { name: punctuation.section.embedded.end.regexp }
 
-              - include: "#raw-string-guts"
+      - include: "#literals-regular-expression-literal-unicode-scalars"
+      - include: "#literals-regular-expression-literal-character-properties"
 
-              # Allow \("""...""") to appear inside a block string
-              - name: invalid.illegal.content-before-closing-delimiter.swift
-                match: \S((?!\\#\().)*(?=""")
+      - name: keyword.control.anchor.regexp
+        match: "[$^]|\\\\[AbBGyYzZ]|\\\\K"
 
-          - name: string.quoted.double.block.raw.swift
-            begin: (##+)"""
-            end: '"""\1(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.content-after-opening-delimiter.swift
-                match: \G.+(?=""")|\G.+
+      - include: "#literals-regular-expression-literal-backtracking-directive-or-global-matching-option"
+      - include: "#literals-regular-expression-literal-callout"
+      - include: "#literals-regular-expression-literal-backreference-or-subpattern"
 
-          - name: string.quoted.double.single-line.swift
-            begin: '"'
-            end: '"(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.returns-not-allowed.swift
-                match: \r|\n
-              - include: "#string-guts"
+      - name: constant.character.character-class.regexp
+        match: \.|\\[CdDhHNORsSvVwWX]
 
-          # SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)
-          - name: string.quoted.double.single-line.raw.swift
-            begin: (##+)"
-            end: '"\1(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.raw.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.raw.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.returns-not-allowed.swift
-                match: \r|\n
+      - name: constant.character.entity.control-character.regexp
+        match: \\c.
 
-          # SE-0168: raw string literals (one #, escapes supported)
-          - name: string.quoted.double.single-line.raw.swift
-            begin: '#"'
-            end: '"#(#*)'
-            beginCaptures:
-              0: { name: punctuation.definition.string.begin.raw.swift }
-            endCaptures:
-              0: { name: punctuation.definition.string.end.raw.swift }
-              1: { name: invalid.illegal.extra-closing-delimiter.swift }
-            patterns:
-              - name: invalid.illegal.returns-not-allowed.swift
-                match: \r|\n
-              - include: "#raw-string-guts"
+      - name: constant.character.escape.backslash.regexp
+        match: \\[^c]
 
-        repository:
-          raw-string-guts:
-            # the same as #string-guts but with # in escapes
-            patterns:
-              - name: constant.character.escape.swift
-                match: \\#[0\\tnr"']
+      - name: keyword.operator.or.regexp
+        match: \|
 
-              - name: constant.character.escape.unicode.swift
-                match: \\#u\{[0-9a-fA-F]{1,8}\}
+      - name: keyword.operator.quantifier.regexp
+        match: "[*+?]"
 
-              - contentName: source.swift
-                name: meta.embedded.line.swift
-                begin: \\#\(
-                end: (\))
-                beginCaptures:
-                  0: { name: punctuation.section.embedded.begin.swift }
-                endCaptures:
-                  0: { name: punctuation.section.embedded.end.swift }
-                  1: { name: source.swift }
-                patterns:
-                  - include: $self
+      - name: keyword.operator.quantifier.regexp
+        match: \{\s*\d+\s*(?:,\s*\d*\s*)?\}|\{\s*,\s*\d+\s*\}
 
-                  # Nested parens
-                  - begin: \(
-                    end: \)
+      - include: "#literals-regular-expression-literal-custom-char-class"
+      - include: "#literals-regular-expression-literal-group-option-toggle"
+      - include: "#literals-regular-expression-literal-group-or-conditional"
 
-              - name: invalid.illegal.escape-not-recognized
-                match: \\#.
+  literals-regular-expression-literal-set-operators:
+    patterns:
+      - name: keyword.operator.intersection.regexp.swift
+        match: "&&"
 
-          string-guts:
-            patterns:
-              - name: constant.character.escape.swift
-                match: \\[0\\tnr"']
+      - name: keyword.operator.subtraction.regexp.swift
+        match: --
 
-              - name: constant.character.escape.unicode.swift
-                match: \\u\{[0-9a-fA-F]{1,8}\}
+      - name: keyword.operator.symmetric-difference.regexp.swift
+        match: \~\~
 
-              - contentName: source.swift
-                name: meta.embedded.line.swift
-                begin: \\\(
-                end: (\))
-                beginCaptures:
-                  0: { name: punctuation.section.embedded.begin.swift }
-                endCaptures:
-                  0: { name: punctuation.section.embedded.end.swift }
-                  1: { name: source.swift }
-                patterns:
-                  - include: $self
+  literals-regular-expression-literal-unicode-scalars:
+    name: constant.character.numeric.regexp
+    match: |-
+      (?x)
+      \\u\{\s*(?:[0-9a-fA-F]+\s*)+\}
+      | \\u[0-9a-fA-F]{4}
+      | \\x\{[0-9a-fA-F]+\}
+      | \\x[0-9a-fA-F]{0,2}
+      | \\U[0-9a-fA-F]{8}
+      | \\o\{[0-7]+\}
+      | \\0[0-7]{0,3}
+      | \\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}
 
-                  # Nested parens
-                  - begin: \(
-                    end: \)
+  literals-string:
+    patterns:
+      # SE-0168: Multi-Line String Literals
+      - name: string.quoted.double.block.swift
+        begin: '"""'
+        end: '"""(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.content-after-opening-delimiter.swift
+            match: \G.+(?=""")|\G.+
 
-              - name: invalid.illegal.escape-not-recognized
-                match: \\.
+          - name: constant.character.escape.newline.swift
+            match: \\\s*\n
+
+          - include: "#literals-string-string-guts"
+
+          # Allow \("""...""") to appear inside a block string
+          - name: invalid.illegal.content-before-closing-delimiter.swift
+            match: \S((?!\\\().)*(?=""")
+
+      - name: string.quoted.double.block.raw.swift
+        begin: '#"""'
+        end: '"""#(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.content-after-opening-delimiter.swift
+            match: \G.+(?=""")|\G.+
+
+          - name: constant.character.escape.newline.swift
+            match: \\#\s*\n
+
+          - include: "#literals-string-raw-string-guts"
+
+          # Allow \("""...""") to appear inside a block string
+          - name: invalid.illegal.content-before-closing-delimiter.swift
+            match: \S((?!\\#\().)*(?=""")
+
+      - name: string.quoted.double.block.raw.swift
+        begin: (##+)"""
+        end: '"""\1(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.content-after-opening-delimiter.swift
+            match: \G.+(?=""")|\G.+
+
+      - name: string.quoted.double.single-line.swift
+        begin: '"'
+        end: '"(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.returns-not-allowed.swift
+            match: \r|\n
+          - include: "#literals-string-string-guts"
+
+      # SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)
+      - name: string.quoted.double.single-line.raw.swift
+        begin: (##+)"
+        end: '"\1(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.raw.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.raw.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.returns-not-allowed.swift
+            match: \r|\n
+
+      # SE-0168: raw string literals (one #, escapes supported)
+      - name: string.quoted.double.single-line.raw.swift
+        begin: '#"'
+        end: '"#(#*)'
+        beginCaptures:
+          0: { name: punctuation.definition.string.begin.raw.swift }
+        endCaptures:
+          0: { name: punctuation.definition.string.end.raw.swift }
+          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+        patterns:
+          - name: invalid.illegal.returns-not-allowed.swift
+            match: \r|\n
+          - include: "#literals-string-raw-string-guts"
+
+  literals-string-raw-string-guts:
+    # the same as #string-guts but with # in escapes
+    patterns:
+      - name: constant.character.escape.swift
+        match: \\#[0\\tnr"']
+
+      - name: constant.character.escape.unicode.swift
+        match: \\#u\{[0-9a-fA-F]{1,8}\}
+
+      - contentName: source.swift
+        name: meta.embedded.line.swift
+        begin: \\#\(
+        end: (\))
+        beginCaptures:
+          0: { name: punctuation.section.embedded.begin.swift }
+        endCaptures:
+          0: { name: punctuation.section.embedded.end.swift }
+          1: { name: source.swift }
+        patterns:
+          - include: $self
+
+          # Nested parens
+          - begin: \(
+            end: \)
+
+      - name: invalid.illegal.escape-not-recognized
+        match: \\#.
+
+  literals-string-string-guts:
+    patterns:
+      - name: constant.character.escape.swift
+        match: \\[0\\tnr"']
+
+      - name: constant.character.escape.unicode.swift
+        match: \\u\{[0-9a-fA-F]{1,8}\}
+
+      - contentName: source.swift
+        name: meta.embedded.line.swift
+        begin: \\\(
+        end: (\))
+        beginCaptures:
+          0: { name: punctuation.section.embedded.begin.swift }
+        endCaptures:
+          0: { name: punctuation.section.embedded.end.swift }
+          1: { name: source.swift }
+        patterns:
+          - include: $self
+
+          # Nested parens
+          - begin: \(
+            end: \)
+
+      - name: invalid.illegal.escape-not-recognized
+        match: \\.
 
   member-reference:
     patterns:

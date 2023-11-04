@@ -8,6 +8,11 @@
   },
   "license": "MIT",
   "packageManager": "yarn@4.0.1",
+  "scripts": {
+    "build": "yarn build:json && yarn build:plist",
+    "build:json": "ts-node scripts/yaml-to-json.ts -i Swift.tmLanguage.yaml -o Swift.tmLanguage.json",
+    "build:plist": "ts-node scripts/json-to-plist.ts -i Swift.tmLanguage.json -o Syntaxes/Swift.tmLanguage"
+  },
   "devDependencies": {
     "@tsconfig/node20": "20.1.2",
     "@types/node": "20.8.9",
