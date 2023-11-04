@@ -455,10 +455,10 @@ repository:
       - name: storage.modifier.exception.swift
         match: \b(?:throws|rethrows)\b
 
-      - name: keyword.operator.type.opaque.swift
+      - name: keyword.other.operator.type.opaque.swift
         match: \bsome\b
 
-      - name: keyword.operator.type.existential.swift
+      - name: keyword.other.operator.type.existential.swift
         match: \bany\b
 
       - name: keyword.control.loop.swift
@@ -1644,7 +1644,7 @@ repository:
       - name: keyword.control.loop.swift
         match: (?<!\.)\b(?:while|for|in|each)\b
 
-      - name: keyword.operator.type.existential.swift
+      - name: keyword.other.operator.type.existential.swift
         match: \bany\b(?=\s*`?[\p{L}_])
 
       # extra scopes for repeat-while snippet

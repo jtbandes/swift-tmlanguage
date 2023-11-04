@@ -1335,13 +1335,13 @@
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.operator.type.opaque.swift</string>
+            <string>keyword.other.operator.type.opaque.swift</string>
             <key>match</key>
             <string>\bsome\b</string>
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.operator.type.existential.swift</string>
+            <string>keyword.other.operator.type.existential.swift</string>
             <key>match</key>
             <string>\bany\b</string>
           </dict>
@@ -4531,7 +4531,7 @@
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.operator.type.existential.swift</string>
+            <string>keyword.other.operator.type.existential.swift</string>
             <key>match</key>
             <string>\bany\b(?=\s*`?[\p{L}_])</string>
           </dict>

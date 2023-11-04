@@ -648,12 +648,12 @@
         },
 
         {
-          "name": "keyword.operator.type.opaque.swift",
+          "name": "keyword.other.operator.type.opaque.swift",
           "match": "\\bsome\\b"
         },
 
         {
-          "name": "keyword.operator.type.existential.swift",
+          "name": "keyword.other.operator.type.existential.swift",
           "match": "\\bany\\b"
         },
 
@@ -2024,7 +2024,7 @@
         },
 
         {
-          "name": "keyword.operator.type.existential.swift",
+          "name": "keyword.other.operator.type.existential.swift",
           "match": "\\bany\\b(?=\\s*`?[\\p{L}_])"
         },
 
