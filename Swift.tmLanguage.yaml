@@ -1494,11 +1494,11 @@ repository:
       - include: "#expressions-without-trailing-closures-or-member-references-compound-name"
       - include: "#conditionals"
       - include: "#keywords"
+      - include: "#expressions-without-trailing-closures-or-member-references-availability-condition"
       - include: "#expressions-without-trailing-closures-or-member-references-function-or-macro-call-expression"
       - include: "#expressions-without-trailing-closures-or-member-references-macro-expansion"
       - include: "#expressions-without-trailing-closures-or-member-references-subscript-expression"
       - include: "#expressions-without-trailing-closures-or-member-references-parenthesized-expression"
-      - include: "#expressions-without-trailing-closures-or-member-references-availability-condition"
 
       - name: support.variable.discard-value.swift
         match: \b_\b

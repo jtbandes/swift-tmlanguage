@@ -4107,6 +4107,10 @@
           </dict>
           <dict>
             <key>include</key>
+            <string>#expressions-without-trailing-closures-or-member-references-availability-condition</string>
+          </dict>
+          <dict>
+            <key>include</key>
             <string>#expressions-without-trailing-closures-or-member-references-function-or-macro-call-expression</string>
           </dict>
           <dict>
@@ -4120,10 +4124,6 @@
           <dict>
             <key>include</key>
             <string>#expressions-without-trailing-closures-or-member-references-parenthesized-expression</string>
-          </dict>
-          <dict>
-            <key>include</key>
-            <string>#expressions-without-trailing-closures-or-member-references-availability-condition</string>
           </dict>
           <dict>
             <key>name</key>

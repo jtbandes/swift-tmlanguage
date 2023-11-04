@@ -1806,6 +1806,9 @@
         { "include": "#conditionals" },
         { "include": "#keywords" },
         {
+          "include": "#expressions-without-trailing-closures-or-member-references-availability-condition"
+        },
+        {
           "include": "#expressions-without-trailing-closures-or-member-references-function-or-macro-call-expression"
         },
         {
@@ -1816,9 +1819,6 @@
         },
         {
           "include": "#expressions-without-trailing-closures-or-member-references-parenthesized-expression"
-        },
-        {
-          "include": "#expressions-without-trailing-closures-or-member-references-availability-condition"
         },
 
         {
