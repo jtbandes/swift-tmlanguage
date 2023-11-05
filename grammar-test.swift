@@ -639,6 +639,14 @@ let callouts = #/
   (?(?C9)(?=a)ab|de)  (?(?C%text%%abc%)(?!=d)ab|de)
   (*xyz) (*xyz[abc]) (*xyz[ab]{1,2}) (*xyz{1,2}) (*[ab]{1,2})
   (?{abc})
+  (?C`a``b`)
+  (?C'a''b')
+  (?C"a""b")
+  (?C^a^^b^)
+  (?C%a%%b%)
+  (?C#a##b#)
+  (?C$a$$b$)
+  (?C{a}}b})
   
   # https://github.com/kkos/oniguruma/blob/master/sample/callout.c
   ab(*bar{372,I am a bar's argument,あ})c(*FAIL)

@@ -5351,7 +5351,7 @@
     | "(?&lt;name&gt;(?:[^"]|"")*)"
     | \^(?&lt;name&gt;(?:[^\^]|\^\^)*)\^
     | %(?&lt;name&gt;(?:[^%]|%%)*)%
-    | #(?&lt;name&gt;(?:[^#]|##)*)#
+    | \#(?&lt;name&gt;(?:[^#]|\#\#)*)\#
     | \$(?&lt;name&gt;(?:[^$]|\$\$)*)\$
     | \{(?&lt;name&gt;(?:[^}]|\}\})*)\}
   )?
@@ -5424,7 +5424,7 @@
           <key>11</key>
           <dict>
             <key>name</key>
-            <string>punctuation.definition.group.regexp</string>
+            <string>entity.name.function.callout.regexp</string>
           </dict>
           <key>12</key>
           <dict>
@@ -5434,22 +5434,22 @@
           <key>13</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.callout.regexp</string>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
           <key>14</key>
           <dict>
             <key>name</key>
-            <string>entity.name.function.callout.regexp</string>
+            <string>keyword.control.callout.regexp</string>
           </dict>
           <key>15</key>
           <dict>
             <key>name</key>
-            <string>variable.language.tag-name.regexp</string>
+            <string>entity.name.function.callout.regexp</string>
           </dict>
           <key>16</key>
           <dict>
             <key>name</key>
-            <string>punctuation.definition.group.regexp</string>
+            <string>variable.language.tag-name.regexp</string>
           </dict>
           <key>17</key>
           <dict>
@@ -5459,19 +5459,24 @@
           <key>18</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.callout.regexp</string>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
-          <key>25</key>
+          <key>19</key>
           <dict>
             <key>name</key>
-            <string>variable.language.tag-name.regexp</string>
+            <string>keyword.control.callout.regexp</string>
           </dict>
           <key>26</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.callout.regexp</string>
+            <string>variable.language.tag-name.regexp</string>
           </dict>
           <key>27</key>
+          <dict>
+            <key>name</key>
+            <string>keyword.control.callout.regexp</string>
+          </dict>
+          <key>28</key>
           <dict>
             <key>name</key>
             <string>punctuation.definition.group.regexp</string>
