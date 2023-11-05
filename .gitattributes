@@ -1,2 +1,9 @@
+# Hide in diffs by default
 *.tmLanguage.json linguist-generated
 *.tmLanguage linguist-generated
+
+# Exclude from language stats
+grammar-test.swift linguist-documentation
+
+# Include in language stats
+*.tmLanguage.yaml linguist-detectable
