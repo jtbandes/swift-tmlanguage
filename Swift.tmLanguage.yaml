@@ -1714,11 +1714,11 @@ repository:
         match: (?<!\.)\bimport\b
 
       # SE-0366: "consume behaves as a contextual keyword. In order to avoid interfering with existing code that calls functions named consume, the operand to consume must begin with another identifier, and must consist of an identifier or postfix expression"
-      - name: keyword.other.consume.swift
+      - name: keyword.control.consume.swift
         match: (?<!\.)\bconsume(?=\s+`?[\p{L}_])
 
       # SE-0377: "copy is a contextual keyword, parsed as an operator if it is immediately followed by an identifier on the same line, like the consume x operator before it"
-      - name: keyword.other.copy.swift
+      - name: keyword.control.copy.swift
         match: (?<!\.)\bcopy(?=\s+`?[\p{L}_])
 
   literals:

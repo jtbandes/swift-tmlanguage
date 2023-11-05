@@ -4706,7 +4706,7 @@
             <key>comment</key>
             <string>SE-0366: "consume behaves as a contextual keyword. In order to avoid interfering with existing code that calls functions named consume, the operand to consume must begin with another identifier, and must consist of an identifier or postfix expression"</string>
             <key>name</key>
-            <string>keyword.other.consume.swift</string>
+            <string>keyword.control.consume.swift</string>
             <key>match</key>
             <string>(?&lt;!\.)\bconsume(?=\s+`?[\p{L}_])</string>
           </dict>
@@ -4714,7 +4714,7 @@
             <key>comment</key>
             <string>SE-0377: "copy is a contextual keyword, parsed as an operator if it is immediately followed by an identifier on the same line, like the consume x operator before it"</string>
             <key>name</key>
-            <string>keyword.other.copy.swift</string>
+            <string>keyword.control.copy.swift</string>
             <key>match</key>
             <string>(?&lt;!\.)\bcopy(?=\s+`?[\p{L}_])</string>
           </dict>
