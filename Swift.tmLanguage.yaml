@@ -1977,7 +1977,7 @@ repository:
           | "(?<name>(?:[^"]|"")*)"
           | \^(?<name>(?:[^\^]|\^\^)*)\^
           | %(?<name>(?:[^%]|%%)*)%
-          | #(?<name>(?:[^#]|##)*)#
+          | \#(?<name>(?:[^#]|\#\#)*)\#
           | \$(?<name>(?:[^$]|\$\$)*)\$
           | \{(?<name>(?:[^}]|\}\})*)\}
         )?
@@ -2006,17 +2006,18 @@ repository:
       8: { name: entity.name.function.callout.regexp }
       9: { name: entity.name.function.callout.regexp }
       10: { name: entity.name.function.callout.regexp }
-      11: { name: punctuation.definition.group.regexp }
+      11: { name: entity.name.function.callout.regexp }
       12: { name: punctuation.definition.group.regexp }
-      13: { name: keyword.control.callout.regexp }
-      14: { name: entity.name.function.callout.regexp }
-      15: { name: variable.language.tag-name.regexp }
-      16: { name: punctuation.definition.group.regexp }
+      13: { name: punctuation.definition.group.regexp }
+      14: { name: keyword.control.callout.regexp }
+      15: { name: entity.name.function.callout.regexp }
+      16: { name: variable.language.tag-name.regexp }
       17: { name: punctuation.definition.group.regexp }
-      18: { name: keyword.control.callout.regexp }
-      25: { name: variable.language.tag-name.regexp }
-      26: { name: keyword.control.callout.regexp }
-      27: { name: punctuation.definition.group.regexp }
+      18: { name: punctuation.definition.group.regexp }
+      19: { name: keyword.control.callout.regexp }
+      26: { name: variable.language.tag-name.regexp }
+      27: { name: keyword.control.callout.regexp }
+      28: { name: punctuation.definition.group.regexp }
 
   literals-regular-expression-literal-character-properties:
     name: constant.other.character-class.set.regexp

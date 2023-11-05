@@ -2426,7 +2426,7 @@
 
     "literals-regular-expression-literal-callout": {
       "name": "meta.callout.regexp",
-      "match": "(?x)\n# PCRECallout\n(\\()(?<keyw>\\?C)\n  (?:\n    (?<num>\\d+)\n    | `(?<name>(?:[^`]|``)*)`\n    | '(?<name>(?:[^']|'')*)'\n    | \"(?<name>(?:[^\"]|\"\")*)\"\n    | \\^(?<name>(?:[^\\^]|\\^\\^)*)\\^\n    | %(?<name>(?:[^%]|%%)*)%\n    | #(?<name>(?:[^#]|##)*)#\n    | \\$(?<name>(?:[^$]|\\$\\$)*)\\$\n    | \\{(?<name>(?:[^}]|\\}\\})*)\\}\n  )?\n(\\))\n# NamedCallout\n| (\\()(?<keyw>\\*)\n    (?<name>(?!\\d)\\w+)\n    (?:\\[(?<tag>(?!\\d)\\w+)\\])?\n    (?:\\{ [^,}]+ (?:,[^,}]+)* \\})?\n  (\\))\n# InterpolatedCallout\n| (\\()(?<keyw>\\?)\n    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces\n    (\\{(?<g1>\\{)?+(?<g2>\\{)?+(?<g3>\\{)?+(?<g4>\\{)?+(?<g5>\\{)?+) .+? \\}(?(<g1>)\\})(?(<g2>)\\})(?(<g3>)\\})(?(<g4>)\\})(?(<g5>)\\})\n    (?:\\[(?<tag>(?!\\d)\\w+)\\])?\n    (?<keyw>[X<>]?)\n  (\\))",
+      "match": "(?x)\n# PCRECallout\n(\\()(?<keyw>\\?C)\n  (?:\n    (?<num>\\d+)\n    | `(?<name>(?:[^`]|``)*)`\n    | '(?<name>(?:[^']|'')*)'\n    | \"(?<name>(?:[^\"]|\"\")*)\"\n    | \\^(?<name>(?:[^\\^]|\\^\\^)*)\\^\n    | %(?<name>(?:[^%]|%%)*)%\n    | \\#(?<name>(?:[^#]|\\#\\#)*)\\#\n    | \\$(?<name>(?:[^$]|\\$\\$)*)\\$\n    | \\{(?<name>(?:[^}]|\\}\\})*)\\}\n  )?\n(\\))\n# NamedCallout\n| (\\()(?<keyw>\\*)\n    (?<name>(?!\\d)\\w+)\n    (?:\\[(?<tag>(?!\\d)\\w+)\\])?\n    (?:\\{ [^,}]+ (?:,[^,}]+)* \\})?\n  (\\))\n# InterpolatedCallout\n| (\\()(?<keyw>\\?)\n    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces\n    (\\{(?<g1>\\{)?+(?<g2>\\{)?+(?<g3>\\{)?+(?<g4>\\{)?+(?<g5>\\{)?+) .+? \\}(?(<g1>)\\})(?(<g2>)\\})(?(<g3>)\\})(?(<g4>)\\})(?(<g5>)\\})\n    (?:\\[(?<tag>(?!\\d)\\w+)\\])?\n    (?<keyw>[X<>]?)\n  (\\))",
       "captures": {
         "1": { "name": "punctuation.definition.group.regexp" },
         "2": { "name": "keyword.control.callout.regexp" },
@@ -2438,17 +2438,18 @@
         "8": { "name": "entity.name.function.callout.regexp" },
         "9": { "name": "entity.name.function.callout.regexp" },
         "10": { "name": "entity.name.function.callout.regexp" },
-        "11": { "name": "punctuation.definition.group.regexp" },
+        "11": { "name": "entity.name.function.callout.regexp" },
         "12": { "name": "punctuation.definition.group.regexp" },
-        "13": { "name": "keyword.control.callout.regexp" },
-        "14": { "name": "entity.name.function.callout.regexp" },
-        "15": { "name": "variable.language.tag-name.regexp" },
-        "16": { "name": "punctuation.definition.group.regexp" },
+        "13": { "name": "punctuation.definition.group.regexp" },
+        "14": { "name": "keyword.control.callout.regexp" },
+        "15": { "name": "entity.name.function.callout.regexp" },
+        "16": { "name": "variable.language.tag-name.regexp" },
         "17": { "name": "punctuation.definition.group.regexp" },
-        "18": { "name": "keyword.control.callout.regexp" },
-        "25": { "name": "variable.language.tag-name.regexp" },
-        "26": { "name": "keyword.control.callout.regexp" },
-        "27": { "name": "punctuation.definition.group.regexp" }
+        "18": { "name": "punctuation.definition.group.regexp" },
+        "19": { "name": "keyword.control.callout.regexp" },
+        "26": { "name": "variable.language.tag-name.regexp" },
+        "27": { "name": "keyword.control.callout.regexp" },
+        "28": { "name": "punctuation.definition.group.regexp" }
       }
     },
 
