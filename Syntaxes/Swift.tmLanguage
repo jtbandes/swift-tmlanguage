@@ -2557,6 +2557,10 @@
           </dict>
           <key>4</key>
           <dict>
+            <key>comment</key>
+            <string>workaround for https://github.com/microsoft/vscode-textmate/issues/140#issuecomment-1793610346</string>
+            <key>name</key>
+            <string>entity.name.function.operator.swift</string>
             <key>patterns</key>
             <array>
               <dict>

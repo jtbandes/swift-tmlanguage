@@ -375,6 +375,7 @@ precedencegroup ExamplePrecedence {
 }
 
 infix operator ?= :ComparisonPrecedence
+infix operator .=. :ComparisonPrecedence
 
 // MARK: Other expressions
 
