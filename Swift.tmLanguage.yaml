@@ -1872,7 +1872,7 @@ repository:
       - match: '(?x)(\\g\{) (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) (\})'
         captures:
           1: { name: constant.character.escape.backslash.regexp }
-          2: { name: variable.language.group-name.regexp }
+          2: { name: variable.other.group-name.regexp }
           3: { name: keyword.operator.recursion-level.regexp }
           4: { name: constant.numeric.integer.decimal.regexp }
           5: { name: constant.numeric.integer.decimal.regexp }
@@ -1895,7 +1895,7 @@ repository:
       - match: '(?x)(\\[gk](<)|\\[gk]'') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) ((?(2)>|''))'
         captures:
           1: { name: constant.character.escape.backslash.regexp }
-          3: { name: variable.language.group-name.regexp }
+          3: { name: variable.other.group-name.regexp }
           4: { name: keyword.operator.recursion-level.regexp }
           5: { name: constant.numeric.integer.decimal.regexp }
           6: { name: constant.numeric.integer.decimal.regexp }
@@ -1907,7 +1907,7 @@ repository:
       - match: (?x)(\\k\{) ((?!\d)\w+) (?:([+-])(\d+))? (\})
         captures:
           1: { name: constant.character.escape.backslash.regexp }
-          2: { name: variable.language.group-name.regexp }
+          2: { name: variable.other.group-name.regexp }
           3: { name: keyword.operator.recursion-level.regexp }
           4: { name: constant.numeric.integer.decimal.regexp }
           5: { name: constant.character.escape.backslash.regexp }
@@ -1919,7 +1919,7 @@ repository:
       - match: (?x)(\(\?(?:P[=>]|&)) ((?!\d)\w+) (?:([+-])(\d+))? (\))
         captures:
           1: { name: keyword.other.back-reference.regexp }
-          2: { name: variable.language.group-name.regexp }
+          2: { name: variable.other.group-name.regexp }
           3: { name: keyword.operator.recursion-level.regexp }
           4: { name: constant.numeric.integer.decimal.regexp }
           5: { name: keyword.other.back-reference.regexp }
@@ -1969,7 +1969,7 @@ repository:
     match: |-
       (?x)
       # PCRECallout
-      \((?<keyw>\?C)
+      (\()(?<keyw>\?C)
         (?:
           (?<num>\d+)
           | `(?<name>(?:[^`]|``)*)`
@@ -1981,54 +1981,65 @@ repository:
           | \$(?<name>(?:[^$]|\$\$)*)\$
           | \{(?<name>(?:[^}]|\}\})*)\}
         )?
-      \)
+      (\))
       # NamedCallout
-      | \((?<keyw>\*)
+      | (\()(?<keyw>\*)
           (?<name>(?!\d)\w+)
           (?:\[(?<tag>(?!\d)\w+)\])?
           (?:\{ [^,}]+ (?:,[^,}]+)* \})?
-        \)
+        (\))
       # InterpolatedCallout
-      | \((?<keyw>\?)
+      | (\()(?<keyw>\?)
           # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
           (\{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+) .+? \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
           (?:\[(?<tag>(?!\d)\w+)\])?
           (?<keyw>[X<>]?)
-        \)
+        (\))
     captures:
-      1: { name: keyword.control.callout.regexp }
-      2: { name: constant.numeric.integer.decimal.regexp }
-      3: { name: entity.name.function.callout.regexp }
+      1: { name: punctuation.definition.group.regexp }
+      2: { name: keyword.control.callout.regexp }
+      3: { name: constant.numeric.integer.decimal.regexp }
       4: { name: entity.name.function.callout.regexp }
       5: { name: entity.name.function.callout.regexp }
       6: { name: entity.name.function.callout.regexp }
       7: { name: entity.name.function.callout.regexp }
       8: { name: entity.name.function.callout.regexp }
       9: { name: entity.name.function.callout.regexp }
-      10: { name: keyword.control.callout.regexp }
-      11: { name: entity.name.function.callout.regexp }
-      12: { name: variable.language.tag-name.regexp }
+      10: { name: entity.name.function.callout.regexp }
+      11: { name: punctuation.definition.group.regexp }
+      12: { name: punctuation.definition.group.regexp }
       13: { name: keyword.control.callout.regexp }
-      20: { name: variable.language.tag-name.regexp }
-      21: { name: keyword.control.callout.regexp }
+      14: { name: entity.name.function.callout.regexp }
+      15: { name: variable.language.tag-name.regexp }
+      16: { name: punctuation.definition.group.regexp }
+      17: { name: punctuation.definition.group.regexp }
+      18: { name: keyword.control.callout.regexp }
+      25: { name: variable.language.tag-name.regexp }
+      26: { name: keyword.control.callout.regexp }
+      27: { name: punctuation.definition.group.regexp }
 
   literals-regular-expression-literal-character-properties:
     name: constant.other.character-class.set.regexp
     match: |-
       (?x)
       \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
-      | \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]
+      | (\[:) ([\s\w-]+(?:=[\s\w-]+)?) (:\])
     captures:
       1: { name: support.variable.character-property.regexp }
-      2: { name: support.variable.character-property.regexp }
+      2: { name: punctuation.definition.character-class.regexp }
+      3: { name: support.variable.character-property.regexp }
+      4: { name: punctuation.definition.character-class.regexp }
 
   literals-regular-expression-literal-custom-char-class:
     patterns:
       - name: constant.other.character-class.set.regexp
-        begin: \[(\^)?
+        begin: (\[)(\^)?
         end: \]
         beginCaptures:
-          1: { name: keyword.operator.negation.regexp }
+          1: { name: punctuation.definition.character-class.regexp }
+          2: { name: keyword.operator.negation.regexp }
+        endCaptures:
+          0: { name: punctuation.definition.character-class.regexp }
         patterns:
           - include: "#literals-regular-expression-literal-custom-char-class-members"
 
@@ -2060,10 +2071,13 @@ repository:
   literals-regular-expression-literal-group-or-conditional:
     patterns:
       - name: meta.group.absent.regexp
-        begin: \((\?~)
+        begin: (\()(\?~)
         end: \)
         beginCaptures:
-          1: { name: keyword.control.conditional.absent.regexp }
+          1: { name: punctuation.definition.group.regexp }
+          2: { name: keyword.control.conditional.absent.regexp }
+        endCaptures:
+          0: { name: punctuation.definition.group.regexp }
         patterns:
           - include: "#literals-regular-expression-literal-regex-guts"
 
@@ -2071,7 +2085,7 @@ repository:
         begin: |-
           (?x)
           # KnownConditionalStart
-          \( (?<cond>\?\()
+          (\() (?<cond>\?\()
             (?:
               (?<NumberRef> (?<num>[+-]?\d+)(?:(?<op>[+-])(?<num>\d+))? )
               | (?<cond>R) \g<NumberRef>?
@@ -2082,40 +2096,44 @@ repository:
               | (?<cond>VERSION)(?<compar>>?=)(?<num>\d+\.\d+)
             )
           (?<cond>\))
-          | \((?<cond>\?)(?=\()
+          | (\()(?<cond>\?)(?=\()
         end: \)
         beginCaptures:
-          1: { name: keyword.control.conditional.regexp }
-          3: { name: constant.numeric.integer.decimal.regexp }
-          4: { name: keyword.operator.recursion-level.regexp }
-          5: { name: constant.numeric.integer.decimal.regexp }
-          6: { name: keyword.control.conditional.regexp }
+          1: { name: punctuation.definition.group.regexp }
+          2: { name: keyword.control.conditional.regexp }
+          4: { name: constant.numeric.integer.decimal.regexp }
+          5: { name: keyword.operator.recursion-level.regexp }
+          6: { name: constant.numeric.integer.decimal.regexp }
           7: { name: keyword.control.conditional.regexp }
-          9: { name: variable.language.group-name.regexp }
-          10: { name: keyword.operator.recursion-level.regexp }
-          11: { name: constant.numeric.integer.decimal.regexp }
-          12: { name: keyword.control.conditional.regexp }
+          8: { name: keyword.control.conditional.regexp }
+          10: { name: variable.other.group-name.regexp }
+          11: { name: keyword.operator.recursion-level.regexp }
+          12: { name: constant.numeric.integer.decimal.regexp }
           13: { name: keyword.control.conditional.regexp }
           14: { name: keyword.control.conditional.regexp }
           15: { name: keyword.control.conditional.regexp }
           16: { name: keyword.control.conditional.regexp }
           17: { name: keyword.control.conditional.regexp }
-          18: { name: keyword.operator.comparison.regexp }
-          19: { name: constant.numeric.integer.decimal.regexp }
-          20: { name: keyword.control.conditional.regexp }
+          18: { name: keyword.control.conditional.regexp }
+          19: { name: keyword.operator.comparison.regexp }
+          20: { name: constant.numeric.integer.decimal.regexp }
           21: { name: keyword.control.conditional.regexp }
+          22: { name: punctuation.definition.group.regexp }
+          23: { name: keyword.control.conditional.regexp }
+        endCaptures:
+          0: { name: punctuation.definition.group.regexp }
         patterns:
           - include: "#literals-regular-expression-literal-regex-guts"
 
       - name: meta.group.regexp
         begin: |-
           (?x)
-          \(
+          (\()
           (
             # BasicGroupKind
-            \?
+            (\?)
             (?:
-              (?:[:|>=!*] | <[=!*])
+              ([:|>=!*] | <[=!*])
               # named groups
               | P?< (?:((?!\d)\w+) (-))? ((?!\d)\w+) >
               | ' (?:((?!\d)\w+) (-))? ((?!\d)\w+) '
@@ -2141,13 +2159,18 @@ repository:
           )?+
         end: \)
         beginCaptures:
-          1: { name: keyword.other.group-options.regexp }
-          2: { name: variable.language.group-name.regexp }
-          3: { name: keyword.operator.balancing-group.regexp }
-          4: { name: variable.language.group-name.regexp }
-          5: { name: variable.language.group-name.regexp }
+          1: { name: punctuation.definition.group.regexp }
+          2: { name: keyword.other.group-options.regexp }
+          3: { name: punctuation.definition.group.regexp }
+          4: { name: punctuation.definition.group.regexp }
+          5: { name: variable.other.group-name.regexp }
           6: { name: keyword.operator.balancing-group.regexp }
-          7: { name: variable.language.group-name.regexp }
+          7: { name: variable.other.group-name.regexp }
+          8: { name: variable.other.group-name.regexp }
+          9: { name: keyword.operator.balancing-group.regexp }
+          10: { name: variable.other.group-name.regexp }
+        endCaptures:
+          0: { name: punctuation.definition.group.regexp }
         patterns:
           - include: "#literals-regular-expression-literal-regex-guts"
 

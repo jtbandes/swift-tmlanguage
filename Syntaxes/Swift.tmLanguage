@@ -5038,7 +5038,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>3</key>
               <dict>
@@ -5119,7 +5119,7 @@
               <key>3</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>4</key>
               <dict>
@@ -5168,7 +5168,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>3</key>
               <dict>
@@ -5208,7 +5208,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>3</key>
               <dict>
@@ -5343,7 +5343,7 @@
         <key>match</key>
         <string>(?x)
 # PCRECallout
-\((?&lt;keyw&gt;\?C)
+(\()(?&lt;keyw&gt;\?C)
   (?:
     (?&lt;num&gt;\d+)
     | `(?&lt;name&gt;(?:[^`]|``)*)`
@@ -5355,36 +5355,36 @@
     | \$(?&lt;name&gt;(?:[^$]|\$\$)*)\$
     | \{(?&lt;name&gt;(?:[^}]|\}\})*)\}
   )?
-\)
+(\))
 # NamedCallout
-| \((?&lt;keyw&gt;\*)
+| (\()(?&lt;keyw&gt;\*)
     (?&lt;name&gt;(?!\d)\w+)
     (?:\[(?&lt;tag&gt;(?!\d)\w+)\])?
     (?:\{ [^,}]+ (?:,[^,}]+)* \})?
-  \)
+  (\))
 # InterpolatedCallout
-| \((?&lt;keyw&gt;\?)
+| (\()(?&lt;keyw&gt;\?)
     # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
     (\{(?&lt;g1&gt;\{)?+(?&lt;g2&gt;\{)?+(?&lt;g3&gt;\{)?+(?&lt;g4&gt;\{)?+(?&lt;g5&gt;\{)?+) .+? \}(?(&lt;g1&gt;)\})(?(&lt;g2&gt;)\})(?(&lt;g3&gt;)\})(?(&lt;g4&gt;)\})(?(&lt;g5&gt;)\})
     (?:\[(?&lt;tag&gt;(?!\d)\w+)\])?
     (?&lt;keyw&gt;[X&lt;&gt;]?)
-  \)</string>
+  (\))</string>
         <key>captures</key>
         <dict>
           <key>1</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.callout.regexp</string>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
           <key>2</key>
           <dict>
             <key>name</key>
-            <string>constant.numeric.integer.decimal.regexp</string>
+            <string>keyword.control.callout.regexp</string>
           </dict>
           <key>3</key>
           <dict>
             <key>name</key>
-            <string>entity.name.function.callout.regexp</string>
+            <string>constant.numeric.integer.decimal.regexp</string>
           </dict>
           <key>4</key>
           <dict>
@@ -5419,32 +5419,62 @@
           <key>10</key>
           <dict>
             <key>name</key>
-            <string>keyword.control.callout.regexp</string>
+            <string>entity.name.function.callout.regexp</string>
           </dict>
           <key>11</key>
           <dict>
             <key>name</key>
-            <string>entity.name.function.callout.regexp</string>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
           <key>12</key>
           <dict>
             <key>name</key>
-            <string>variable.language.tag-name.regexp</string>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
           <key>13</key>
           <dict>
             <key>name</key>
             <string>keyword.control.callout.regexp</string>
           </dict>
-          <key>20</key>
+          <key>14</key>
+          <dict>
+            <key>name</key>
+            <string>entity.name.function.callout.regexp</string>
+          </dict>
+          <key>15</key>
           <dict>
             <key>name</key>
             <string>variable.language.tag-name.regexp</string>
           </dict>
-          <key>21</key>
+          <key>16</key>
+          <dict>
+            <key>name</key>
+            <string>punctuation.definition.group.regexp</string>
+          </dict>
+          <key>17</key>
+          <dict>
+            <key>name</key>
+            <string>punctuation.definition.group.regexp</string>
+          </dict>
+          <key>18</key>
           <dict>
             <key>name</key>
             <string>keyword.control.callout.regexp</string>
+          </dict>
+          <key>25</key>
+          <dict>
+            <key>name</key>
+            <string>variable.language.tag-name.regexp</string>
+          </dict>
+          <key>26</key>
+          <dict>
+            <key>name</key>
+            <string>keyword.control.callout.regexp</string>
+          </dict>
+          <key>27</key>
+          <dict>
+            <key>name</key>
+            <string>punctuation.definition.group.regexp</string>
           </dict>
         </dict>
       </dict>
@@ -5455,7 +5485,7 @@
         <key>match</key>
         <string>(?x)
 \\[pP]\{ ([\s\w-]+(?:=[\s\w-]+)?) \}
-| \[: ([\s\w-]+(?:=[\s\w-]+)?) :\]</string>
+| (\[:) ([\s\w-]+(?:=[\s\w-]+)?) (:\])</string>
         <key>captures</key>
         <dict>
           <key>1</key>
@@ -5466,7 +5496,17 @@
           <key>2</key>
           <dict>
             <key>name</key>
+            <string>punctuation.definition.character-class.regexp</string>
+          </dict>
+          <key>3</key>
+          <dict>
+            <key>name</key>
             <string>support.variable.character-property.regexp</string>
+          </dict>
+          <key>4</key>
+          <dict>
+            <key>name</key>
+            <string>punctuation.definition.character-class.regexp</string>
           </dict>
         </dict>
       </dict>
@@ -5478,7 +5518,7 @@
             <key>name</key>
             <string>constant.other.character-class.set.regexp</string>
             <key>begin</key>
-            <string>\[(\^)?</string>
+            <string>(\[)(\^)?</string>
             <key>end</key>
             <string>\]</string>
             <key>beginCaptures</key>
@@ -5486,7 +5526,20 @@
               <key>1</key>
               <dict>
                 <key>name</key>
+                <string>punctuation.definition.character-class.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
                 <string>keyword.operator.negation.regexp</string>
+              </dict>
+            </dict>
+            <key>endCaptures</key>
+            <dict>
+              <key>0</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.character-class.regexp</string>
               </dict>
             </dict>
             <key>patterns</key>
@@ -5559,7 +5612,7 @@
             <key>name</key>
             <string>meta.group.absent.regexp</string>
             <key>begin</key>
-            <string>\((\?~)</string>
+            <string>(\()(\?~)</string>
             <key>end</key>
             <string>\)</string>
             <key>beginCaptures</key>
@@ -5567,7 +5620,20 @@
               <key>1</key>
               <dict>
                 <key>name</key>
+                <string>punctuation.definition.group.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
                 <string>keyword.control.conditional.absent.regexp</string>
+              </dict>
+            </dict>
+            <key>endCaptures</key>
+            <dict>
+              <key>0</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
             </dict>
             <key>patterns</key>
@@ -5584,7 +5650,7 @@
             <key>begin</key>
             <string>(?x)
 # KnownConditionalStart
-\( (?&lt;cond&gt;\?\()
+(\() (?&lt;cond&gt;\?\()
   (?:
     (?&lt;NumberRef&gt; (?&lt;num&gt;[+-]?\d+)(?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )
     | (?&lt;cond&gt;R) \g&lt;NumberRef&gt;?
@@ -5595,7 +5661,7 @@
     | (?&lt;cond&gt;VERSION)(?&lt;compar&gt;&gt;?=)(?&lt;num&gt;\d+\.\d+)
   )
 (?&lt;cond&gt;\))
-| \((?&lt;cond&gt;\?)(?=\()</string>
+| (\()(?&lt;cond&gt;\?)(?=\()</string>
             <key>end</key>
             <string>\)</string>
             <key>beginCaptures</key>
@@ -5603,52 +5669,52 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.conditional.regexp</string>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
-              <key>3</key>
+              <key>2</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.integer.decimal.regexp</string>
+                <string>keyword.control.conditional.regexp</string>
               </dict>
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.recursion-level.regexp</string>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.integer.decimal.regexp</string>
+                <string>keyword.operator.recursion-level.regexp</string>
               </dict>
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.conditional.regexp</string>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>7</key>
               <dict>
                 <key>name</key>
                 <string>keyword.control.conditional.regexp</string>
               </dict>
-              <key>9</key>
+              <key>8</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>keyword.control.conditional.regexp</string>
               </dict>
               <key>10</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.recursion-level.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>11</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.integer.decimal.regexp</string>
+                <string>keyword.operator.recursion-level.regexp</string>
               </dict>
               <key>12</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.conditional.regexp</string>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>13</key>
               <dict>
@@ -5678,22 +5744,40 @@
               <key>18</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.comparison.regexp</string>
+                <string>keyword.control.conditional.regexp</string>
               </dict>
               <key>19</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.integer.decimal.regexp</string>
+                <string>keyword.operator.comparison.regexp</string>
               </dict>
               <key>20</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.conditional.regexp</string>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>21</key>
               <dict>
                 <key>name</key>
                 <string>keyword.control.conditional.regexp</string>
+              </dict>
+              <key>22</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.group.regexp</string>
+              </dict>
+              <key>23</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.control.conditional.regexp</string>
+              </dict>
+            </dict>
+            <key>endCaptures</key>
+            <dict>
+              <key>0</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
             </dict>
             <key>patterns</key>
@@ -5709,12 +5793,12 @@
             <string>meta.group.regexp</string>
             <key>begin</key>
             <string>(?x)
-\(
+(\()
 (
   # BasicGroupKind
-  \?
+  (\?)
   (?:
-    (?:[:|&gt;=!*] | &lt;[=!*])
+    ([:|&gt;=!*] | &lt;[=!*])
     # named groups
     | P?&lt; (?:((?!\d)\w+) (-))? ((?!\d)\w+) &gt;
     | ' (?:((?!\d)\w+) (-))? ((?!\d)\w+) '
@@ -5745,27 +5829,27 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>keyword.other.group-options.regexp</string>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>keyword.other.group-options.regexp</string>
               </dict>
               <key>3</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.balancing-group.regexp</string>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
               <key>4</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
               <key>5</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
               </dict>
               <key>6</key>
               <dict>
@@ -5775,7 +5859,30 @@
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>variable.language.group-name.regexp</string>
+                <string>variable.other.group-name.regexp</string>
+              </dict>
+              <key>8</key>
+              <dict>
+                <key>name</key>
+                <string>variable.other.group-name.regexp</string>
+              </dict>
+              <key>9</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.balancing-group.regexp</string>
+              </dict>
+              <key>10</key>
+              <dict>
+                <key>name</key>
+                <string>variable.other.group-name.regexp</string>
+              </dict>
+            </dict>
+            <key>endCaptures</key>
+            <dict>
+              <key>0</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.group.regexp</string>
               </dict>
             </dict>
             <key>patterns</key>
