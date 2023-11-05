@@ -1,0 +1,29 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: actions/setup-node@v4.0.0
+        with:
+          node-version: 20.9
+          cache: yarn
+      # - run: corepack enable yarn
+      - run: yarn install --immutable
+
+      - run: yarn build
+
+      - name: Ensure generated files are up to date
+        run: |
+          changes=$(git status --porcelain)
+          if [ -n "$changes" ]; then
+            echo "::error::The following generated files need to be updated. Run 'yarn build' to update them."
+            echo "$changes"
+            exit 1
+          else
+            echo "Generated files are up to date!"
+          fi

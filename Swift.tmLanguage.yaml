@@ -9,6 +9,8 @@ name: Swift
 patterns:
   - include: "#root"
 
+test: true
+
 repository:
   async-throws:
     match: \b(?:(throws\s+async|rethrows\s+async)|(throws|rethrows)|(async))\b
