@@ -1405,13 +1405,13 @@
             <key>comment</key>
             <string>Swift 2: protocol&lt;A, B&gt;</string>
             <key>name</key>
-            <string>keyword.operator.type.composition.swift</string>
+            <string>keyword.other.type.composition.swift</string>
             <key>match</key>
             <string>\bprotocol\b</string>
           </dict>
           <dict>
             <key>name</key>
-            <string>keyword.operator.type.metatype.swift</string>
+            <string>keyword.other.type.metatype.swift</string>
             <key>match</key>
             <string>(?&lt;=\.)(?:Protocol|Type)\b</string>
           </dict>
@@ -4675,12 +4675,12 @@
               <key>1</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.type.swift</string>
+                <string>keyword.other.type.swift</string>
               </dict>
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.type.metatype.swift</string>
+                <string>keyword.other.type.metatype.swift</string>
               </dict>
             </dict>
           </dict>

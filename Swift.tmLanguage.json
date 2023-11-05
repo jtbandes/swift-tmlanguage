@@ -701,12 +701,12 @@
 
         {
           "comment": "Swift 2: protocol<A, B>",
-          "name": "keyword.operator.type.composition.swift",
+          "name": "keyword.other.type.composition.swift",
           "match": "\\bprotocol\\b"
         },
 
         {
-          "name": "keyword.operator.type.metatype.swift",
+          "name": "keyword.other.type.metatype.swift",
           "match": "(?<=\\.)(?:Protocol|Type)\\b"
         },
 
@@ -2119,8 +2119,8 @@
         {
           "match": "(?<=\\.)(?:(dynamicType|self)|(Protocol|Type))\\b",
           "captures": {
-            "1": { "name": "keyword.operator.type.swift" },
-            "2": { "name": "keyword.operator.type.metatype.swift" }
+            "1": { "name": "keyword.other.type.swift" },
+            "2": { "name": "keyword.other.type.metatype.swift" }
           }
         },
 
