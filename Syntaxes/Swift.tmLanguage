@@ -847,7 +847,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.preprocessor.conditional.swift</string>
+                <string>keyword.control.import.preprocessor.conditional.swift</string>
               </dict>
               <key>3</key>
               <dict>
@@ -869,7 +869,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.preprocessor.conditional.swift</string>
+                <string>keyword.control.import.preprocessor.conditional.swift</string>
               </dict>
             </dict>
             <key>begin</key>
@@ -1066,7 +1066,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.preprocessor.conditional.swift</string>
+                <string>keyword.control.import.preprocessor.conditional.swift</string>
               </dict>
               <key>3</key>
               <dict>
@@ -1097,7 +1097,7 @@
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>keyword.control.preprocessor.sourcelocation.swift</string>
+                <string>keyword.control.import.preprocessor.sourcelocation.swift</string>
               </dict>
               <key>4</key>
               <dict>

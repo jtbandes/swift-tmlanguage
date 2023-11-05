@@ -302,13 +302,13 @@ repository:
         beginCaptures:
           0: { name: meta.preprocessor.conditional.swift }
           1: { name: punctuation.definition.preprocessor.swift }
-          2: { name: keyword.control.preprocessor.conditional.swift }
+          2: { name: keyword.control.import.preprocessor.conditional.swift }
           3: { name: constant.language.boolean.swift }
 
       - name: meta.preprocessor.conditional.swift
         captures:
           1: { name: punctuation.definition.preprocessor.swift }
-          2: { name: keyword.control.preprocessor.conditional.swift }
+          2: { name: keyword.control.import.preprocessor.conditional.swift }
         begin: ^\s*(#)(if|elseif)\s+
         end: (?=\s*(?://|/\*))|$
         patterns:
@@ -368,7 +368,7 @@ repository:
         match: ^\s*(#)(else|endif)(.*?)(?=$|//|/\*)
         captures:
           1: { name: punctuation.definition.preprocessor.swift }
-          2: { name: keyword.control.preprocessor.conditional.swift }
+          2: { name: keyword.control.import.preprocessor.conditional.swift }
           3:
             patterns:
               - name: invalid.illegal.character-not-allowed-here.swift
@@ -378,7 +378,7 @@ repository:
         match: ^\s*(#)(sourceLocation)((\()([^)]*)(\)))(.*?)(?=$|//|/\*)
         captures:
           1: { name: punctuation.definition.preprocessor.swift }
-          2: { name: keyword.control.preprocessor.sourcelocation.swift }
+          2: { name: keyword.control.import.preprocessor.sourcelocation.swift }
           4: { name: punctuation.definition.parameters.begin.swift }
           5:
             patterns:

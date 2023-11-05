@@ -426,7 +426,9 @@
           "beginCaptures": {
             "0": { "name": "meta.preprocessor.conditional.swift" },
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": { "name": "keyword.control.preprocessor.conditional.swift" },
+            "2": {
+              "name": "keyword.control.import.preprocessor.conditional.swift"
+            },
             "3": { "name": "constant.language.boolean.swift" }
           }
         },
@@ -435,7 +437,9 @@
           "name": "meta.preprocessor.conditional.swift",
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": { "name": "keyword.control.preprocessor.conditional.swift" }
+            "2": {
+              "name": "keyword.control.import.preprocessor.conditional.swift"
+            }
           },
           "begin": "^\\s*(#)(if|elseif)\\s+",
           "end": "(?=\\s*(?://|/\\*))|$",
@@ -528,7 +532,9 @@
           "match": "^\\s*(#)(else|endif)(.*?)(?=$|//|/\\*)",
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": { "name": "keyword.control.preprocessor.conditional.swift" },
+            "2": {
+              "name": "keyword.control.import.preprocessor.conditional.swift"
+            },
             "3": {
               "patterns": [
                 {
@@ -546,7 +552,7 @@
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
             "2": {
-              "name": "keyword.control.preprocessor.sourcelocation.swift"
+              "name": "keyword.control.import.preprocessor.sourcelocation.swift"
             },
             "4": { "name": "punctuation.definition.parameters.begin.swift" },
             "5": {
