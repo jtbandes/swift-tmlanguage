@@ -2312,30 +2312,95 @@
     },
 
     "literals-regular-expression-literal-backreference-or-subpattern": {
-      "match": "(?x)\n(?<esc>\\\\g)(?<NumberRef> (?<num>[+-]?\\d+)(?:(?<op>[+-])(?<num>\\d+))? )\n| (?<esc>\\\\k\\{)(?<NamedRef> (?<name>(?!\\d)\\w+) (?:(?<op>[+-])(?<num>\\d+))? )(?<esc>\\})\n| (?<esc>\\\\g\\{)(?:\\g<NamedRef>|\\g<NumberRef>)(?<esc>\\})\n| (?<esc>\\\\[gk]<)(?:\\g<NamedRef>|\\g<NumberRef>)(?<esc>>)\n| (?<esc>\\\\[gk]')(?:\\g<NamedRef>|\\g<NumberRef>)(?<esc>')\n| (?<keyw>\\(\\?(?:P[=>]|&))\\g<NamedRef>(?<keyw>\\))\n| (?<keyw>\\(\\?R\\))\n| (?<keyw>\\(\\?)\\g<NumberRef>(?<keyw>\\))\n| (?<keyw>\\\\[1-9][0-9]+)",
-      "captures": {
-        "1": { "name": "constant.character.escape.backslash.regexp" },
-        "3": { "name": "constant.numeric.integer.decimal.regexp" },
-        "4": { "name": "keyword.operator.recursion-level.regexp" },
-        "5": { "name": "constant.numeric.integer.decimal.regexp" },
-        "6": { "name": "constant.character.escape.backslash.regexp" },
-        "8": { "name": "variable.language.group-name.regexp" },
-        "9": { "name": "keyword.operator.recursion-level.regexp" },
-        "10": { "name": "constant.numeric.integer.decimal.regexp" },
-        "11": { "name": "constant.character.escape.backslash.regexp" },
-        "12": { "name": "constant.character.escape.backslash.regexp" },
-        "13": { "name": "constant.character.escape.backslash.regexp" },
-        "14": { "name": "constant.character.escape.backslash.regexp" },
-        "15": { "name": "constant.character.escape.backslash.regexp" },
-        "16": { "name": "constant.character.escape.backslash.regexp" },
-        "17": { "name": "constant.character.escape.backslash.regexp" },
-        "18": { "name": "keyword.other.back-reference.regexp" },
-        "19": { "name": "keyword.other.back-reference.regexp" },
-        "20": { "name": "keyword.other.back-reference.regexp" },
-        "21": { "name": "keyword.other.back-reference.regexp" },
-        "22": { "name": "keyword.other.back-reference.regexp" },
-        "23": { "name": "keyword.other.back-reference.regexp" }
-      }
+      "comment": "These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164",
+      "patterns": [
+        {
+          "comment": "'\\g{' NamedOrNumberRef '}'",
+          "match": "(?x)(\\\\g\\{) (?: ((?!\\d)\\w+) (?:([+-])(\\d+))? | ([+-]?\\d+) (?:([+-])(\\d+))? ) (\\})",
+          "captures": {
+            "1": { "name": "constant.character.escape.backslash.regexp" },
+            "2": { "name": "variable.language.group-name.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
+            "5": { "name": "constant.numeric.integer.decimal.regexp" },
+            "6": { "name": "keyword.operator.recursion-level.regexp" },
+            "7": { "name": "constant.numeric.integer.decimal.regexp" },
+            "8": { "name": "constant.character.escape.backslash.regexp" }
+          }
+        },
+
+        {
+          "comment": "'\\g' NumberRef",
+          "match": "(?x)(\\\\g) ([+-]?\\d+) (?:([+-])(\\d+))?",
+          "captures": {
+            "1": { "name": "constant.character.escape.backslash.regexp" },
+            "2": { "name": "constant.numeric.integer.decimal.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" }
+          }
+        },
+
+        {
+          "comment": "'\\k<' NamedOrNumberRef '>'\n \"\\k'\" NamedOrNumberRef \"'\"\n '\\g<' NamedOrNumberRef '>'\n \"\\g'\" NamedOrNumberRef \"'\"",
+          "match": "(?x)(\\\\[gk](<)|\\\\[gk]') (?: ((?!\\d)\\w+) (?:([+-])(\\d+))? | ([+-]?\\d+) (?:([+-])(\\d+))? ) ((?(2)>|'))",
+          "captures": {
+            "1": { "name": "constant.character.escape.backslash.regexp" },
+            "3": { "name": "variable.language.group-name.regexp" },
+            "4": { "name": "keyword.operator.recursion-level.regexp" },
+            "5": { "name": "constant.numeric.integer.decimal.regexp" },
+            "6": { "name": "constant.numeric.integer.decimal.regexp" },
+            "7": { "name": "keyword.operator.recursion-level.regexp" },
+            "8": { "name": "constant.numeric.integer.decimal.regexp" },
+            "9": { "name": "constant.character.escape.backslash.regexp" }
+          }
+        },
+
+        {
+          "comment": "'\\k{' NamedRef '}'",
+          "match": "(?x)(\\\\k\\{) ((?!\\d)\\w+) (?:([+-])(\\d+))? (\\})",
+          "captures": {
+            "1": { "name": "constant.character.escape.backslash.regexp" },
+            "2": { "name": "variable.language.group-name.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
+            "5": { "name": "constant.character.escape.backslash.regexp" }
+          }
+        },
+
+        {
+          "name": "keyword.other.back-reference.regexp",
+          "match": "\\\\[1-9][0-9]+"
+        },
+
+        {
+          "comment": "'(?P=' NamedRef ')'",
+          "match": "(?x)(\\(\\?(?:P[=>]|&)) ((?!\\d)\\w+) (?:([+-])(\\d+))? (\\))",
+          "captures": {
+            "1": { "name": "keyword.other.back-reference.regexp" },
+            "2": { "name": "variable.language.group-name.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
+            "5": { "name": "keyword.other.back-reference.regexp" }
+          }
+        },
+
+        {
+          "name": "keyword.other.back-reference.regexp",
+          "match": "\\(\\?R\\)"
+        },
+
+        {
+          "comment": "'(?' NumberRef ')'",
+          "match": "(?x)(\\(\\?) ([+-]?\\d+) (?:([+-])(\\d+))? (\\))",
+          "captures": {
+            "1": { "name": "keyword.other.back-reference.regexp" },
+            "2": { "name": "constant.numeric.integer.decimal.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
+            "5": { "name": "keyword.other.back-reference.regexp" }
+          }
+        }
+      ]
     },
 
     "literals-regular-expression-literal-backtracking-directive-or-global-matching-option": {

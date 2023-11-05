@@ -5019,125 +5019,255 @@
       </dict>
       <key>literals-regular-expression-literal-backreference-or-subpattern</key>
       <dict>
-        <key>match</key>
-        <string>(?x)
-(?&lt;esc&gt;\\g)(?&lt;NumberRef&gt; (?&lt;num&gt;[+-]?\d+)(?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )
-| (?&lt;esc&gt;\\k\{)(?&lt;NamedRef&gt; (?&lt;name&gt;(?!\d)\w+) (?:(?&lt;op&gt;[+-])(?&lt;num&gt;\d+))? )(?&lt;esc&gt;\})
-| (?&lt;esc&gt;\\g\{)(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;\})
-| (?&lt;esc&gt;\\[gk]&lt;)(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;&gt;)
-| (?&lt;esc&gt;\\[gk]')(?:\g&lt;NamedRef&gt;|\g&lt;NumberRef&gt;)(?&lt;esc&gt;')
-| (?&lt;keyw&gt;\(\?(?:P[=&gt;]|&amp;))\g&lt;NamedRef&gt;(?&lt;keyw&gt;\))
-| (?&lt;keyw&gt;\(\?R\))
-| (?&lt;keyw&gt;\(\?)\g&lt;NumberRef&gt;(?&lt;keyw&gt;\))
-| (?&lt;keyw&gt;\\[1-9][0-9]+)</string>
-        <key>captures</key>
-        <dict>
-          <key>1</key>
+        <key>comment</key>
+        <string>These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164</string>
+        <key>patterns</key>
+        <array>
           <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
+            <key>comment</key>
+            <string>'\g{' NamedOrNumberRef '}'</string>
+            <key>match</key>
+            <string>(?x)(\\g\{) (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) (\})</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>variable.language.group-name.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>6</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>7</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>8</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+            </dict>
           </dict>
-          <key>3</key>
           <dict>
-            <key>name</key>
-            <string>constant.numeric.integer.decimal.regexp</string>
+            <key>comment</key>
+            <string>'\g' NumberRef</string>
+            <key>match</key>
+            <string>(?x)(\\g) ([+-]?\d+) (?:([+-])(\d+))?</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+            </dict>
           </dict>
-          <key>4</key>
           <dict>
-            <key>name</key>
-            <string>keyword.operator.recursion-level.regexp</string>
+            <key>comment</key>
+            <string>'\k&lt;' NamedOrNumberRef '&gt;'
+ "\k'" NamedOrNumberRef "'"
+ '\g&lt;' NamedOrNumberRef '&gt;'
+ "\g'" NamedOrNumberRef "'"</string>
+            <key>match</key>
+            <string>(?x)(\\[gk](&lt;)|\\[gk]') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) ((?(2)&gt;|'))</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>variable.language.group-name.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>6</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>7</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>8</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>9</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+            </dict>
           </dict>
-          <key>5</key>
           <dict>
-            <key>name</key>
-            <string>constant.numeric.integer.decimal.regexp</string>
+            <key>comment</key>
+            <string>'\k{' NamedRef '}'</string>
+            <key>match</key>
+            <string>(?x)(\\k\{) ((?!\d)\w+) (?:([+-])(\d+))? (\})</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>variable.language.group-name.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+            </dict>
           </dict>
-          <key>6</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>8</key>
-          <dict>
-            <key>name</key>
-            <string>variable.language.group-name.regexp</string>
-          </dict>
-          <key>9</key>
-          <dict>
-            <key>name</key>
-            <string>keyword.operator.recursion-level.regexp</string>
-          </dict>
-          <key>10</key>
-          <dict>
-            <key>name</key>
-            <string>constant.numeric.integer.decimal.regexp</string>
-          </dict>
-          <key>11</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>12</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>13</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>14</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>15</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>16</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>17</key>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.backslash.regexp</string>
-          </dict>
-          <key>18</key>
           <dict>
             <key>name</key>
             <string>keyword.other.back-reference.regexp</string>
+            <key>match</key>
+            <string>\\[1-9][0-9]+</string>
           </dict>
-          <key>19</key>
+          <dict>
+            <key>comment</key>
+            <string>'(?P=' NamedRef ')'</string>
+            <key>match</key>
+            <string>(?x)(\(\?(?:P[=&gt;]|&amp;)) ((?!\d)\w+) (?:([+-])(\d+))? (\))</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.back-reference.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>variable.language.group-name.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.back-reference.regexp</string>
+              </dict>
+            </dict>
+          </dict>
           <dict>
             <key>name</key>
             <string>keyword.other.back-reference.regexp</string>
+            <key>match</key>
+            <string>\(\?R\)</string>
           </dict>
-          <key>20</key>
           <dict>
-            <key>name</key>
-            <string>keyword.other.back-reference.regexp</string>
+            <key>comment</key>
+            <string>'(?' NumberRef ')'</string>
+            <key>match</key>
+            <string>(?x)(\(\?) ([+-]?\d+) (?:([+-])(\d+))? (\))</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.back-reference.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.other.back-reference.regexp</string>
+              </dict>
+            </dict>
           </dict>
-          <key>21</key>
-          <dict>
-            <key>name</key>
-            <string>keyword.other.back-reference.regexp</string>
-          </dict>
-          <key>22</key>
-          <dict>
-            <key>name</key>
-            <string>keyword.other.back-reference.regexp</string>
-          </dict>
-          <key>23</key>
-          <dict>
-            <key>name</key>
-            <string>keyword.other.back-reference.regexp</string>
-          </dict>
-        </dict>
+        </array>
       </dict>
       <key>literals-regular-expression-literal-backtracking-directive-or-global-matching-option</key>
       <dict>
