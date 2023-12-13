@@ -4,7 +4,7 @@
 
 ```swift
 func foo<T>(x: T) async throws -> Int where T: Equatable {}
-let int = /(?x)\\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}/
+let pattern = /(?x)\\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}/
 ```
 
 This grammar is used for syntax highlighting by several popular projects, including:
