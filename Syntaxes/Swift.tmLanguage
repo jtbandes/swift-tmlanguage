@@ -4566,7 +4566,7 @@
           </dict>
           <dict>
             <key>match</key>
-            <string>(?&lt;!\.)\b(?:(await\s+try)|(await)\b)</string>
+            <string>(?&lt;!\.)\b(?:(await\s+try)|(await))\b</string>
             <key>captures</key>
             <dict>
               <key>1</key>

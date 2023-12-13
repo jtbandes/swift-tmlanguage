@@ -1658,7 +1658,7 @@ repository:
       - name: keyword.control.defer.swift
         match: (?<!\.)\bdefer\b
 
-      - match: (?<!\.)\b(?:(await\s+try)|(await)\b)
+      - match: (?<!\.)\b(?:(await\s+try)|(await))\b
         captures:
           1: { name: invalid.illegal.try-must-precede-await.swift }
           2: { name: keyword.control.await.swift }

@@ -284,6 +284,7 @@ func foo() async {
   let newURL = await server.redirectURL(for: url)
   let (data, response) = try await session.dataTask(with: newURL)
   let (data, response) = await try session.dataTask(with: newURL) // not allowed
+  let (data, response) = await tryFoo() // ok
   let (data, response) = await (try session.dataTask(with: newURL)) // ok
   async let dog = getDoggo()
   async let pup: Dog = getDoggo()
