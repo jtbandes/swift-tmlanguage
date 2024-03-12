@@ -2,15 +2,13 @@
 
 **Swift.tmLanguage** is a TextMate [language grammar](https://macromates.com/manual/en/language_grammars) for the [Swift programming language](https://www.swift.org). It defines regex-based parsing rules so that code renderers can [highlight](https://en.wikipedia.org/wiki/Syntax_highlighting) Swift code using a semantic color scheme.
 
-```swift
-func foo<T>(x: T) async throws -> Int where T: Equatable {}
-let pattern = /(?x)\\N\{(?:U\+[0-9a-fA-F]{1,8} | [\s\w-]+)\}/
-```
+<img width="462" alt="image" src="https://github.com/jtbandes/swift-tmlanguage/assets/14237/b1fae934-f510-4f5d-a9eb-ec6fc9cca7f0">
 
-This grammar is used for syntax highlighting by several popular projects, including:
+This grammar is used for syntax highlighting by:
 
-- **GitHub** — via [Linguist](https://github.com/github-linguist/linguist)
 - **Visual Studio Code** — as part of the [built-in extension](https://github.com/microsoft/vscode/tree/main/extensions/swift) for basic language support, **not** in the full-featured [`vscode-swift` extension](https://github.com/swift-server/vscode-swift)
+
+(It was also used by GitHub [Linguist](https://github.com/github-linguist/linguist) until 2024.)
 
 The language grammar is available in three formats:
 
