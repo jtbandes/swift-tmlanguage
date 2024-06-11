@@ -34,7 +34,7 @@ __FILE__, __LINE__, __FUNCTION__, __DSO_HANDLE__
 // MARK: Attributes
 
 @available(
-  macOS 1.2, macOSApplicationExtension 1.2, OSX, tvOS 1.4, iOS, watchOS,
+  macOS 1.2, macOSApplicationExtension 1.2, OSX, tvOS 1.4, iOS, watchOS, visionOS,
   swift 5, UIKitForMac,
   noasync,
   introduced, introduced: 1,

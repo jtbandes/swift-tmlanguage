@@ -29,7 +29,7 @@ repository:
         endCaptures:
           0: { name: punctuation.definition.arguments.end.swift }
         patterns:
-          - match: \b(swift|(?:iOS|macOS|OSX|watchOS|tvOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))?
+          - match: \b(swift|(?:iOS|macOS|OSX|watchOS|tvOS|visionOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))?
             captures:
               1: { name: keyword.other.platform.os.swift }
               2: { name: constant.numeric.swift }
@@ -325,7 +325,7 @@ repository:
               3: { name: support.constant.platform.architecture.swift }
               4: { name: punctuation.definition.parameters.end.swift }
 
-          - match: \b(os)\s*(\()\s*(?:(macOS|OSX|iOS|tvOS|watchOS|Android|Linux|FreeBSD|Windows|PS4)|\w+)\s*(\))
+          - match: \b(os)\s*(\()\s*(?:(macOS|OSX|iOS|tvOS|watchOS|visionOS|Android|Linux|FreeBSD|Windows|PS4)|\w+)\s*(\))
             captures:
               1: { name: keyword.other.condition.swift }
               2: { name: punctuation.definition.parameters.begin.swift }
@@ -1514,7 +1514,7 @@ repository:
     endCaptures:
       0: { name: punctuation.definition.arguments.end.swift }
     patterns:
-      - match: \s*\b((?:iOS|macOS|OSX|watchOS|tvOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))
+      - match: \s*\b((?:iOS|macOS|OSX|watchOS|tvOS|visionOS|UIKitForMac)(?:ApplicationExtension)?)\b(?:\s+([0-9]+(?:\.[0-9]+)*\b))
         captures:
           1: { name: keyword.other.platform.os.swift }
           2: { name: constant.numeric.swift }
