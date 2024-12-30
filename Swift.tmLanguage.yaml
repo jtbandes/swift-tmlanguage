@@ -1824,9 +1824,9 @@ repository:
       - name: string.regexp.line.swift
         match: |-
           (?x)
+          (?!/\s)         # non-extended regex literals may not start with a space or tab
+          (?!//)          # disambiguation with line comments (redundant since comment rules occur earlier)
           (((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
-          (?(3)|(?!/))   # is not a comment
-          (?(3)|(?!\s))  # does not start with a space or tab
           (\\\s)? # (4) may start with an escaped space or tab
           (?<guts>
             (?>   # no backtracking, avoids issues with negative lookbehind at end
