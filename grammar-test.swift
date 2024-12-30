@@ -553,6 +553,7 @@ let r = /\Q/1/ //x
 let r = /\ \Q/1/ //x
 let r = #/\Q/1/# //x
 let r = ##/\Q/1/# /## //x
+let quote = /\Q/\E/  // FIXME? xcode doesn't handle this either?
 let nested = /\Q^[xy])+$\E/ // FIXME: xcode does not parse this as a regex because of the `)` (??)
 let nested = /[a\Q]\E]/
 let nested = /ab[^a^~~b--c&&d\Qa\E\f] [\w--\d] foo [:a] foo [:a:] [-a-] [a-c-d]/
@@ -770,6 +771,10 @@ let r = ^^(/x/)
 
 
 //// A regex literal may not start or end with a space or tab.
+let initialSpace = / x/
+let finalSpace = /x /
+let initialSpace = #/ x/#
+let finalSpace = #/x /#
 
 // Unapplied '/' in a call to 'reduce':
 let x = array.reduce(1, /) / 5
