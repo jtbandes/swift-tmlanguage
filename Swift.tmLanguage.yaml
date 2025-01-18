@@ -1840,10 +1840,8 @@ repository:
                 | \\.
                 | \(\?\#[^)]*\)
                 | \(\?
-                    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-                    \{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+
-                    .+?
-                    \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
+                    # InterpolatedCallout
+                    (?>(\{(?:\g<-1>|(?!{).*?)\}))
                     (?:\[(?!\d)\w+\])?
                     [X<>]?
                   \)
@@ -1862,8 +1860,8 @@ repository:
             patterns:
               - include: "#literals-regular-expression-literal-regex-guts"
           1: { name: punctuation.definition.string.begin.regexp.swift }
-          12: { name: punctuation.definition.string.end.regexp.swift }
-          13: { name: invalid.illegal.returns-not-allowed.regexp }
+          8: { name: punctuation.definition.string.end.regexp.swift }
+          9: { name: invalid.illegal.returns-not-allowed.regexp }
 
   literals-regular-expression-literal-backreference-or-subpattern:
     # These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164
@@ -1990,8 +1988,7 @@ repository:
         (\))
       # InterpolatedCallout
       | (\()(?<keyw>\?)
-          # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-          (\{(?<g1>\{)?+(?<g2>\{)?+(?<g3>\{)?+(?<g4>\{)?+(?<g5>\{)?+) .+? \}(?(<g1>)\})(?(<g2>)\})(?(<g3>)\})(?(<g4>)\})(?(<g5>)\})
+          (?>(\{(?:\g<-1>|(?!{).*?)\}))
           (?:\[(?<tag>(?!\d)\w+)\])?
           (?<keyw>[X<>]?)
         (\))
@@ -2015,9 +2012,9 @@ repository:
       17: { name: punctuation.definition.group.regexp }
       18: { name: punctuation.definition.group.regexp }
       19: { name: keyword.control.callout.regexp }
-      26: { name: variable.language.tag-name.regexp }
-      27: { name: keyword.control.callout.regexp }
-      28: { name: punctuation.definition.group.regexp }
+      21: { name: variable.language.tag-name.regexp }
+      22: { name: keyword.control.callout.regexp }
+      23: { name: punctuation.definition.group.regexp }
 
   literals-regular-expression-literal-character-properties:
     name: constant.other.character-class.set.regexp

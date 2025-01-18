@@ -650,6 +650,13 @@ let callouts = #/
   (?C$a$$b$)
   (?C{a}}b})
   
+  (?{ab}X)
+  (?{ab { c}X)
+  (?{abc } c}X) # invalid
+  (?{{abc { c}}X)
+  (?{{abc } c}}X)
+  (?{{abc }) c}}X)
+  
   # https://github.com/kkos/oniguruma/blob/master/sample/callout.c
   ab(*bar{372,I am a bar's argument,あ})c(*FAIL)
   (?{{!{}#$%&'()=-~^|[_]`@*:+;<>?/.\\,}}[symbols])c
@@ -663,6 +670,13 @@ let callouts = #/
   (?~|absent)
   (?~|)
 /#
+let callout = /(?{a/b}X)/
+let callout = /(?{a/b}X)/
+let callout = /(?{ab/ { c}X)/
+let callout = /(?{abc/ } c}X)/ # invalid
+let callout = /(?{{abc/ { c}}X)/
+let callout = /(?{{abc/ } c}}X)/
+let callout = /(?{{abc/ }) c}}X)/
 
 let comments = #/
   not a comment
