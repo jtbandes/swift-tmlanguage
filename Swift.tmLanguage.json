@@ -2347,17 +2347,32 @@
         },
 
         {
-          "comment": "'\\k<' NamedOrNumberRef '>'\n \"\\k'\" NamedOrNumberRef \"'\"\n '\\g<' NamedOrNumberRef '>'\n \"\\g'\" NamedOrNumberRef \"'\"",
-          "match": "(?x)(\\\\[gk](<)|\\\\[gk]') (?: ((?!\\d)\\w+) (?:([+-])(\\d+))? | ([+-]?\\d+) (?:([+-])(\\d+))? ) ((?(2)>|'))",
+          "comment": "'\\k<' NamedOrNumberRef '>'\n '\\g<' NamedOrNumberRef '>'",
+          "match": "(?x)(\\\\[gk]<) (?: ((?!\\d)\\w+) (?:([+-])(\\d+))? | ([+-]?\\d+) (?:([+-])(\\d+))? ) (>)",
           "captures": {
             "1": { "name": "constant.character.escape.backslash.regexp" },
-            "3": { "name": "variable.other.group-name.regexp" },
-            "4": { "name": "keyword.operator.recursion-level.regexp" },
+            "2": { "name": "variable.other.group-name.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
             "5": { "name": "constant.numeric.integer.decimal.regexp" },
-            "6": { "name": "constant.numeric.integer.decimal.regexp" },
-            "7": { "name": "keyword.operator.recursion-level.regexp" },
-            "8": { "name": "constant.numeric.integer.decimal.regexp" },
-            "9": { "name": "constant.character.escape.backslash.regexp" }
+            "6": { "name": "keyword.operator.recursion-level.regexp" },
+            "7": { "name": "constant.numeric.integer.decimal.regexp" },
+            "8": { "name": "constant.character.escape.backslash.regexp" }
+          }
+        },
+
+        {
+          "comment": "\"\\k'\" NamedOrNumberRef \"'\"\n \"\\g'\" NamedOrNumberRef \"'\"",
+          "match": "(?x)(\\\\[gk]') (?: ((?!\\d)\\w+) (?:([+-])(\\d+))? | ([+-]?\\d+) (?:([+-])(\\d+))? ) (')",
+          "captures": {
+            "1": { "name": "constant.character.escape.backslash.regexp" },
+            "2": { "name": "variable.other.group-name.regexp" },
+            "3": { "name": "keyword.operator.recursion-level.regexp" },
+            "4": { "name": "constant.numeric.integer.decimal.regexp" },
+            "5": { "name": "constant.numeric.integer.decimal.regexp" },
+            "6": { "name": "keyword.operator.recursion-level.regexp" },
+            "7": { "name": "constant.numeric.integer.decimal.regexp" },
+            "8": { "name": "constant.character.escape.backslash.regexp" }
           }
         },
 
