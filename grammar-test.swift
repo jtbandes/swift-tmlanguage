@@ -679,10 +679,13 @@ let callouts = #/
 let callout = /(?{a/b}X)/
 let callout = /(?{a/b}X)/
 let callout = /(?{ab/ { c}X)/
-let callout = /(?{abc/ } c}X)/ # invalid
-let callout = /(?{{abc/ { c}}X)/
-let callout = /(?{{abc/ } c}}X)/
-let callout = /(?{{abc/ }) c}}X)/
+let callout = /(?{abc/ } d}X)/ //invalid
+let callout = /(?{{abc/ }}}X)/ //invalid
+let callout = /(?{{abc/ }}}}X)/ //invalid
+let callout = /(?{{abc/ }} d}}X)/ //invalid
+let callout = /(?{{abc/ { d}}X)/
+let callout = /(?{{abc/ } d}}X)/
+let callout = /(?{{abc/ }) d}}X)/
 
 let comments = #/
   not a comment
