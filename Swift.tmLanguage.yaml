@@ -1887,19 +1887,30 @@ repository:
           4: { name: constant.numeric.integer.decimal.regexp }
 
       # '\k<' NamedOrNumberRef '>'
-      # "\k'" NamedOrNumberRef "'"
       # '\g<' NamedOrNumberRef '>'
-      # "\g'" NamedOrNumberRef "'"
-      - match: '(?x)(\\[gk](<)|\\[gk]'') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) ((?(2)>|''))'
+      - match: '(?x)(\\[gk]<) (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) (>)'
         captures:
           1: { name: constant.character.escape.backslash.regexp }
-          3: { name: variable.other.group-name.regexp }
-          4: { name: keyword.operator.recursion-level.regexp }
+          2: { name: variable.other.group-name.regexp }
+          3: { name: keyword.operator.recursion-level.regexp }
+          4: { name: constant.numeric.integer.decimal.regexp }
           5: { name: constant.numeric.integer.decimal.regexp }
-          6: { name: constant.numeric.integer.decimal.regexp }
-          7: { name: keyword.operator.recursion-level.regexp }
-          8: { name: constant.numeric.integer.decimal.regexp }
-          9: { name: constant.character.escape.backslash.regexp }
+          6: { name: keyword.operator.recursion-level.regexp }
+          7: { name: constant.numeric.integer.decimal.regexp }
+          8: { name: constant.character.escape.backslash.regexp }
+
+      # "\k'" NamedOrNumberRef "'"
+      # "\g'" NamedOrNumberRef "'"
+      - match: '(?x)(\\[gk]'') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) ('')'
+        captures:
+          1: { name: constant.character.escape.backslash.regexp }
+          2: { name: variable.other.group-name.regexp }
+          3: { name: keyword.operator.recursion-level.regexp }
+          4: { name: constant.numeric.integer.decimal.regexp }
+          5: { name: constant.numeric.integer.decimal.regexp }
+          6: { name: keyword.operator.recursion-level.regexp }
+          7: { name: constant.numeric.integer.decimal.regexp }
+          8: { name: constant.character.escape.backslash.regexp }
 
       # '\k{' NamedRef '}'
       - match: (?x)(\\k\{) ((?!\d)\w+) (?:([+-])(\d+))? (\})

@@ -598,6 +598,9 @@ let backreferences = #/
   \k'named+12'
   \123
   (?P=named+12)
+  invalid:
+  \k<foo'
+  \k'foo>
 /#
 let subpatterns = #/
   \g<named+12>
@@ -606,6 +609,9 @@ let subpatterns = #/
   (?&named+12)
   (?R) (?0)
   (?+1-2)
+  invalid:
+  \g<foo'
+  \g'foo>
 /#
 let conditionals = #/
   (?(x+) x )
