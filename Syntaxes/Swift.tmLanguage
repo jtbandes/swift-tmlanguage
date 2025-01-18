@@ -4969,10 +4969,8 @@
       | \\.
       | \(\?\#[^)]*\)
       | \(\?
-          # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-          \{(?&lt;g1&gt;\{)?+(?&lt;g2&gt;\{)?+(?&lt;g3&gt;\{)?+(?&lt;g4&gt;\{)?+(?&lt;g5&gt;\{)?+
-          .+?
-          \}(?(&lt;g1&gt;)\})(?(&lt;g2&gt;)\})(?(&lt;g3&gt;)\})(?(&lt;g4&gt;)\})(?(&lt;g5&gt;)\})
+          # InterpolatedCallout
+          (?&gt;(\{(?:\g&lt;-1&gt;|(?!{).*?)\}))
           (?:\[(?!\d)\w+\])?
           [X&lt;&gt;]?
         \)
@@ -5003,12 +5001,12 @@
                 <key>name</key>
                 <string>punctuation.definition.string.begin.regexp.swift</string>
               </dict>
-              <key>12</key>
+              <key>8</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.end.regexp.swift</string>
               </dict>
-              <key>13</key>
+              <key>9</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.returns-not-allowed.regexp</string>
@@ -5412,8 +5410,7 @@
   (\))
 # InterpolatedCallout
 | (\()(?&lt;keyw&gt;\?)
-    # we only support a fixed maximum number of braces because otherwise we can't balance the number of open and close braces
-    (\{(?&lt;g1&gt;\{)?+(?&lt;g2&gt;\{)?+(?&lt;g3&gt;\{)?+(?&lt;g4&gt;\{)?+(?&lt;g5&gt;\{)?+) .+? \}(?(&lt;g1&gt;)\})(?(&lt;g2&gt;)\})(?(&lt;g3&gt;)\})(?(&lt;g4&gt;)\})(?(&lt;g5&gt;)\})
+    (?&gt;(\{(?:\g&lt;-1&gt;|(?!{).*?)\}))
     (?:\[(?&lt;tag&gt;(?!\d)\w+)\])?
     (?&lt;keyw&gt;[X&lt;&gt;]?)
   (\))</string>
@@ -5514,17 +5511,17 @@
             <key>name</key>
             <string>keyword.control.callout.regexp</string>
           </dict>
-          <key>26</key>
+          <key>21</key>
           <dict>
             <key>name</key>
             <string>variable.language.tag-name.regexp</string>
           </dict>
-          <key>27</key>
+          <key>22</key>
           <dict>
             <key>name</key>
             <string>keyword.control.callout.regexp</string>
           </dict>
-          <key>28</key>
+          <key>23</key>
           <dict>
             <key>name</key>
             <string>punctuation.definition.group.regexp</string>
