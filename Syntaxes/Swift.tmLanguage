@@ -5104,11 +5104,9 @@
           <dict>
             <key>comment</key>
             <string>'\k&lt;' NamedOrNumberRef '&gt;'
- "\k'" NamedOrNumberRef "'"
- '\g&lt;' NamedOrNumberRef '&gt;'
- "\g'" NamedOrNumberRef "'"</string>
+ '\g&lt;' NamedOrNumberRef '&gt;'</string>
             <key>match</key>
-            <string>(?x)(\\[gk](&lt;)|\\[gk]') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) ((?(2)&gt;|'))</string>
+            <string>(?x)(\\[gk]&lt;) (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) (&gt;)</string>
             <key>captures</key>
             <dict>
               <key>1</key>
@@ -5116,15 +5114,20 @@
                 <key>name</key>
                 <string>constant.character.escape.backslash.regexp</string>
               </dict>
-              <key>3</key>
+              <key>2</key>
               <dict>
                 <key>name</key>
                 <string>variable.other.group-name.regexp</string>
               </dict>
-              <key>4</key>
+              <key>3</key>
               <dict>
                 <key>name</key>
                 <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>5</key>
               <dict>
@@ -5134,19 +5137,64 @@
               <key>6</key>
               <dict>
                 <key>name</key>
-                <string>constant.numeric.integer.decimal.regexp</string>
+                <string>keyword.operator.recursion-level.regexp</string>
               </dict>
               <key>7</key>
               <dict>
                 <key>name</key>
-                <string>keyword.operator.recursion-level.regexp</string>
+                <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
               <key>8</key>
               <dict>
                 <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>comment</key>
+            <string>"\k'" NamedOrNumberRef "'"
+ "\g'" NamedOrNumberRef "'"</string>
+            <key>match</key>
+            <string>(?x)(\\[gk]') (?: ((?!\d)\w+) (?:([+-])(\d+))? | ([+-]?\d+) (?:([+-])(\d+))? ) (')</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>constant.character.escape.backslash.regexp</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>variable.other.group-name.regexp</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
                 <string>constant.numeric.integer.decimal.regexp</string>
               </dict>
-              <key>9</key>
+              <key>5</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>6</key>
+              <dict>
+                <key>name</key>
+                <string>keyword.operator.recursion-level.regexp</string>
+              </dict>
+              <key>7</key>
+              <dict>
+                <key>name</key>
+                <string>constant.numeric.integer.decimal.regexp</string>
+              </dict>
+              <key>8</key>
               <dict>
                 <key>name</key>
                 <string>constant.character.escape.backslash.regexp</string>
