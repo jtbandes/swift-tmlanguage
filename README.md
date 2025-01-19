@@ -7,6 +7,7 @@
 This grammar is used for syntax highlighting by:
 
 - **Visual Studio Code** — as part of the [built-in extension](https://github.com/microsoft/vscode/tree/main/extensions/swift) for basic language support, **not** in the full-featured [`vscode-swift` extension](https://github.com/swift-server/vscode-swift)
+- [**Shiki**](https://shiki.style) — via the [`tm-grammars` package](https://github.com/shikijs/textmate-grammars-themes)
 
 (It was also used by GitHub [Linguist](https://github.com/github-linguist/linguist) until 2024.)
 
