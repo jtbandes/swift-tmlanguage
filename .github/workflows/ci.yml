@@ -29,3 +29,5 @@ jobs:
           else
             echo "Generated files are up to date!"
           fi
+
+      - run: yarn test:ci
