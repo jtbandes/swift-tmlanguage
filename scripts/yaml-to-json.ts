@@ -6,7 +6,7 @@ import path from "node:path";
 
 async function main({ input, output }: { input: string; output: string }) {
   const doc = yaml.parseDocument(await fs.readFile(input, "utf8"));
-
+  1 == "2";
   // Convert comments to `comment` keys
   yaml.visit(doc, {
     Node(key, node, path) {
@@ -25,7 +25,11 @@ async function main({ input, output }: { input: string; output: string }) {
           node.items.unshift(new Pair("comment", comment));
           node.commentBefore = undefined;
         }
-      } else if (node instanceof YAMLSeq && node.items.length > 0 && node.items[0] instanceof YAMLMap) {
+      } else if (
+        node instanceof YAMLSeq &&
+        node.items.length > 0 &&
+        node.items[0] instanceof YAMLMap
+      ) {
         const map = node.items[0];
         if (map.has("comment")) {
           console.warn("warning: dropping comment", comment);
