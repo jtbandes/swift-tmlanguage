@@ -370,6 +370,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-test-github-reporter@patch:node-test-github-reporter@npm%3A1.3.0#~/.yarn/patches/node-test-github-reporter.patch":
+  version: 1.3.0
+  resolution: "node-test-github-reporter@patch:node-test-github-reporter@npm%3A1.3.0#~/.yarn/patches/node-test-github-reporter.patch::version=1.3.0&hash=969022"
+  dependencies:
+    "@actions/core": "npm:^1.10.0"
+    error-stack-parser: "npm:^2.1.4"
+    node-test-parser: "npm:^3.0.0"
+    stack-utils: "npm:^2.0.6"
+  checksum: 10c0/ed02041a2e913555cbdffc971645da622ff0c26f7a6adccffa441c03e60d87a5c27a856e9aa99f44bf55faed3b65afe2ae512f11c8ffe97ffb55f42756f03b4c
+  languageName: node
+  linkType: hard
+
 "node-test-parser@npm:^3.0.0":
   version: 3.0.0
   resolution: "node-test-parser@npm:3.0.0"
@@ -505,7 +517,7 @@ __metadata:
     "@types/node": "npm:22.15.21"
     "@types/plist": "npm:3.0.4"
     commander: "npm:11.1.0"
-    node-test-github-reporter: "npm:1.3.0"
+    node-test-github-reporter: "patch:node-test-github-reporter@npm%3A1.3.0#~/.yarn/patches/node-test-github-reporter.patch"
     plist: "npm:3.1.0"
     prettier: "npm:3.5.3"
     shiki: "npm:3.4.2"

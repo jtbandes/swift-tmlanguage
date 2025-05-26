@@ -30,6 +30,4 @@ jobs:
             echo "Generated files are up to date!"
           fi
 
-      - run: echo "::error file=/test/assert-scopes.test.ts,line=1::Test line 1"
-      - run: echo "::error file=test/assert-scopes.test.ts,line=2::Test line 2"
       - run: yarn test:ci
