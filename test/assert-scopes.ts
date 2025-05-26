@@ -15,38 +15,46 @@ function assertScopes(
     return scopes;
   }
 
-  let state: ReturnType<Grammar["tokenizeLine"]> | undefined;
-  let tokenIndex = 0;
-  for (const item of items) {
-    if (typeof item === "string") {
-      if (state && tokenIndex < state.tokens.length) {
-        assert.fail("Not enough assertions");
+  try {
+    let state: ReturnType<Grammar["tokenizeLine"]> | undefined;
+    let tokenIndex = 0;
+    for (const item of items) {
+      if (typeof item === "string") {
+        if (state && tokenIndex < state.tokens.length) {
+          assert.fail("Not enough assertions");
+        }
+        state = grammar.tokenizeLine(item, state?.ruleStack ?? null);
+        tokenIndex = 0;
+        continue;
       }
-      state = grammar.tokenizeLine(item, state?.ruleStack ?? null);
-      tokenIndex = 0;
-      continue;
+      if (!state) {
+        assert.fail("Expected a source line before assertion");
+      }
+      while (
+        tokenIndex < state.tokens.length &&
+        (state.tokens[tokenIndex]!.startIndex !== item.startIndex ||
+          state.tokens[tokenIndex]!.endIndex !== item.endIndex)
+      ) {
+        const token: IToken = state.tokens[tokenIndex]!;
+        assert.deepEqual(stripRootScope(token.scopes), [], "Skipped token should have no scopes");
+        ++tokenIndex;
+      }
+      assert(
+        tokenIndex < state.tokens.length,
+        `No token found matching assertion (${item.startIndex}-${item.endIndex}: ${item.scopes.join(", ")})`,
+      );
+      const token = state.tokens[tokenIndex++]!;
+      assert.deepEqual(stripRootScope(token.scopes), item.scopes);
     }
-    if (!state) {
-      assert.fail("Expected a source line before assertion");
+    if (state && tokenIndex < state.tokens.length) {
+      assert.fail("Not enough assertions");
     }
-    while (
-      tokenIndex < state.tokens.length &&
-      (state.tokens[tokenIndex]!.startIndex !== item.startIndex ||
-        state.tokens[tokenIndex]!.endIndex !== item.endIndex)
-    ) {
-      const token: IToken = state.tokens[tokenIndex]!;
-      assert.deepEqual(stripRootScope(token.scopes), [], "Skipped token should have no scopes");
-      ++tokenIndex;
+  } catch (err) {
+    if (err instanceof assert.AssertionError) {
+      // Hide assertScopes from the stack trace
+      Error.captureStackTrace(err, assertScopes);
     }
-    assert(
-      tokenIndex < state.tokens.length,
-      `No token found matching assertion (${item.startIndex}-${item.endIndex}: ${item.scopes.join(", ")})`,
-    );
-    const token = state.tokens[tokenIndex++]!;
-    assert.deepEqual(stripRootScope(token.scopes), item.scopes);
-  }
-  if (state && tokenIndex < state.tokens.length) {
-    assert.fail("Not enough assertions");
+    throw err;
   }
 }
 
