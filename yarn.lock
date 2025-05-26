@@ -522,7 +522,6 @@ __metadata:
     prettier: "npm:3.5.3"
     shiki: "npm:3.4.2"
     typescript: "npm:5.8.3"
-    vscode-oniguruma: "npm:2.0.1"
     yaml: "npm:2.3.3"
   languageName: unknown
   linkType: soft
@@ -649,13 +648,6 @@ __metadata:
     "@types/unist": "npm:^3.0.0"
     vfile-message: "npm:^4.0.0"
   checksum: 10c0/e5d9eb4810623f23758cfc2205323e33552fb5972e5c2e6587babe08fe4d24859866277404fb9e2a20afb71013860d96ec806cb257536ae463c87d70022ab9ef
-  languageName: node
-  linkType: hard
-
-"vscode-oniguruma@npm:2.0.1":
-  version: 2.0.1
-  resolution: "vscode-oniguruma@npm:2.0.1"
-  checksum: 10c0/8d44354ad038f5ba10edf6fc3e3fd6dbacf0db6ecbe924a632b8c0a2929dbdad451c619164e48539b5a80ff112fc51d368b4637db2ed202a4fd5504621275289
   languageName: node
   linkType: hard
 

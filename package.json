@@ -28,7 +28,6 @@
     "prettier": "3.5.3",
     "shiki": "3.4.2",
     "typescript": "5.8.3",
-    "vscode-oniguruma": "2.0.1",
     "yaml": "2.3.3"
   }
 }
