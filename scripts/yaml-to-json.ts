@@ -25,7 +25,11 @@ async function main({ input, output }: { input: string; output: string }) {
           node.items.unshift(new Pair("comment", comment));
           node.commentBefore = undefined;
         }
-      } else if (node instanceof YAMLSeq && node.items.length > 0 && node.items[0] instanceof YAMLMap) {
+      } else if (
+        node instanceof YAMLSeq &&
+        node.items.length > 0 &&
+        node.items[0] instanceof YAMLMap
+      ) {
         const map = node.items[0];
         if (map.has("comment")) {
           console.warn("warning: dropping comment", comment);

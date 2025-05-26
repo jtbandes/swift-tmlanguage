@@ -1,0 +1,11 @@
+diff --git a/index.js b/index.js
+index 396c5c36b966bffddd28417e6d49ce4ae985f4d0..1a2c69693163c5572fb923fbde5b8f8377e5a32e 100644
+--- a/index.js
++++ b/index.js
+@@ -136,5 +136,5 @@ export function getSafePath(path) {
+ 
+ export function getRelativeFilePath(path) {
+   const filePath = getSafePath(path)
+-  return new URL(filePath).pathname.replace(workspacePrefixRegex, '')
++  return new URL(filePath).pathname.replace(workspacePrefixRegex, '').replace(/^\//, '')
+ }

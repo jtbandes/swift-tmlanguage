@@ -7,15 +7,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: actions/setup-node@v4.0.0
         with:
-          node-version: 20.9
+          node-version: 24
       - run: corepack enable yarn
       - run: yarn install --immutable
 
+      - run: yarn typecheck
       - run: yarn build
 
       - name: Ensure generated files are up to date
@@ -28,3 +29,5 @@ jobs:
           else
             echo "Generated files are up to date!"
           fi
+
+      - run: yarn test:ci

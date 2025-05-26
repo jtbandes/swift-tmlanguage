@@ -7,21 +7,27 @@
     "url": "https://github.com/jtbandes"
   },
   "license": "MIT",
-  "packageManager": "yarn@4.0.1",
+  "packageManager": "yarn@4.9.1",
+  "type": "module",
   "scripts": {
     "build": "yarn build:json && yarn build:plist",
-    "build:json": "ts-node scripts/yaml-to-json.ts -i Swift.tmLanguage.yaml -o Swift.tmLanguage.json",
-    "build:plist": "ts-node scripts/json-to-plist.ts -i Swift.tmLanguage.json -o Syntaxes/Swift.tmLanguage"
+    "build:json": "yarn node scripts/yaml-to-json.ts -i Swift.tmLanguage.yaml -o Swift.tmLanguage.json",
+    "build:plist": "yarn node scripts/json-to-plist.ts -i Swift.tmLanguage.json -o Syntaxes/Swift.tmLanguage",
+    "test": "yarn node --test test/*.test.*",
+    "test:ci": "yarn node --test --test-reporter spec --test-reporter-destination stdout --test-reporter node-test-github-reporter --test-reporter-destination stdout test/*.test.*",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tsconfig/node20": "20.1.2",
-    "@types/node": "20.8.9",
+    "@shikijs/vscode-textmate": "10.0.2",
+    "@tsconfig/node24": "24.0.0",
+    "@types/node": "22.15.21",
     "@types/plist": "3.0.4",
     "commander": "11.1.0",
+    "node-test-github-reporter": "patch:node-test-github-reporter@npm%3A1.3.0#~/.yarn/patches/node-test-github-reporter.patch",
     "plist": "3.1.0",
-    "prettier": "3.0.3",
-    "ts-node": "10.9.1",
-    "typescript": "5.2.2",
+    "prettier": "3.5.3",
+    "shiki": "3.4.2",
+    "typescript": "5.8.3",
     "yaml": "2.3.3"
   }
 }
