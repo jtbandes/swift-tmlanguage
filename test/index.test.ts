@@ -6,11 +6,10 @@ import type { LanguageRegistration } from "shiki";
 
 const assertScopes = await createAssertScopes(swiftGrammar as unknown as LanguageRegistration);
 
-test("foo", () => {
+test("basic", () => {
   assertScopes(
     $`let x: String`,
     _`~~~           keyword.other.declaration-specifier.swift`,
     _`       ~~~~~~ support.type.swift`,
-    _`  ~~~~~~      wrong.test`,
   );
 });
