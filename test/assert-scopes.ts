@@ -15,6 +15,7 @@ function assertScopes(
     return scopes;
   }
 
+  let currentAssertion: ScopeAssertion | undefined;
   try {
     let state: ReturnType<Grammar["tokenizeLine"]> | undefined;
     let tokenIndex = 0;
@@ -27,6 +28,7 @@ function assertScopes(
         tokenIndex = 0;
         continue;
       }
+      currentAssertion = item;
       if (!state) {
         assert.fail("Expected a source line before assertion");
       }
@@ -51,8 +53,14 @@ function assertScopes(
     }
   } catch (err) {
     if (err instanceof assert.AssertionError) {
-      // Hide assertScopes from the stack trace
-      Error.captureStackTrace(err, assertScopes);
+      const newStack = currentAssertion?.stack;
+      if (newStack) {
+        const [firstLine] = err.stack?.split("\n", 1) ?? [];
+        err.stack = firstLine ? newStack.replace(/^.*$/m, firstLine) : newStack;
+      } else {
+        // Hide assertScopes from the stack trace
+        Error.captureStackTrace(err, assertScopes);
+      }
     }
     throw err;
   }
@@ -63,8 +71,10 @@ class ScopeAssertion {
   startIndex: number;
   endIndex: number;
   scopes: string[];
+  stack?: string;
 
   constructor(str: string) {
+    Error.captureStackTrace(this, _); // hide stack frames below and including _
     assertionPattern.lastIndex = 0;
     const match = assertionPattern.exec(str);
     if (!match) {
