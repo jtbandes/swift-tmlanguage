@@ -30,4 +30,5 @@ jobs:
             echo "Generated files are up to date!"
           fi
 
+      - run: env
       - run: yarn test:ci
