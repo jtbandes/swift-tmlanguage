@@ -98,6 +98,7 @@ export async function createAssertScopes(
   rawGrammar: LanguageRegistration,
 ): Promise<(...items: (string | ScopeAssertion)[]) => void> {
   const highlighter = await createHighlighter({ langs: [rawGrammar], themes: [] });
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const grammar = highlighter.getInternalContext().getLanguage(rawGrammar.name);
   return assertScopes.bind(null, grammar, rawGrammar.scopeName);
 }

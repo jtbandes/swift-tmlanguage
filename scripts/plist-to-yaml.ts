@@ -1,9 +1,9 @@
+import { program } from "commander";
 import fs from "node:fs/promises";
-import yaml, { Scalar, YAMLMap } from "yaml";
+import path from "node:path";
 import plist from "plist";
 import prettier from "prettier";
-import { program } from "commander";
-import path from "node:path";
+import yaml, { Scalar, YAMLMap } from "yaml";
 
 function compareMapKeys(key1: unknown, key2: unknown): number {
   if (
@@ -75,24 +75,24 @@ function* traverseTmLanguagePatternsDepthFirst(
 ): Generator<{ pattern: TmLanguagePattern; path: string[] }> {
   function* traverse(
     pattern: TmLanguagePattern,
-    path: string[],
+    curPath: string[],
   ): Generator<{ pattern: TmLanguagePattern; path: string[] }> {
     for (const capture of Object.values(pattern.captures ?? {})) {
-      yield* traverse(capture, path);
+      yield* traverse(capture, curPath);
     }
     for (const capture of Object.values(pattern.beginCaptures ?? {})) {
-      yield* traverse(capture, path);
+      yield* traverse(capture, curPath);
     }
     for (const capture of Object.values(pattern.endCaptures ?? {})) {
-      yield* traverse(capture, path);
+      yield* traverse(capture, curPath);
     }
     for (const [name, child] of Object.entries(pattern.repository ?? {})) {
-      yield* traverse(child, [...path, name]);
+      yield* traverse(child, [...curPath, name]);
     }
     for (const child of pattern.patterns ?? []) {
-      yield* traverse(child, path);
+      yield* traverse(child, curPath);
     }
-    yield { pattern, path };
+    yield { pattern, path: curPath };
   }
   for (const pattern of lang.patterns ?? []) {
     yield* traverse(pattern, []);
@@ -102,24 +102,22 @@ function* traverseTmLanguagePatternsDepthFirst(
   }
 }
 
-async function main({
-  input,
-  output,
-  hoistRepositories,
-}: {
+type Options = {
   input: string;
   output: string;
   hoistRepositories: boolean;
-}) {
+};
+
+async function main({ input, output, hoistRepositories }: Options) {
   const tmLang = plist.parse(await fs.readFile(input, "utf8")) as TmLanguage;
 
   hoistRepositories: if (hoistRepositories) {
     const rootRepository = { ...tmLang.repository };
 
     const oldToNewName = new Map<string, string>();
-    for (const { pattern, path } of traverseTmLanguagePatternsDepthFirst(tmLang)) {
-      for (const [name, child] of Object.entries(pattern.repository ?? {})) {
-        const newName = [...path, name].join("-");
+    for (const { pattern, path: patternPath } of traverseTmLanguagePatternsDepthFirst(tmLang)) {
+      for (const [name, _child] of Object.entries(pattern.repository ?? {})) {
+        const newName = [...patternPath, name].join("-");
         if (oldToNewName.has(name)) {
           console.warn(`Unable to hoist repositories due to duplicate name "${newName}"`);
           break hoistRepositories;
@@ -137,7 +135,7 @@ async function main({
     for (const { pattern } of traverseTmLanguagePatternsDepthFirst(tmLang)) {
       // Replace include references
       if (pattern.include != undefined) {
-        const match = pattern.include.match(/#([\w-]+)$/);
+        const match = /#([\w-]+)$/.exec(pattern.include);
         if (match?.[1] != undefined) {
           const newName = oldToNewName.get(match[1]);
           if (newName != undefined) {
@@ -255,8 +253,8 @@ program
     "Hoist all repository definitions to the top level for VS Code compatibility <https://github.com/microsoft/vscode-textmate/issues/140>",
     false,
   )
-  .action((options) => {
-    main(options).catch((err) => {
+  .action((options: Options) => {
+    main(options).catch((err: unknown) => {
       console.error(err);
       process.exit(1);
     });
