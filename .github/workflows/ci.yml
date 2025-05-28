@@ -16,6 +16,7 @@ jobs:
       - run: corepack enable yarn
       - run: yarn install --immutable
 
+      - run: yarn lint
       - run: yarn typecheck
       - run: yarn build
 
@@ -30,5 +31,4 @@ jobs:
             echo "Generated files are up to date!"
           fi
 
-      - run: env
       - run: yarn test:ci

@@ -1,15 +1,20 @@
-import fs from "node:fs/promises";
-import yaml, { Pair, Scalar, YAMLMap, YAMLSeq } from "yaml";
-import prettier from "prettier";
 import { program } from "commander";
+import fs from "node:fs/promises";
 import path from "node:path";
+import prettier from "prettier";
+import yaml, { Pair, Scalar, YAMLMap, YAMLSeq } from "yaml";
 
-async function main({ input, output }: { input: string; output: string }) {
+type Options = {
+  input: string;
+  output: string;
+};
+
+async function main({ input, output }: Options) {
   const doc = yaml.parseDocument(await fs.readFile(input, "utf8"));
 
   // Convert comments to `comment` keys
   yaml.visit(doc, {
-    Node(key, node, path) {
+    Node(key, node, curPath) {
       if (node.comment) {
         console.warn("warning: dropping comment", node.comment);
       }
@@ -38,8 +43,8 @@ async function main({ input, output }: { input: string; output: string }) {
           node.commentBefore = undefined;
         }
       } else if (node instanceof Scalar) {
-        const pair = path[path.length - 1];
-        const map = path[path.length - 2];
+        const pair = curPath[curPath.length - 1];
+        const map = curPath[curPath.length - 2];
         if (key === "key" && pair instanceof Pair && map instanceof YAMLMap) {
           if (map.has("comment")) {
             console.warn("warning: dropping comment", comment);
@@ -48,6 +53,7 @@ async function main({ input, output }: { input: string; output: string }) {
             node.commentBefore = undefined;
           }
         } else {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           console.warn(`warning: dropping comment on ${node.constructor.name} @ ${key}:`, comment);
         }
       } else {
@@ -82,8 +88,8 @@ program
   .description("Convert a .tmLanguage.yaml to JSON")
   .requiredOption("-i, --input <file>", "tmLanguage.yaml input file")
   .requiredOption("-o, --output <file>", "JSON output file")
-  .action((options) => {
-    main(options).catch((err) => {
+  .action((options: Options) => {
+    main(options).catch((err: unknown) => {
       console.error(err);
       process.exit(1);
     });

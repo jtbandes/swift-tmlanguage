@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+
 import { $, _, createAssertScopes } from "./assert-scopes.ts";
 
 const assertScopes = await createAssertScopes({
@@ -12,7 +13,7 @@ const assertScopes = await createAssertScopes({
   ],
 });
 
-test("assertions", () => {
+await test("assertions", () => {
   assert.throws(
     () => {
       assertScopes(_`~~~ test`);
