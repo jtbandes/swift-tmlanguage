@@ -17,6 +17,8 @@ export default tseslint.config(
   foxglove.configs.typescript,
   {
     rules: {
+      "no-warning-comments": "off",
+
       // prettier plugin currently produces some pnp-related import error
       "prettier/prettier": "off",
     },
