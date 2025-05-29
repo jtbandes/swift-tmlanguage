@@ -3,54 +3,97 @@ import assert from "node:assert/strict";
 import { createHighlighter } from "shiki";
 import type { Grammar, LanguageRegistration } from "shiki";
 
+function formatToken(token: IToken) {
+  return `${token.startIndex}-${token.endIndex}: ${token.scopes.join(", ")}`;
+}
+
 function assertScopes(
   grammar: Grammar,
   rootScopeName: string,
   ...items: (string | ScopeAssertion)[]
 ) {
-  function stripRootScope(scopes: string[]): string[] {
-    if (scopes[0] === rootScopeName) {
-      return scopes.slice(1);
-    }
-    return scopes;
-  }
-
+  let currentLine: string | undefined;
+  let currentState: ReturnType<Grammar["tokenizeLine"]> | undefined;
+  let assertedScopesByTokenIdx: string[][] = [];
   let currentAssertion: ScopeAssertion | undefined;
+  const checkMissingAssertions = () => {
+    if (!currentState || currentLine == undefined) {
+      return;
+    }
+    const noAssertions = assertedScopesByTokenIdx.every((scopes) => scopes.length === 0);
+    if (noAssertions) {
+      assert.fail(
+        "No assertions provided. Suggested assertions:\n" +
+          currentState.tokens
+            .flatMap((token) => {
+              const scopes = token.scopes.filter((scope) => scope !== rootScopeName);
+              if (scopes.length === 0) {
+                return [];
+              }
+              return [
+                "  _`" +
+                  " ".repeat(token.startIndex) +
+                  "~".repeat(token.endIndex - token.startIndex) +
+                  " ".repeat(currentLine!.length - token.endIndex + 1) +
+                  scopes.join(", ") +
+                  "`,",
+              ];
+            })
+            .join("\n"),
+      );
+    }
+    currentState.tokens.forEach((token, i) => {
+      const asserted = assertedScopesByTokenIdx[i]!;
+      assert.deepEqual(
+        asserted.toSorted(),
+        token.scopes.filter((scope) => scope !== rootScopeName).toSorted(),
+        `${asserted.length === 0 ? "Missing" : "Incorrect"} assertions for ${formatToken(token)}`,
+      );
+    });
+  };
   try {
-    let state: ReturnType<Grammar["tokenizeLine"]> | undefined;
-    let tokenIndex = 0;
     for (const item of items) {
       if (typeof item === "string") {
-        if (state && tokenIndex < state.tokens.length) {
-          assert.fail("Not enough assertions");
-        }
-        state = grammar.tokenizeLine(item, state?.ruleStack ?? null);
-        tokenIndex = 0;
+        checkMissingAssertions();
+        currentLine = item;
+        currentState = grammar.tokenizeLine(currentLine, currentState?.ruleStack ?? null);
+        assertedScopesByTokenIdx = Array.from(currentState.tokens, () => []);
+        currentAssertion = undefined;
         continue;
       }
+
+      const prevAssertion = currentAssertion;
       currentAssertion = item;
-      if (!state) {
+      if (prevAssertion) {
+        assert(
+          item.startIndex >= prevAssertion.startIndex,
+          "Assertions should be sorted by start index",
+        );
+      }
+      if (!currentState || currentLine == undefined) {
         assert.fail("Expected a source line before assertion");
       }
-      while (
-        tokenIndex < state.tokens.length &&
-        (state.tokens[tokenIndex]!.startIndex !== item.startIndex ||
-          state.tokens[tokenIndex]!.endIndex !== item.endIndex)
-      ) {
-        const token: IToken = state.tokens[tokenIndex]!;
-        assert.deepEqual(stripRootScope(token.scopes), [], "Skipped token should have no scopes");
-        ++tokenIndex;
-      }
-      assert(
-        tokenIndex < state.tokens.length,
-        `No token found matching assertion (${item.startIndex}-${item.endIndex}: ${item.scopes.join(", ")})`,
-      );
-      const token = state.tokens[tokenIndex++]!;
-      assert.deepEqual(stripRootScope(token.scopes), item.scopes);
+
+      currentState.tokens.forEach((token, i) => {
+        if (token.endIndex <= item.startIndex || token.startIndex >= item.endIndex) {
+          return;
+        }
+        if (token.startIndex < item.startIndex || token.endIndex > item.endIndex) {
+          assert.fail(
+            `Partial assertions are not allowed (asserting ${item.startIndex}-${item.endIndex} of ${formatToken(token)})`,
+          );
+        }
+        const asserted = assertedScopesByTokenIdx[i]!;
+        for (const scope of item.scopes) {
+          assert(
+            token.scopes.includes(scope),
+            `Token does not match ${scope} (${formatToken(token)})`,
+          );
+          asserted.push(scope);
+        }
+      });
     }
-    if (state && tokenIndex < state.tokens.length) {
-      assert.fail("Not enough assertions");
-    }
+    checkMissingAssertions();
   } catch (err) {
     if (err instanceof assert.AssertionError) {
       const newStack = currentAssertion?.stack;
@@ -87,7 +130,7 @@ class ScopeAssertion {
 }
 
 export function $(strings: TemplateStringsArray): string {
-  return strings[0]!;
+  return strings.raw[0]!;
 }
 
 export function _(strings: TemplateStringsArray): ScopeAssertion {

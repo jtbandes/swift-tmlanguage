@@ -13,3 +13,26 @@ await test("basic", () => {
     _`       ~~~~~~ support.type.swift`,
   );
 });
+
+await test("import", () => {
+  assertScopes(
+    $`import Foo   // whitespace ok`,
+    _`~~~~~~~~~~~~~                 meta.import.swift`,
+    _`~~~~~~                        keyword.control.import.swift`,
+    _`       ~~~                    entity.name.type.swift`,
+    _`             ~~~~~~~~~~~~~~~~ comment.line.double-slash.swift`,
+    _`             ~~               punctuation.definition.comment.swift`,
+  );
+
+  assertScopes(
+    $`import func Control.Monad.>>=`,
+    _`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ meta.import.swift`,
+    _`~~~~~~                        keyword.control.import.swift`,
+    _`       ~~~~                   storage.modifier.swift`,
+    _`            ~~~~~~~           entity.name.type.swift`,
+    _`                   ~          punctuation.separator.import.swift`,
+    _`                    ~~~~~     entity.name.type.swift`,
+    _`                         ~    punctuation.separator.import.swift`,
+    _`                          ~~~ entity.name.type.swift`,
+  );
+});
