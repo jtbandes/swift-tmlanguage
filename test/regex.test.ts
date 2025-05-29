@@ -129,8 +129,8 @@ await suite("regex literals", async () => {
       $`#/ [+-] /#`,
       _`~~~~~~~~~~ string.regexp.line.swift`,
       _`   ~~~~    constant.other.character-class.set.regexp`,
-      _`   ~     punctuation.definition.character-class.regexp`,
-      _`      ~  wrong`,
+      _`   ~       punctuation.definition.character-class.regexp`,
+      _`      ~    punctuation.definition.character-class.regexp`,
     );
   });
 });
