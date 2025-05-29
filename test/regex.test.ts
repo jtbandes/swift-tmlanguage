@@ -82,6 +82,26 @@ await suite("regex literals", async () => {
       _`           ~~~  string.regexp.line.swift`,
       _`              ~ punctuation.section.tuple.end.swift`,
     );
+
+    assertScopes(
+      $`let broken = x+/y/`,
+      _`~~~                keyword.other.declaration-specifier.swift`,
+      _`           ~       keyword.operator.custom.infix.swift`,
+      _`              ~~   keyword.operator.custom.infix.swift`,
+      _`                 ~ keyword.operator.custom.postfix.swift`,
+
+      $`let fixed1 = x + /y/`,
+      _`~~~                  keyword.other.declaration-specifier.swift`,
+      _`           ~         keyword.operator.custom.infix.swift`,
+      _`               ~     keyword.operator.custom.infix.swift`,
+      _`                 ~~~ string.regexp.line.swift`,
+
+      $`let fixed2 = x+#/y/#`,
+      _`~~~                  keyword.other.declaration-specifier.swift`,
+      _`           ~         keyword.operator.custom.infix.swift`,
+      _`              ~      keyword.operator.custom.infix.swift`,
+      _`               ~~~~~ string.regexp.line.swift`,
+    );
   });
 
   await test("leading and trailing whitespace rules", () => {
@@ -109,6 +129,49 @@ await suite("regex literals", async () => {
     );
 
     assertScopes(
+      $`let r = /\ /`,
+      _`~~~          keyword.other.declaration-specifier.swift`,
+      _`      ~      keyword.operator.custom.infix.swift`,
+      _`        ~~~~ string.regexp.line.swift`,
+      _`         ~~  constant.character.escape.backslash.regexp`,
+
+      $`let r = /\ x/`,
+      _`~~~           keyword.other.declaration-specifier.swift`,
+      _`      ~       keyword.operator.custom.infix.swift`,
+      _`        ~~~~~ string.regexp.line.swift`,
+      _`         ~~   constant.character.escape.backslash.regexp`,
+
+      $`let err = /\  /`, // may not end with a space
+      _`~~~             keyword.other.declaration-specifier.swift`,
+      _`        ~       keyword.operator.custom.infix.swift`,
+      _`          ~     keyword.operator.custom.prefix.swift`,
+      _`              ~ keyword.operator.custom.infix.swift`,
+
+      $`let err = /\ a /`, // may not end with a space
+      _`~~~              keyword.other.declaration-specifier.swift`,
+      _`        ~        keyword.operator.custom.infix.swift`,
+      _`          ~      keyword.operator.custom.prefix.swift`,
+      _`               ~ keyword.operator.custom.infix.swift`,
+
+      $`let ok = #/ a /#`, // extended literals can end with a space
+      _`~~~              keyword.other.declaration-specifier.swift`,
+      _`       ~         keyword.operator.custom.infix.swift`,
+      _`         ~~~~~~~ string.regexp.line.swift`,
+
+      $`let ok = #/\ a /#`, // extended literals can end with a space
+      _`~~~               keyword.other.declaration-specifier.swift`,
+      _`       ~          keyword.operator.custom.infix.swift`,
+      _`         ~~~~~~~~ string.regexp.line.swift`,
+      _`           ~~     constant.character.escape.backslash.regexp`,
+
+      $`let ok = #/\ /#`, // extended literals can end with a space
+      _`~~~             keyword.other.declaration-specifier.swift`,
+      _`       ~        keyword.operator.custom.infix.swift`,
+      _`         ~~~~~~ string.regexp.line.swift`,
+      _`           ~~   constant.character.escape.backslash.regexp`,
+    );
+
+    assertScopes(
       $`/ [+-] /`,
       _`~        keyword.operator.custom.infix.swift`,
       _`   ~~    keyword.operator.custom.infix.swift`,
@@ -131,6 +194,52 @@ await suite("regex literals", async () => {
       _`   ~~~~    constant.other.character-class.set.regexp`,
       _`   ~       punctuation.definition.character-class.regexp`,
       _`      ~    punctuation.definition.character-class.regexp`,
+    );
+  });
+
+  await test("extended literals", () => {
+    assertScopes(
+      $`let empty = #//#`,
+      _`~~~              keyword.other.declaration-specifier.swift`,
+      _`          ~      keyword.operator.custom.infix.swift`,
+      _`            ~~~~ string.regexp.line.swift`,
+    );
+
+    assertScopes(
+      $`r = #/abc/#`,
+      _`  ~         keyword.operator.custom.infix.swift`,
+      _`    ~~~~~~~ string.regexp.line.swift`,
+
+      $`r = ##/a/#bc/##`,
+      _`  ~             keyword.operator.custom.infix.swift`,
+      _`    ~~~~~~~~~~~ string.regexp.line.swift`,
+    );
+  });
+
+  await test("quoting", () => {
+    assertScopes(
+      $`/\Q^[xy]+$\E/`,
+      _`~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~  string.quoted.other.regexp.swift`,
+      _` ~~           constant.character.escape.backslash.regexp`,
+      _`          ~~  constant.character.escape.backslash.regexp`,
+    );
+
+    assertScopes(
+      $`/[a\Q]\E]/`, // character class of ']' and 'a'
+      _`~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~  constant.other.character-class.set.regexp`,
+      _` ~         punctuation.definition.character-class.regexp`,
+      _`   ~~~~~   string.quoted.other.regexp.swift`,
+      _`   ~~      constant.character.escape.backslash.regexp`,
+      _`      ~~   constant.character.escape.backslash.regexp`,
+      _`        ~  punctuation.definition.character-class.regexp`,
+
+      $`/\Q\\E/`, // \E cannot be escaped so this is a literal backslash
+      _`~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~  string.quoted.other.regexp.swift`,
+      _` ~~     constant.character.escape.backslash.regexp`,
+      _`    ~~  constant.character.escape.backslash.regexp`,
     );
   });
 });
