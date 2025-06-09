@@ -214,6 +214,17 @@ await suite("regex literals", async () => {
       _`  ~             keyword.operator.custom.infix.swift`,
       _`    ~~~~~~~~~~~ string.regexp.line.swift`,
     );
+
+    assertScopes(
+      $`foo(/abc/, #/abc/#, ##/abc/##)`,
+      _`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ meta.function-call.swift`,
+      _`~~~                            support.function.any-method.swift`,
+      _`   ~                           punctuation.definition.arguments.begin.swift`,
+      _`    ~~~~~                      string.regexp.line.swift`,
+      _`           ~~~~~~~             string.regexp.line.swift`,
+      _`                    ~~~~~~~~~  string.regexp.line.swift`,
+      _`                             ~ punctuation.definition.arguments.end.swift`,
+    );
   });
 
   await test("quoting", () => {
@@ -240,6 +251,75 @@ await suite("regex literals", async () => {
       _` ~~~~~  string.quoted.other.regexp.swift`,
       _` ~~     constant.character.escape.backslash.regexp`,
       _`    ~~  constant.character.escape.backslash.regexp`,
+    );
+  });
+
+  await test("comments", () => {
+    assertScopes(
+      $`let comments = #/`,
+      _`~~~               keyword.other.declaration-specifier.swift`,
+      _`             ~    keyword.operator.custom.infix.swift`,
+      _`               ~~¶ string.regexp.block.swift`,
+
+      $`  not a comment`,
+      _`~~~~~~~~~~~~~~~¶ string.regexp.block.swift`,
+
+      $`  # line comment`,
+      _`~~~~~~~~~~~~~~~~ string.regexp.block.swift`,
+      _`  ~~~~~~~~~~~~~~ comment.line.regexp`,
+      _`  ~              punctuation.definition.comment.regexp`,
+
+      $`  \Q#quoted comment\E`,
+      _`~~~~~~~~~~~~~~~~~~~~~ string.regexp.block.swift`,
+      _`  ~~~~~~~~~~~~~~~~~~~ string.quoted.other.regexp.swift`,
+      _`  ~~                  constant.character.escape.backslash.regexp`,
+      _`                   ~~ constant.character.escape.backslash.regexp`,
+
+      $`  not a comment # line comment`,
+      _`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ string.regexp.block.swift`,
+      _`                ~~~~~~~~~~~~~~ comment.line.regexp`,
+      _`                ~              punctuation.definition.comment.regexp`,
+
+      $`  not a comment`,
+      _`~~~~~~~~~~~~~~~¶ string.regexp.block.swift`,
+
+      $`  ( (?# (?#comment  (?# nesting and escaping not allowed \) )`,
+      _`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ string.regexp.block.swift`,
+      _`  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ meta.group.regexp`,
+      _`  ~                                                           punctuation.definition.group.regexp`,
+      _`    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   comment.block.regexp`,
+      _`    ~~~                                                       punctuation.definition.comment.begin.regexp`,
+      _`                                                          ~   punctuation.definition.comment.end.regexp`,
+      _`                                                            ~ punctuation.definition.group.regexp`,
+
+      $`  not a comment`,
+      _`~~~~~~~~~~~~~~~¶ string.regexp.block.swift`,
+
+      $`/#`,
+      _`~~ string.regexp.block.swift`,
+    );
+
+    assertScopes(
+      $`let r = /# not a comment/`,
+      _`~~~                       keyword.other.declaration-specifier.swift`,
+      _`      ~                   keyword.operator.custom.infix.swift`,
+      _`        ~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+
+      // line comments only work when #/ is followed by a newline
+      $`let r = #/# not a comment/#`,
+      _`~~~                         keyword.other.declaration-specifier.swift`,
+      _`      ~                     keyword.operator.custom.infix.swift`,
+      _`        ~~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+
+      $`let r = #/`,
+      _`~~~        keyword.other.declaration-specifier.swift`,
+      _`      ~    keyword.operator.custom.infix.swift`,
+      _`        ~~¶ string.regexp.block.swift`,
+      $`#comment`,
+      _`~~~~~~~~ string.regexp.block.swift, comment.line.regexp`,
+      _`~        punctuation.definition.comment.regexp`,
+      $`/#`,
+      _`~~ string.regexp.block.swift`,
     );
   });
 });

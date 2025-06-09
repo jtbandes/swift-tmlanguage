@@ -33,10 +33,12 @@ function assertScopes(
               if (scopes.length === 0) {
                 return [];
               }
+              const eol = token.endIndex > currentLine!.length;
               return [
                 "  _`" +
                   " ".repeat(token.startIndex) +
-                  "~".repeat(token.endIndex - token.startIndex) +
+                  "~".repeat(token.endIndex - token.startIndex + (eol ? -1 : 0)) +
+                  (eol ? "¶ " : "") +
                   " ".repeat(currentLine!.length - token.endIndex + 1) +
                   scopes.join(", ") +
                   "`,",
@@ -48,8 +50,8 @@ function assertScopes(
     currentState.tokens.forEach((token, i) => {
       const asserted = assertedScopesByTokenIdx[i]!;
       assert.deepEqual(
-        asserted.toSorted(),
-        token.scopes.filter((scope) => scope !== rootScopeName).toSorted(),
+        asserted,
+        token.scopes.filter((scope) => scope !== rootScopeName),
         `${asserted.length === 0 ? "Missing" : "Incorrect"} assertions for ${formatToken(token)}`,
       );
     });
