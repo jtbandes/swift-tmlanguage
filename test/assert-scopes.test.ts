@@ -16,10 +16,13 @@ const assertScopes = await createAssertScopes({
       name: "example.range",
       patterns: [{ include: "$self" }],
     },
+    { match: "eol\n", name: "example.eol" },
   ],
 });
 
 await test("assertions", () => {
+  assertScopes($`blah`); // no scopes => no assertions
+
   assert.throws(
     () => {
       assertScopes(_`~~~ test`);
@@ -81,6 +84,39 @@ await test("assertions", () => {
     () => {
       assertScopes(
         //
+        $`foo `,
+        _`~~~~ example.foo`,
+      );
+    },
+    { message: "Partial assertions are not allowed (asserting 0-4 of 3-5: source.test)" },
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`foo`,
+        _`   ~ nada`,
+      );
+    },
+    { message: "Assertion matches no tokens (3-4 of 3)" },
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`foo`,
+        _`~~~~ example.foo`,
+      );
+    },
+    { message: "Assertion beyond end of line (0-4 of 3)" },
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
         $`foo bar`,
         _`~~~     example.foo`,
       );
@@ -113,8 +149,8 @@ await test("assertions", () => {
   assertScopes(
     //
     $`begin foo end`,
-    _`~~~~~~~~~~~~~~ example.range`,
-    _`      ~~~      example.foo`,
+    _`~~~~~~~~~~~~~ example.range`,
+    _`      ~~~     example.foo`,
   );
 
   assertScopes(
@@ -123,11 +159,58 @@ await test("assertions", () => {
     _`      ~~~~~~~~~     example.range`,
   );
 
-  assert.throws(() => {
-    assertScopes(
-      //
-      $`begin begin end end`,
-      _`~~~~~~~~~~~~~~~~~~~ example.range`,
-    );
-  }, "Incorrect assertions for 6-11: source.test, example.range, example.range");
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`begin begin end end`,
+        _`~~~~~~~~~~~~~~~~~~~ example.range`,
+      );
+    },
+    { message: /Incorrect assertions for 6-11: source\.test, example\.range, example\.range/ },
+  );
+});
+
+await test("EOL assertions", () => {
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`eol`,
+        _`~~~ example.eol`,
+      );
+    },
+    {
+      message:
+        "Partial assertions are not allowed (asserting 0-3 of 0-4: source.test, example.eol)",
+    },
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`eol`,
+        _`~~~~ example.eol`,
+      );
+    },
+    { message: "Captured EOL but assertion does not include ¶" },
+  );
+
+  assertScopes(
+    //
+    $`eol`,
+    _`~~~¶ example.eol`,
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`foo`,
+        _`~~~¶ example.foo`,
+      );
+    },
+    { message: "Assertion includes ¶ but EOL was not captured" },
+  );
 });

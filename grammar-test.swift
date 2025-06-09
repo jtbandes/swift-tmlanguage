@@ -553,6 +553,7 @@ let r = /\Q/1/ //x
 let r = /\ \Q/1/ //x
 let r = #/\Q/1/# //x
 let r = ##/\Q/1/# /## //x
+let quote = /\Q\\E/
 let quote = /\Q/\E/  // FIXME? xcode doesn't handle this either?
 let nested = /\Q^[xy])+$\E/ // FIXME: xcode does not parse this as a regex because of the `)` (??)
 let nested = /[a\Q]\E]/
