@@ -225,6 +225,24 @@ await suite("regex literals", async () => {
       _`                    ~~~~~~~~~  string.regexp.line.swift`,
       _`                             ~ punctuation.definition.arguments.end.swift`,
     );
+
+    assertScopes(
+      // note: EOL here is supposed be captured as invalid.illegal, seems to work in textmate but not shiki
+      $`let unterminated = #/ / /  / ab#/`,
+      _`~~~                               keyword.other.declaration-specifier.swift`,
+      _`                 ~                keyword.operator.custom.infix.swift`,
+      _`                   ~~~~~~~~~~~~~~¶ string.regexp.line.swift`,
+      $`let broken = x+/y/`,
+      _`~~~                keyword.other.declaration-specifier.swift`,
+      _`           ~       keyword.operator.custom.infix.swift`,
+      _`              ~~   keyword.operator.custom.infix.swift`,
+      _`                 ~ keyword.operator.custom.postfix.swift`,
+      $`let fixed1 = x + /y/`,
+      _`~~~                  keyword.other.declaration-specifier.swift`,
+      _`           ~         keyword.operator.custom.infix.swift`,
+      _`               ~     keyword.operator.custom.infix.swift`,
+      _`                 ~~~ string.regexp.line.swift`,
+    );
   });
 
   await test("quoting", () => {
@@ -304,7 +322,9 @@ await suite("regex literals", async () => {
       _`~~~                       keyword.other.declaration-specifier.swift`,
       _`      ~                   keyword.operator.custom.infix.swift`,
       _`        ~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+    );
 
+    assertScopes(
       // line comments only work when #/ is followed by a newline
       $`let r = #/# not a comment/#`,
       _`~~~                         keyword.other.declaration-specifier.swift`,
@@ -318,6 +338,10 @@ await suite("regex literals", async () => {
       $`#comment`,
       _`~~~~~~~~ string.regexp.block.swift, comment.line.regexp`,
       _`~        punctuation.definition.comment.regexp`,
+      $`\Q#quoted comment\E`,
+      _`~~~~~~~~~~~~~~~~~~~ string.regexp.block.swift, string.quoted.other.regexp.swift`,
+      _`~~                  constant.character.escape.backslash.regexp`,
+      _`                 ~~ constant.character.escape.backslash.regexp`,
       $`/#`,
       _`~~ string.regexp.block.swift`,
     );
