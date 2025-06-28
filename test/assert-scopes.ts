@@ -22,7 +22,10 @@ function assertScopes(
     }
     const noAssertions = assertedScopesByTokenIdx.every((scopes) => scopes.length === 0);
     if (noAssertions) {
-      assert.fail(
+      assert(
+        currentState.tokens.every(
+          (token) => token.scopes.length === 1 && token.scopes[0] === rootScopeName,
+        ),
         "No assertions provided. Suggested assertions:\n" +
           currentState.tokens
             .flatMap((token) => {
@@ -30,10 +33,12 @@ function assertScopes(
               if (scopes.length === 0) {
                 return [];
               }
+              const eol = token.endIndex > currentLine!.length;
               return [
                 "  _`" +
                   " ".repeat(token.startIndex) +
-                  "~".repeat(token.endIndex - token.startIndex) +
+                  "~".repeat(token.endIndex - token.startIndex + (eol ? -1 : 0)) +
+                  (eol ? "¶ " : "") +
                   " ".repeat(currentLine!.length - token.endIndex + 1) +
                   scopes.join(", ") +
                   "`,",
@@ -45,8 +50,8 @@ function assertScopes(
     currentState.tokens.forEach((token, i) => {
       const asserted = assertedScopesByTokenIdx[i]!;
       assert.deepEqual(
-        asserted.toSorted(),
-        token.scopes.filter((scope) => scope !== rootScopeName).toSorted(),
+        asserted,
+        token.scopes.filter((scope) => scope !== rootScopeName),
         `${asserted.length === 0 ? "Missing" : "Incorrect"} assertions for ${formatToken(token)}`,
       );
     });
@@ -74,6 +79,7 @@ function assertScopes(
         assert.fail("Expected a source line before assertion");
       }
 
+      let matchedAny = false;
       currentState.tokens.forEach((token, i) => {
         if (token.endIndex <= item.startIndex || token.startIndex >= item.endIndex) {
           return;
@@ -83,6 +89,7 @@ function assertScopes(
             `Partial assertions are not allowed (asserting ${item.startIndex}-${item.endIndex} of ${formatToken(token)})`,
           );
         }
+        matchedAny = true;
         const asserted = assertedScopesByTokenIdx[i]!;
         for (const scope of item.scopes) {
           assert(
@@ -91,7 +98,24 @@ function assertScopes(
           );
           asserted.push(scope);
         }
+        if (token.endIndex > currentLine!.length) {
+          assert(item.includesEOL, `Captured EOL but assertion does not include ¶`);
+        } else {
+          assert(!item.includesEOL, `Assertion includes ¶ but EOL was not captured`);
+        }
       });
+
+      if (!(matchedAny as boolean)) {
+        assert.fail(
+          `Assertion matches no tokens (${item.startIndex}-${item.endIndex} of ${currentLine.length})`,
+        );
+      }
+      if (item.endIndex > currentLine.length) {
+        assert(
+          item.includesEOL,
+          `Assertion beyond end of line (${item.startIndex}-${item.endIndex} of ${currentLine.length})`,
+        );
+      }
     }
     checkMissingAssertions();
   } catch (err) {
@@ -109,10 +133,11 @@ function assertScopes(
   }
 }
 
-const assertionPattern = /~+/g;
+const assertionPattern = /~+(¶)?/g;
 class ScopeAssertion {
   startIndex: number;
   endIndex: number;
+  includesEOL: boolean;
   scopes: string[];
   stack?: string;
 
@@ -125,6 +150,7 @@ class ScopeAssertion {
     }
     this.startIndex = match.index;
     this.endIndex = assertionPattern.lastIndex;
+    this.includesEOL = match[1] != undefined;
     this.scopes = str.substring(this.endIndex).trim().split(", ");
   }
 }
