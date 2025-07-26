@@ -325,6 +325,19 @@ await suite("regex literals", async () => {
     );
 
     assertScopes(
+      $`let r = /( (?# (?# nesting and escaping not allowed \) )/`,
+      _`~~~                                                       keyword.other.declaration-specifier.swift`,
+      _`      ~                                                   keyword.operator.custom.infix.swift`,
+      _`        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _`         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  meta.group.regexp`,
+      _`         ~                                                punctuation.definition.group.regexp`,
+      _`           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    comment.block.regexp`,
+      _`           ~~~                                            punctuation.definition.comment.begin.regexp`,
+      _`                                                     ~    punctuation.definition.comment.end.regexp`,
+      _`                                                       ~  punctuation.definition.group.regexp`,
+    );
+
+    assertScopes(
       // line comments only work when #/ is followed by a newline
       $`let r = #/# not a comment/#`,
       _`~~~                         keyword.other.declaration-specifier.swift`,
