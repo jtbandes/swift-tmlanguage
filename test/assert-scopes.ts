@@ -10,7 +10,7 @@ function formatToken(token: IToken) {
 function assertScopes(
   grammar: Grammar,
   rootScopeName: string,
-  ...items: (string | ScopeAssertion)[]
+  ...items: (string | ScopeAssertion | NoneAssertion)[]
 ) {
   let currentLine: string | undefined;
   let currentState: ReturnType<Grammar["tokenizeLine"]> | undefined;
@@ -67,6 +67,21 @@ function assertScopes(
         continue;
       }
 
+      if (!currentState || currentLine == undefined) {
+        assert.fail("Expected a source line before assertion");
+      }
+
+      if (item instanceof NoneAssertion) {
+        currentState.tokens.forEach((token, i) => {
+          if (token.scopes.includes(item.scope)) {
+            assert.fail(`Unexpected scope ${item.scope} (${formatToken(token)})`);
+          }
+          // treat a NoneAssertion as covering all scopes, it should not be mixed with ScopeAssertions
+          assertedScopesByTokenIdx[i] = token.scopes.filter((scope) => scope !== rootScopeName);
+        });
+        continue;
+      }
+
       const prevAssertion = currentAssertion;
       currentAssertion = item;
       if (prevAssertion) {
@@ -74,9 +89,6 @@ function assertScopes(
           item.startIndex >= prevAssertion.startIndex,
           "Assertions should be sorted by start index",
         );
-      }
-      if (!currentState || currentLine == undefined) {
-        assert.fail("Expected a source line before assertion");
       }
 
       let matchedAny = false;
@@ -155,6 +167,13 @@ class ScopeAssertion {
   }
 }
 
+class NoneAssertion {
+  public scope: string;
+  constructor(scope: string) {
+    this.scope = scope;
+  }
+}
+
 export function $(strings: TemplateStringsArray): string {
   return strings.raw[0]!;
 }
@@ -163,9 +182,13 @@ export function _(strings: TemplateStringsArray): ScopeAssertion {
   return new ScopeAssertion(strings[0]!);
 }
 
+_.none = (scope: string): NoneAssertion => {
+  return new NoneAssertion(scope);
+};
+
 export async function createAssertScopes(
   rawGrammar: LanguageRegistration,
-): Promise<(...items: (string | ScopeAssertion)[]) => void> {
+): Promise<(...items: (string | ScopeAssertion | NoneAssertion)[]) => void> {
   const highlighter = await createHighlighter({ langs: [rawGrammar], themes: [] });
   // eslint-disable-next-line @typescript-eslint/no-deprecated
   const grammar = highlighter.getInternalContext().getLanguage(rawGrammar.name);

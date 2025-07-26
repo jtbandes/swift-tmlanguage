@@ -40,6 +40,23 @@ await test("assertions", () => {
     _`    ~~~ example.bar`,
   );
 
+  assertScopes(
+    //
+    $`foo baz`,
+    _.none("example.bar"),
+  );
+
+  assert.throws(
+    () => {
+      assertScopes(
+        //
+        $`foo bar`,
+        _.none("example.foo"),
+      );
+    },
+    { message: "Unexpected scope example.foo (0-3: source.test, example.foo)" },
+  );
+
   assert.throws(
     () => {
       assertScopes(

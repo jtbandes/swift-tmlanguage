@@ -684,4 +684,69 @@ await suite("regex literals", async () => {
       _`~~ string.regexp.block.swift`,
     );
   });
+
+  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0355-regex-syntax-run-time-construction.md#callouts
+  await test("interpolated callouts in single-line literals", () => {
+    assertScopes(
+      $`/(?{a/b}X)/`,
+      _`~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~  meta.callout.regexp`,
+      _` ~          punctuation.definition.group.regexp`,
+      _`  ~         keyword.control.callout.regexp`,
+      _`        ~   keyword.control.callout.regexp`,
+      _`         ~  punctuation.definition.group.regexp`,
+
+      $`#/(?{a/b}X)/#`,
+      _`~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _`  ~~~~~~~~~   meta.callout.regexp`,
+      _`  ~           punctuation.definition.group.regexp`,
+      _`   ~          keyword.control.callout.regexp`,
+      _`         ~    keyword.control.callout.regexp`,
+      _`          ~   punctuation.definition.group.regexp`,
+
+      $`/(?{ab/ { c}X)/`,
+      _`~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~~~  meta.callout.regexp`,
+      _` ~              punctuation.definition.group.regexp`,
+      _`  ~             keyword.control.callout.regexp`,
+      _`            ~   keyword.control.callout.regexp`,
+      _`             ~  punctuation.definition.group.regexp`,
+
+      $`/(?{abc/ } d}X)/ //invalid`,
+      _.none("string.regexp.line.swift"),
+
+      $`/(?{{abc/ }}}X)/ //invalid`,
+      _.none("string.regexp.line.swift"),
+
+      $`/(?{{abc/ }}}}X)/ //invalid`,
+      _.none("string.regexp.line.swift"),
+
+      $`/(?{{abc/ }} d}}X)/ //invalid`,
+      _.none("string.regexp.line.swift"),
+
+      $`/(?{{abc/ { d}}X)/`,
+      _`~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~~~~~~  meta.callout.regexp`,
+      _` ~                 punctuation.definition.group.regexp`,
+      _`  ~                keyword.control.callout.regexp`,
+      _`               ~   keyword.control.callout.regexp`,
+      _`                ~  punctuation.definition.group.regexp`,
+
+      $`/(?{{abc/ } d}}X)/`,
+      _`~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~~~~~~  meta.callout.regexp`,
+      _` ~                 punctuation.definition.group.regexp`,
+      _`  ~                keyword.control.callout.regexp`,
+      _`               ~   keyword.control.callout.regexp`,
+      _`                ~  punctuation.definition.group.regexp`,
+
+      $`/(?{{abc/ }) d}}X)/`,
+      _`~~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~~~~~~~  meta.callout.regexp`,
+      _` ~                  punctuation.definition.group.regexp`,
+      _`  ~                 keyword.control.callout.regexp`,
+      _`                ~   keyword.control.callout.regexp`,
+      _`                 ~  punctuation.definition.group.regexp`,
+    );
+  });
 });
