@@ -711,14 +711,19 @@ await suite("regex literals", async () => {
       _`  ~             keyword.control.callout.regexp`,
       _`            ~   keyword.control.callout.regexp`,
       _`             ~  punctuation.definition.group.regexp`,
+
       $`/(?{abc/ } d}X)/ //invalid`,
       _.none("string.regexp.line.swift"),
+
       $`/(?{{abc/ }}}X)/ //invalid`,
       _.none("string.regexp.line.swift"),
+
       $`/(?{{abc/ }}}}X)/ //invalid`,
       _.none("string.regexp.line.swift"),
+
       $`/(?{{abc/ }} d}}X)/ //invalid`,
       _.none("string.regexp.line.swift"),
+
       $`/(?{{abc/ { d}}X)/`,
       _`~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
       _` ~~~~~~~~~~~~~~~~  meta.callout.regexp`,
@@ -726,6 +731,7 @@ await suite("regex literals", async () => {
       _`  ~                keyword.control.callout.regexp`,
       _`               ~   keyword.control.callout.regexp`,
       _`                ~  punctuation.definition.group.regexp`,
+
       $`/(?{{abc/ } d}}X)/`,
       _`~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
       _` ~~~~~~~~~~~~~~~~  meta.callout.regexp`,
@@ -733,6 +739,7 @@ await suite("regex literals", async () => {
       _`  ~                keyword.control.callout.regexp`,
       _`               ~   keyword.control.callout.regexp`,
       _`                ~  punctuation.definition.group.regexp`,
+
       $`/(?{{abc/ }) d}}X)/`,
       _`~~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
       _` ~~~~~~~~~~~~~~~~~  meta.callout.regexp`,
