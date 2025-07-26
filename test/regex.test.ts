@@ -100,7 +100,7 @@ await suite("regex literals", async () => {
       _`~~~                  keyword.other.declaration-specifier.swift`,
       _`           ~         keyword.operator.custom.infix.swift`,
       _`              ~      keyword.operator.custom.infix.swift`,
-      _`               ~~~~~ string.regexp.line.swift`,
+      _`               ~~~~~ string.regexp.line.extended.swift`,
     );
   });
 
@@ -121,11 +121,11 @@ await suite("regex literals", async () => {
       $`let r = #/ x/#`,
       _`~~~            keyword.other.declaration-specifier.swift`,
       _`      ~        keyword.operator.custom.infix.swift`,
-      _`        ~~~~~~ string.regexp.line.swift`,
+      _`        ~~~~~~ string.regexp.line.extended.swift`,
       $`let r = #/x /#`,
       _`~~~            keyword.other.declaration-specifier.swift`,
       _`      ~        keyword.operator.custom.infix.swift`,
-      _`        ~~~~~~ string.regexp.line.swift`,
+      _`        ~~~~~~ string.regexp.line.extended.swift`,
     );
 
     assertScopes(
@@ -156,18 +156,18 @@ await suite("regex literals", async () => {
       $`let ok = #/ a /#`, // extended literals can end with a space
       _`~~~              keyword.other.declaration-specifier.swift`,
       _`       ~         keyword.operator.custom.infix.swift`,
-      _`         ~~~~~~~ string.regexp.line.swift`,
+      _`         ~~~~~~~ string.regexp.line.extended.swift`,
 
       $`let ok = #/\ a /#`, // extended literals can end with a space
       _`~~~               keyword.other.declaration-specifier.swift`,
       _`       ~          keyword.operator.custom.infix.swift`,
-      _`         ~~~~~~~~ string.regexp.line.swift`,
+      _`         ~~~~~~~~ string.regexp.line.extended.swift`,
       _`           ~~     constant.character.escape.backslash.regexp`,
 
       $`let ok = #/\ /#`, // extended literals can end with a space
       _`~~~             keyword.other.declaration-specifier.swift`,
       _`       ~        keyword.operator.custom.infix.swift`,
-      _`         ~~~~~~ string.regexp.line.swift`,
+      _`         ~~~~~~ string.regexp.line.extended.swift`,
       _`           ~~   constant.character.escape.backslash.regexp`,
     );
 
@@ -190,7 +190,7 @@ await suite("regex literals", async () => {
       _`      ~  punctuation.definition.character-class.regexp`,
 
       $`#/ [+-] /#`,
-      _`~~~~~~~~~~ string.regexp.line.swift`,
+      _`~~~~~~~~~~ string.regexp.line.extended.swift`,
       _`   ~~~~    constant.other.character-class.set.regexp`,
       _`   ~       punctuation.definition.character-class.regexp`,
       _`      ~    punctuation.definition.character-class.regexp`,
@@ -202,17 +202,17 @@ await suite("regex literals", async () => {
       $`let empty = #//#`,
       _`~~~              keyword.other.declaration-specifier.swift`,
       _`          ~      keyword.operator.custom.infix.swift`,
-      _`            ~~~~ string.regexp.line.swift`,
+      _`            ~~~~ string.regexp.line.extended.swift`,
     );
 
     assertScopes(
       $`r = #/abc/#`,
       _`  ~         keyword.operator.custom.infix.swift`,
-      _`    ~~~~~~~ string.regexp.line.swift`,
+      _`    ~~~~~~~ string.regexp.line.extended.swift`,
 
       $`r = ##/a/#bc/##`,
       _`  ~             keyword.operator.custom.infix.swift`,
-      _`    ~~~~~~~~~~~ string.regexp.line.swift`,
+      _`    ~~~~~~~~~~~ string.regexp.line.extended.swift`,
     );
 
     assertScopes(
@@ -221,8 +221,8 @@ await suite("regex literals", async () => {
       _`~~~                            support.function.any-method.swift`,
       _`   ~                           punctuation.definition.arguments.begin.swift`,
       _`    ~~~~~                      string.regexp.line.swift`,
-      _`           ~~~~~~~             string.regexp.line.swift`,
-      _`                    ~~~~~~~~~  string.regexp.line.swift`,
+      _`           ~~~~~~~             string.regexp.line.extended.swift`,
+      _`                    ~~~~~~~~~  string.regexp.line.extended.swift`,
       _`                             ~ punctuation.definition.arguments.end.swift`,
     );
 
@@ -231,7 +231,7 @@ await suite("regex literals", async () => {
       $`let unterminated = #/ / /  / ab#/`,
       _`~~~                               keyword.other.declaration-specifier.swift`,
       _`                 ~                keyword.operator.custom.infix.swift`,
-      _`                   ~~~~~~~~~~~~~~¶ string.regexp.line.swift`,
+      _`                   ~~~~~~~~~~~~~~¶ string.regexp.line.extended.swift`,
       $`let broken = x+/y/`,
       _`~~~                keyword.other.declaration-specifier.swift`,
       _`           ~       keyword.operator.custom.infix.swift`,
@@ -342,7 +342,7 @@ await suite("regex literals", async () => {
       $`let r = #/# not a comment/#`,
       _`~~~                         keyword.other.declaration-specifier.swift`,
       _`      ~                     keyword.operator.custom.infix.swift`,
-      _`        ~~~~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _`        ~~~~~~~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
 
       $`let r = #/`,
       _`~~~        keyword.other.declaration-specifier.swift`,
@@ -710,7 +710,7 @@ await suite("regex literals", async () => {
       _`         ~  punctuation.definition.group.regexp`,
 
       $`#/(?{a/b}X)/#`,
-      _`~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _`~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
       _`  ~~~~~~~~~   meta.callout.regexp`,
       _`  ~           punctuation.definition.group.regexp`,
       _`   ~          keyword.control.callout.regexp`,
