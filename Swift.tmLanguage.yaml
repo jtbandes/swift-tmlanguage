@@ -1827,9 +1827,10 @@ repository:
           (/)
           (?!\s)         # non-extended regex literals may not start with a space or tab
           (?!/)          # disambiguation with line comments (redundant since comment rules occur earlier)
-          (?<guts>
+          (?:
             \\\s(?=/)    # may end with a space only if it contains only a single escaped space, i.e. /\ /
-            | (?>   # no backtracking, avoids issues with negative lookbehind at end
+            | (?<guts>
+              (?>   # no backtracking, avoids issues with negative lookbehind at end
                 (?:
                   \\Q
                     (?:(?!\\E)(?!/).)*+
@@ -1847,8 +1848,10 @@ repository:
                   | \(\g<guts>?+\)
                   | (?:(?!/)[^()\[\\])+  # any character (until end)
                 )+
-              )(?<!\s)
-          )?+
+              )
+            )?+
+            (?<!\s)
+          )
           (/)
         captures:
           0:

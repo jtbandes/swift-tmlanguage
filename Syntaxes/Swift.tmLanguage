@@ -4956,9 +4956,10 @@
 (/)
 (?!\s)         # non-extended regex literals may not start with a space or tab
 (?!/)          # disambiguation with line comments (redundant since comment rules occur earlier)
-(?&lt;guts&gt;
+(?:
   \\\s(?=/)    # may end with a space only if it contains only a single escaped space, i.e. /\ /
-  | (?&gt;   # no backtracking, avoids issues with negative lookbehind at end
+  | (?&lt;guts&gt;
+    (?&gt;   # no backtracking, avoids issues with negative lookbehind at end
       (?:
         \\Q
           (?:(?!\\E)(?!/).)*+
@@ -4976,8 +4977,10 @@
         | \(\g&lt;guts&gt;?+\)
         | (?:(?!/)[^()\[\\])+  # any character (until end)
       )+
-    )(?&lt;!\s)
-)?+
+    )
+  )?+
+  (?&lt;!\s)
+)
 (/)</string>
             <key>captures</key>
             <dict>
