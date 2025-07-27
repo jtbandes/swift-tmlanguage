@@ -1647,7 +1647,7 @@ repository:
         match: (?<!\.)\b(?:if|else|guard|where|switch|case|default|fallthrough)\b
 
       - name: keyword.control.transfer.swift
-        match: (?<!\.)\b(?:continue|break|fallthrough|return)\b
+        match: (?<!\.)\b(?:continue|break|fallthrough|return|yield)\b
 
       - name: keyword.control.loop.swift
         match: (?<!\.)\b(?:while|for|in|each)\b
@@ -1696,7 +1696,7 @@ repository:
         match: (?<!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\b
 
       - name: storage.type.function.swift
-        match: \binit[?!]|\binit\b|(?<!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet)\b
+        match: \binit[?!]|\binit\b|(?<!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\s+borrow|yielding\s+mutate)\b
 
       - name: keyword.other.declaration-specifier.accessibility.swift
         match: (?<!\.)\b(?:fileprivate|private|internal|public|open|package)\b

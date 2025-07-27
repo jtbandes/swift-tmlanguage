@@ -1137,3 +1137,29 @@ extension Sequence where Element: BinaryInteger {
     reduce(0) { $0 + Double($1) }
   }
 }
+
+// MARK: SE-0474 yielding accessors
+protocol Containing {
+  var property: UniqueString { yielding borrow }
+}
+struct UniqueBorrow : ~Copyable {
+  var x: UniqueString
+
+  var property: UniqueString {
+    yielding borrow {
+        yield x
+    }
+  }
+}
+struct GetMutate {
+  var x: String =  "👋🏽 Hello"
+
+  var property: String {
+    get { print("Getting", x); return x }
+    yielding mutate {
+      print("Yielding", x)
+      yield &x
+      print("Post yield", x)
+    }
+  }
+}
