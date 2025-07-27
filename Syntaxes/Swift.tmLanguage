@@ -4543,7 +4543,7 @@
             <key>name</key>
             <string>keyword.control.transfer.swift</string>
             <key>match</key>
-            <string>(?&lt;!\.)\b(?:continue|break|fallthrough|return)\b</string>
+            <string>(?&lt;!\.)\b(?:continue|break|fallthrough|return|yield)\b</string>
           </dict>
           <dict>
             <key>name</key>
@@ -4669,7 +4669,7 @@
             <key>name</key>
             <string>storage.type.function.swift</string>
             <key>match</key>
-            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet)\b</string>
+            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
           </dict>
           <dict>
             <key>name</key>

@@ -2033,7 +2033,7 @@
 
         {
           "name": "keyword.control.transfer.swift",
-          "match": "(?<!\\.)\\b(?:continue|break|fallthrough|return)\\b"
+          "match": "(?<!\\.)\\b(?:continue|break|fallthrough|return|yield)\\b"
         },
 
         {
@@ -2112,7 +2112,7 @@
 
         {
           "name": "storage.type.function.swift",
-          "match": "\\binit[?!]|\\binit\\b|(?<!\\.)\\b(?:func|deinit|subscript|didSet|get|set|willSet)\\b"
+          "match": "\\binit[?!]|\\binit\\b|(?<!\\.)\\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\\s+borrow|yielding\\s+mutate)\\b"
         },
 
         {
