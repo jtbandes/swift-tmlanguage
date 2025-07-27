@@ -327,6 +327,38 @@ func generic<A, B, C>() {}
 func generic<OldStyle where T: Equatable>(arg: Int) throws -> Int {}
 func generic<NewStyle>(arg: Int) throws -> Int where T: Equatable, T == Int {}
 
+// MARK: SE-0413 Typed Throws
+
+func stringFromArray(_ array: [String], at index: Int, errorMessage: String) throws(SimpleError) -> String {
+  guard array.indices.contains(index) else { throw SimpleError(message: errorMessage) }
+  return array[index]
+}
+do throws(CatError) {
+  if isDaylight && foodBowl.isEmpty {
+    throw .sleeps   // equivalent to CatError.sleeps
+  }
+  try callCat()
+} catch let myError {
+   // myError is of type CatError
+}
+func throwsAnything() throws(any Error) { }
+func throwsNothing() throws(Never) { 
+func countNodes<E: Error>(in tree: Node, matching predicate: (Node) throws(E) -> Bool) throws(E) -> Int { }
+{ () -> Bool in true }
+{ () throws -> Bool in true }
+{ () throws(CatError) -> Bool in true }
+var value: Success {
+  get throws(Failure) { ... }
+}
+let f2: () throws(SubError) -> Void = f1
+struct ConcreteThrowingSpecific: Throwing {
+    func f() throws(SpecificError) { } // okay, throws a specific error
+}
+struct Result {
+  init(catching body: () throws(Failure) -> Success) {}
+  init(catching body: () throws -> Success) where Failure == any Error { ... }
+}
+
 // MARK: SE-0393 Parameter Packs
 
 func all<each Wrapped>(_ optional: repeat (each Wrapped)?) -> (repeat each Wrapped)? {}
