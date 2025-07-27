@@ -869,6 +869,7 @@ repository:
       - begin: \G
         end: (?!\G)$|(?=[={}]|(?!\G)\bwhere\b)
         patterns:
+          - include: "#attributes"
           - include: "#comments"
           - include: "#declarations-inheritance-clause-inherited-type"
           - include: "#declarations-inheritance-clause-more-types"
@@ -886,6 +887,7 @@ repository:
     begin: ",\\s*"
     end: (?!\G)(?!//|/\*)|(?=[,={}]|(?!\G)\bwhere\b)
     patterns:
+      - include: "#attributes"
       - include: "#comments"
       - include: "#declarations-inheritance-clause-inherited-type"
       - include: "#declarations-inheritance-clause-more-types"
