@@ -694,6 +694,7 @@ repository:
     endCaptures:
       0: { name: punctuation.separator.generic-argument-clause.end.swift }
     patterns:
+      - include: "#literals-numeric"
       - include: "#declarations-available-types"
 
   declarations-generic-parameter-clause:
@@ -708,6 +709,9 @@ repository:
       - include: "#comments"
       # Swift 2: constraints inside the generic param list
       - include: "#declarations-generic-where-clause"
+
+      - name: keyword.other.declaration-specifier.swift
+        match: \blet\b
 
       - name: keyword.control.loop.swift
         match: \beach\b

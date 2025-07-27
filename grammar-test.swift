@@ -327,6 +327,15 @@ func generic<A, B, C>() {}
 func generic<OldStyle where T: Equatable>(arg: Int) throws -> Int {}
 func generic<NewStyle>(arg: Int) throws -> Int where T: Equatable, T == Int {}
 
+// MARK: SE-0452 Integer Generic Parameters
+
+struct Vector<let count: Int, Element> { }
+public struct Matrix<let columns: Int, let rows: Int> {
+  let a: IntParam<2>
+  let b: IntParam<-2>
+  let c: IntParam<columns>
+}
+
 // MARK: SE-0413 Typed Throws
 
 func stringFromArray(_ array: [String], at index: Int, errorMessage: String) throws(SimpleError) -> String {

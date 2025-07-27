@@ -912,7 +912,10 @@
           "name": "punctuation.separator.generic-argument-clause.end.swift"
         }
       },
-      "patterns": [{ "include": "#declarations-available-types" }]
+      "patterns": [
+        { "include": "#literals-numeric" },
+        { "include": "#declarations-available-types" }
+      ]
     },
 
     "declarations-generic-parameter-clause": {
@@ -934,6 +937,11 @@
         {
           "comment": "Swift 2: constraints inside the generic param list",
           "include": "#declarations-generic-where-clause"
+        },
+
+        {
+          "name": "keyword.other.declaration-specifier.swift",
+          "match": "\\blet\\b"
         },
 
         {

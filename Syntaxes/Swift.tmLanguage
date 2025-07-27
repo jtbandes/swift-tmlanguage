@@ -1947,6 +1947,10 @@
         <array>
           <dict>
             <key>include</key>
+            <string>#literals-numeric</string>
+          </dict>
+          <dict>
+            <key>include</key>
             <string>#declarations-available-types</string>
           </dict>
         </array>
@@ -1986,6 +1990,12 @@
             <string>Swift 2: constraints inside the generic param list</string>
             <key>include</key>
             <string>#declarations-generic-where-clause</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>keyword.other.declaration-specifier.swift</string>
+            <key>match</key>
+            <string>\blet\b</string>
           </dict>
           <dict>
             <key>name</key>
