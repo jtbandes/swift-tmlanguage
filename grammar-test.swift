@@ -569,6 +569,10 @@ let chars = /[[a]]/
 let chars = /[[[a]]]/
 let chars = /[[[[a]]]]/
 let chars = /[[[[[a]]]]]/
+let chars = #/[[a]]/#
+let chars = #/[[[a]]]/#
+let chars = #/[[[[a]]]]/#
+let chars = #/[[[[[a]]]]]/#
 let groups = #/
   (?:abc)
   (?|a|b)
