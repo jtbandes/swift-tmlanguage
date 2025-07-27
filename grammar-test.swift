@@ -687,6 +687,25 @@ let callout = /(?{{abc/ }} d}}X)/ //invalid
 let callout = /(?{{abc/ { d}}X)/
 let callout = /(?{{abc/ } d}}X)/
 let callout = /(?{{abc/ }) d}}X)/
+let callout = #/ (?{a}X) /#
+let callout = #/ (?{{a}}X) /#
+let callout = #/ (?{a{b}X) /#
+let callout = #/ (?{{a}b}}X) /#
+let callout = #/ (?{a}}X) /#
+let callout = #/ (?{a}b}X) /#
+let callout = #/ (?{{a}}}X) /#
+let callout = #/ (?{{a}}}}X) /#
+let callout = #/ (?{{a}}b}}X) /#
+let callout = #/ (?{{{{a}}}b/#}}}}X) /#
+let callout = #/ (?{{{{a}}}}b/#}}}}X) /#
+let callout = #/ (?{{{{{a}}}}b/#}}}}}X) /#
+let callout = #/ (?{{{{{a}}}}}b/#}}}}}X) /#
+let callout = #/ (?{{{{{{a}}}}}b/#}}}}}}X) /#
+let callout = #/ (?{{{{{{a}}}}}}b/#}}}}}}X) /#
+let callout = #/ (?{{{{{{{a}}}}}}b/#}}}}}}}X) /#
+let callout = #/ (?{{{{{{{a}}}}}}}b/#}}}}}}}X) /#
+let callout = #/ (?{{{{{{{{a}}}}}}}b/#}}}}}}}}X) /#
+let callout = #/ (?{{{{{{{{a}}}}}}}}b/#}}}}}}}}X) /#
 
 let comments = #/
   not a comment

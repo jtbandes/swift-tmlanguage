@@ -4969,7 +4969,14 @@
         | \(\?\#[^)]*\)
         | \(\?
             # InterpolatedCallout
-            (?&gt;(\{(?:\g&lt;-1&gt;|(?!{).*?)\}))
+            (?&gt;
+              {[^{].*?}
+              | {{[^{].*?}}
+              | {{{[^{].*?}}}
+              | {{{{[^{].*?}}}}
+              | {{{{{[^{].*?}}}}}
+              | {{{{{{.+?}}}}}}
+            )
             (?:\[(?!\d)\w+\])?
             [X&lt;&gt;]?
           \)
@@ -5023,7 +5030,14 @@
       | \(\?\#[^)]*\)
       | \(\?
           # InterpolatedCallout
-          (?&gt;(\{(?:\g&lt;-1&gt;|(?!{).*?)\}))
+          (?&gt;
+            {[^{].*?}
+            | {{[^{].*?}}
+            | {{{[^{].*?}}}
+            | {{{{[^{].*?}}}}
+            | {{{{{[^{].*?}}}}}
+            | {{{{{{.+?}}}}}}
+          )
           (?:\[(?!\d)\w+\])?
           [X&lt;&gt;]?
         \)
@@ -5052,12 +5066,12 @@
                 <key>name</key>
                 <string>punctuation.definition.string.begin.regexp.swift</string>
               </dict>
-              <key>6</key>
+              <key>5</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.end.regexp.swift</string>
               </dict>
-              <key>7</key>
+              <key>6</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.returns-not-allowed.regexp</string>
