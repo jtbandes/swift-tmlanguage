@@ -4953,19 +4953,72 @@
             <string>string.regexp.line.swift</string>
             <key>match</key>
             <string>(?x)
-(?!/\s)         # non-extended regex literals may not start with a space or tab
-(?!//)          # disambiguation with line comments (redundant since comment rules occur earlier)
-(((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
-(\\\s)? # (4) may start with an escaped space or tab
+(/)
+(?!\s)         # non-extended regex literals may not start with a space or tab
+(?!/)          # disambiguation with line comments (redundant since comment rules occur earlier)
+(?:
+  \\\s(?=/)    # may end with a space only if it contains only a single escaped space, i.e. /\ /
+  | (?&lt;guts&gt;
+    (?&gt;   # no backtracking, avoids issues with negative lookbehind at end
+      (?:
+        \\Q
+          (?:(?!\\E)(?!/).)*+
+          # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+          (?:\\E | (?=/))
+        | \\.
+        | \(\?\#[^)]*\)
+        | \(\?
+            # InterpolatedCallout
+            (?&gt;(\{(?:\g&lt;-1&gt;|(?!{).*?)\}))
+            (?:\[(?!\d)\w+\])?
+            [X&lt;&gt;]?
+          \)
+        | (?&lt;class&gt;\[ (?:\\. | [^\[\]] | \g&lt;class&gt;)+ \])
+        | \(\g&lt;guts&gt;?+\)
+        | (?:(?!/)[^()\[\\])+  # any character (until end)
+      )+
+    )
+  )?+
+  (?&lt;!\s)
+)
+(/)</string>
+            <key>captures</key>
+            <dict>
+              <key>0</key>
+              <dict>
+                <key>patterns</key>
+                <array>
+                  <dict>
+                    <key>include</key>
+                    <string>#literals-regular-expression-literal-regex-guts</string>
+                  </dict>
+                </array>
+              </dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.string.begin.regexp.swift</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>punctuation.definition.string.end.regexp.swift</string>
+              </dict>
+            </dict>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>string.regexp.line.extended.swift</string>
+            <key>match</key>
+            <string>(?x)
+((\#+)/)     # (1) for captures, (2) for matching end
 (?&lt;guts&gt;
   (?&gt;   # no backtracking, avoids issues with negative lookbehind at end
     (?:
       \\Q
         (?:(?!\\E)(?!/\2).)*+
-        (?:\\E
-          # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
-          | (?(3)|(?&lt;!\s))(?=/\2)
-        )
+        # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+        (?:\\E | (?=/\2))
       | \\.
       | \(\?\#[^)]*\)
       | \(\?
@@ -4980,9 +5033,7 @@
     )+
   )
 )?+
-# may end with a space only if it is an extended literal or contains only a single escaped space
-(?(3)|(?(5)(?&lt;!\s)))
-(/\2)     # (12)
+(/\2)     # (6)
 | \#+/.+(\n)</string>
             <key>captures</key>
             <dict>
@@ -5001,12 +5052,12 @@
                 <key>name</key>
                 <string>punctuation.definition.string.begin.regexp.swift</string>
               </dict>
-              <key>8</key>
+              <key>6</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.end.regexp.swift</string>
               </dict>
-              <key>9</key>
+              <key>7</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.returns-not-allowed.regexp</string>

@@ -692,6 +692,7 @@ let comments = #/
   not a comment
   # line comment
   \Q#quoted comment\E
+  \Q\\E # literal backslash
   not a comment # line comment
   not a comment
   ( (?# #(?/*+comment  (?# nesting and escaping not allowed \) )

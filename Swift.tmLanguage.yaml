@@ -1824,19 +1824,53 @@ repository:
       - name: string.regexp.line.swift
         match: |-
           (?x)
-          (?!/\s)         # non-extended regex literals may not start with a space or tab
-          (?!//)          # disambiguation with line comments (redundant since comment rules occur earlier)
-          (((\#+)?)/)     # (1) for captures, (2) for matching end, (3) for conditionals
-          (\\\s)? # (4) may start with an escaped space or tab
+          (/)
+          (?!\s)         # non-extended regex literals may not start with a space or tab
+          (?!/)          # disambiguation with line comments (redundant since comment rules occur earlier)
+          (?:
+            \\\s(?=/)    # may end with a space only if it contains only a single escaped space, i.e. /\ /
+            | (?<guts>
+              (?>   # no backtracking, avoids issues with negative lookbehind at end
+                (?:
+                  \\Q
+                    (?:(?!\\E)(?!/).)*+
+                    # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+                    (?:\\E | (?=/))
+                  | \\.
+                  | \(\?\#[^)]*\)
+                  | \(\?
+                      # InterpolatedCallout
+                      (?>(\{(?:\g<-1>|(?!{).*?)\}))
+                      (?:\[(?!\d)\w+\])?
+                      [X<>]?
+                    \)
+                  | (?<class>\[ (?:\\. | [^\[\]] | \g<class>)+ \])
+                  | \(\g<guts>?+\)
+                  | (?:(?!/)[^()\[\\])+  # any character (until end)
+                )+
+              )
+            )?+
+            (?<!\s)
+          )
+          (/)
+        captures:
+          0:
+            patterns:
+              - include: "#literals-regular-expression-literal-regex-guts"
+          1: { name: punctuation.definition.string.begin.regexp.swift }
+          3: { name: punctuation.definition.string.end.regexp.swift }
+
+      - name: string.regexp.line.extended.swift
+        match: |-
+          (?x)
+          ((\#+)/)     # (1) for captures, (2) for matching end
           (?<guts>
             (?>   # no backtracking, avoids issues with negative lookbehind at end
               (?:
                 \\Q
                   (?:(?!\\E)(?!/\2).)*+
-                  (?:\\E
-                    # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
-                    | (?(3)|(?<!\s))(?=/\2)
-                  )
+                  # A quoted sequence may not have a closing E, in which case it extends to the end of the regex
+                  (?:\\E | (?=/\2))
                 | \\.
                 | \(\?\#[^)]*\)
                 | \(\?
@@ -1851,17 +1885,15 @@ repository:
               )+
             )
           )?+
-          # may end with a space only if it is an extended literal or contains only a single escaped space
-          (?(3)|(?(5)(?<!\s)))
-          (/\2)     # (12)
+          (/\2)     # (6)
           | \#+/.+(\n)
         captures:
           0:
             patterns:
               - include: "#literals-regular-expression-literal-regex-guts"
           1: { name: punctuation.definition.string.begin.regexp.swift }
-          8: { name: punctuation.definition.string.end.regexp.swift }
-          9: { name: invalid.illegal.returns-not-allowed.regexp }
+          6: { name: punctuation.definition.string.end.regexp.swift }
+          7: { name: invalid.illegal.returns-not-allowed.regexp }
 
   literals-regular-expression-literal-backreference-or-subpattern:
     # These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164
