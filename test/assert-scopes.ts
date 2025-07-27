@@ -1,10 +1,21 @@
 import type { IToken } from "@shikijs/vscode-textmate";
 import assert from "node:assert/strict";
-import { createHighlighter } from "shiki";
+import { createHighlighter, createJavaScriptRegexEngine } from "shiki";
 import type { Grammar, LanguageRegistration } from "shiki";
 
 function formatToken(token: IToken) {
   return `${token.startIndex}-${token.endIndex}: ${token.scopes.join(", ")}`;
+}
+
+/** Run the same assertions using each of the provided grammars */
+function assertScopesMultiple(
+  grammars: Grammar[],
+  rootScopeName: string,
+  ...items: (string | ScopeAssertion | NoneAssertion)[]
+) {
+  for (const grammar of grammars) {
+    assertScopes(grammar, rootScopeName, ...items);
+  }
 }
 
 function assertScopes(
@@ -189,8 +200,15 @@ _.none = (scope: string): NoneAssertion => {
 export async function createAssertScopes(
   rawGrammar: LanguageRegistration,
 ): Promise<(...items: (string | ScopeAssertion | NoneAssertion)[]) => void> {
-  const highlighter = await createHighlighter({ langs: [rawGrammar], themes: [] });
+  const highlighterWasm = await createHighlighter({ langs: [rawGrammar], themes: [] });
+  const highlighterJs = await createHighlighter({
+    langs: [rawGrammar],
+    themes: [],
+    engine: createJavaScriptRegexEngine(),
+  });
   // eslint-disable-next-line @typescript-eslint/no-deprecated
-  const grammar = highlighter.getInternalContext().getLanguage(rawGrammar.name);
-  return assertScopes.bind(null, grammar, rawGrammar.scopeName);
+  const grammarWasm = highlighterWasm.getInternalContext().getLanguage(rawGrammar.name);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  const grammarJs = highlighterJs.getInternalContext().getLanguage(rawGrammar.name);
+  return assertScopesMultiple.bind(null, [grammarWasm, grammarJs], rawGrammar.scopeName);
 }
