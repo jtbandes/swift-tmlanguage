@@ -659,6 +659,8 @@ repository:
     beginCaptures:
       1: { name: keyword.operator.function-result.swift }
     patterns:
+      - match: \bsending\b
+        name: storage.modifier.swift
       - include: "#declarations-available-types"
 
   declarations-function-subscript:
@@ -1057,6 +1059,9 @@ repository:
       - begin: :\s*(?!\s)
         end: (?=[,)])
         patterns:
+          - match: \bsending\b
+            name: storage.modifier.swift
+
           - include: "#declarations-available-types"
 
           - name: invalid.illegal.extra-colon-in-parameter-list.swift

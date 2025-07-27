@@ -1128,6 +1128,19 @@ struct SocketPair: X, ~Copyable {
 }
 struct TypedFile<T>: ~Copyable {}
 
+// MARK: SE-0430 `sending` parameter and result values
+public struct CheckedContinuation<T, E: Error>: Sendable {
+  public func resume(returning value: sending T)
+}
+
+public func withCheckedContinuation<T>(
+    function: String = #function,
+    _ body: (CheckedContinuation<T, Never>) -> Void
+) async -> sending T { }
+
+let sending = x
+let x = sending
+
 // MARK: SE-0460 explicit specialization
 extension Sequence where Element: BinaryInteger {
   @specialized(where Self == [Int])
