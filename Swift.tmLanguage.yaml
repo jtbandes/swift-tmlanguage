@@ -1851,7 +1851,23 @@ repository:
                       (?:\[(?!\d)\w+\])?
                       [X<>]?
                     \)
-                  | (?<class>\[ (?:\\. | [^\[\]] | \g<class>)+ \])
+                  # Allow nested character classes to a limited depth
+                  | \[(?:
+                      \\. |
+                      [^\[\]\\] |
+                      \[(?:
+                        \\. |
+                        [^\[\]\\] |
+                        \[(?:
+                          \\. |
+                          [^\[\]\\] |
+                          \[(?:
+                            \\. |
+                            [^\[\]\\]
+                          )+\]
+                        )+\]
+                      )+\]
+                    )+\]
                   | \(\g<guts>?+\)
                   | (?:(?!/)[^()\[\\])+  # any character (until end)
                 )+
@@ -1893,21 +1909,37 @@ repository:
                     (?:\[(?!\d)\w+\])?
                     [X<>]?
                   \)
-                | (?<class>\[ (?:\\. | [^\[\]] | \g<class>)+ \])
+                # Allow nested character classes to a limited depth
+                | \[(?:
+                    \\. |
+                    [^\[\]\\] |
+                    \[(?:
+                      \\. |
+                      [^\[\]\\] |
+                      \[(?:
+                        \\. |
+                        [^\[\]\\] |
+                        \[(?:
+                          \\. |
+                          [^\[\]\\]
+                        )+\]
+                      )+\]
+                    )+\]
+                  )+\]
                 | \(\g<guts>?+\)
                 | (?:(?!/\2)[^()\[\\])+  # any character (until end)
               )+
             )
           )?+
-          (/\2)     # (6)
+          (/\2)     # (4)
           | \#+/.+(\n)
         captures:
           0:
             patterns:
               - include: "#literals-regular-expression-literal-regex-guts"
           1: { name: punctuation.definition.string.begin.regexp.swift }
-          5: { name: punctuation.definition.string.end.regexp.swift }
-          6: { name: invalid.illegal.returns-not-allowed.regexp }
+          4: { name: punctuation.definition.string.end.regexp.swift }
+          5: { name: invalid.illegal.returns-not-allowed.regexp }
 
   literals-regular-expression-literal-backreference-or-subpattern:
     # These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164

@@ -4980,7 +4980,23 @@
             (?:\[(?!\d)\w+\])?
             [X&lt;&gt;]?
           \)
-        | (?&lt;class&gt;\[ (?:\\. | [^\[\]] | \g&lt;class&gt;)+ \])
+        # Allow nested character classes to a limited depth
+        | \[(?:
+            \\. |
+            [^\[\]\\] |
+            \[(?:
+              \\. |
+              [^\[\]\\] |
+              \[(?:
+                \\. |
+                [^\[\]\\] |
+                \[(?:
+                  \\. |
+                  [^\[\]\\]
+                )+\]
+              )+\]
+            )+\]
+          )+\]
         | \(\g&lt;guts&gt;?+\)
         | (?:(?!/)[^()\[\\])+  # any character (until end)
       )+
@@ -5041,13 +5057,29 @@
           (?:\[(?!\d)\w+\])?
           [X&lt;&gt;]?
         \)
-      | (?&lt;class&gt;\[ (?:\\. | [^\[\]] | \g&lt;class&gt;)+ \])
+      # Allow nested character classes to a limited depth
+      | \[(?:
+          \\. |
+          [^\[\]\\] |
+          \[(?:
+            \\. |
+            [^\[\]\\] |
+            \[(?:
+              \\. |
+              [^\[\]\\] |
+              \[(?:
+                \\. |
+                [^\[\]\\]
+              )+\]
+            )+\]
+          )+\]
+        )+\]
       | \(\g&lt;guts&gt;?+\)
       | (?:(?!/\2)[^()\[\\])+  # any character (until end)
     )+
   )
 )?+
-(/\2)     # (6)
+(/\2)     # (4)
 | \#+/.+(\n)</string>
             <key>captures</key>
             <dict>
@@ -5066,12 +5098,12 @@
                 <key>name</key>
                 <string>punctuation.definition.string.begin.regexp.swift</string>
               </dict>
-              <key>5</key>
+              <key>4</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.end.regexp.swift</string>
               </dict>
-              <key>6</key>
+              <key>5</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.returns-not-allowed.regexp</string>

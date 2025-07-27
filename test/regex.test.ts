@@ -867,24 +867,11 @@ await suite("regex literals", async () => {
       _`         ~    punctuation.definition.character-class.regexp`,
       _`          ~   punctuation.definition.character-class.regexp`,
       $`/[[[[[a]]]]]/`,
-      _`~~~~~~~~~~~~~ string.regexp.line.swift`,
-      _` ~~~~~~~~~~~  constant.other.character-class.set.regexp`,
-      _` ~            punctuation.definition.character-class.regexp`,
-      _`  ~~~~~~~~~   constant.other.character-class.set.regexp`,
-      _`  ~           punctuation.definition.character-class.regexp`,
-      _`   ~~~~~~~    constant.other.character-class.set.regexp`,
-      _`   ~          punctuation.definition.character-class.regexp`,
-      _`    ~~~~~     constant.other.character-class.set.regexp`,
-      _`    ~         punctuation.definition.character-class.regexp`,
-      _`     ~~~      constant.other.character-class.set.regexp`,
-      _`     ~        punctuation.definition.character-class.regexp`,
-      _`       ~      punctuation.definition.character-class.regexp`,
-      _`        ~     punctuation.definition.character-class.regexp`,
-      _`         ~    punctuation.definition.character-class.regexp`,
-      _`          ~   punctuation.definition.character-class.regexp`,
-      _`           ~  punctuation.definition.character-class.regexp`,
+      _.none("string.regexp.line.swift"),
+
+      // Treated as an unterminated literal, so the fully recursive rules are able to match all the nested character classes
       $`#/[[[[[a]]]]]/#`,
-      _`~~~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
+      _`~~~~~~~~~~~~~   string.regexp.line.extended.swift`,
       _`  ~~~~~~~~~~~   constant.other.character-class.set.regexp`,
       _`  ~             punctuation.definition.character-class.regexp`,
       _`   ~~~~~~~~~    constant.other.character-class.set.regexp`,
@@ -900,6 +887,7 @@ await suite("regex literals", async () => {
       _`          ~     punctuation.definition.character-class.regexp`,
       _`           ~    punctuation.definition.character-class.regexp`,
       _`            ~   punctuation.definition.character-class.regexp`,
+      _`             ~~¶ string.regexp.line.extended.swift`,
     );
   });
 });
