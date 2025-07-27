@@ -869,7 +869,13 @@
       "begin": "(?<![/=\\-+!*%<>&|\\^~.])(->)(?![/=\\-+!*%<>&|\\^~.])\\s*",
       "end": "(?!\\G)(?=\\{|\\bwhere\\b|;|=)|$",
       "beginCaptures": { "1": { "name": "keyword.operator.function-result.swift" } },
-      "patterns": [{ "include": "#declarations-available-types" }]
+      "patterns": [
+        {
+          "match": "\\bsending\\b",
+          "name": "storage.modifier.swift"
+        },
+        { "include": "#declarations-available-types" }
+      ]
     },
 
     "declarations-function-subscript": {
@@ -1301,6 +1307,11 @@
           "begin": ":\\s*(?!\\s)",
           "end": "(?=[,)])",
           "patterns": [
+            {
+              "match": "\\bsending\\b",
+              "name": "storage.modifier.swift"
+            },
+
             { "include": "#declarations-available-types" },
 
             {
