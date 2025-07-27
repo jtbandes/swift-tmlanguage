@@ -565,6 +565,10 @@ let regex = /a{1}{1,}{,2}{1,2} a{ 1 }{ 1 , }{ , 2 }{ 1 , 2 }/
 let nums = /8\u12345\u{ 1 2 3 }\x\x{af}\U89abcdef9\o{12}\07778\N\N{a}\N{U+1a}\N{x-y z}/
 let chars = /\p{is-White_Space a = a} x [:a=b:] [:script=Latin:] \p{alnum}/
 let chars = /[\p{is-White_Space a = a} \N{a}\N{U+1a}\N{x-y z} \Qfoo]\E ]/
+let chars = /[[a]]/
+let chars = /[[[a]]]/
+let chars = /[[[[a]]]]/
+let chars = /[[[[[a]]]]]/
 let groups = #/
   (?:abc)
   (?|a|b)
