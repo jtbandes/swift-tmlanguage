@@ -1127,3 +1127,13 @@ struct SocketPair: X, ~Copyable {
   var in, out: FileDescriptor
 }
 struct TypedFile<T>: ~Copyable {}
+
+// MARK: SE-0460 explicit specialization
+extension Sequence where Element: BinaryInteger {
+  @specialized(where Self == [Int])
+  @specialized(where Self == [UInt32])
+  @specialized(where Self == [Int8])
+  func sum() -> Double {
+    reduce(0) { $0 + Double($1) }
+  }
+}
