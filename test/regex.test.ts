@@ -701,13 +701,14 @@ await suite("regex literals", async () => {
   // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0355-regex-syntax-run-time-construction.md#callouts
   await test("interpolated callouts in single-line literals", () => {
     assertScopes(
-      $`/(?{a/b}X)/`,
-      _`~~~~~~~~~~~ string.regexp.line.swift`,
-      _` ~~~~~~~~~  meta.callout.regexp`,
-      _` ~          punctuation.definition.group.regexp`,
-      _`  ~         keyword.control.callout.regexp`,
-      _`        ~   keyword.control.callout.regexp`,
-      _`         ~  punctuation.definition.group.regexp`,
+      $`/(?{a/b}[tag]X)/`,
+      _`~~~~~~~~~~~~~~~~ string.regexp.line.swift`,
+      _` ~~~~~~~~~~~~~~  meta.callout.regexp`,
+      _` ~               punctuation.definition.group.regexp`,
+      _`  ~              keyword.control.callout.regexp`,
+      _`         ~~~     variable.language.tag-name.regexp`,
+      _`             ~   keyword.control.callout.regexp`,
+      _`              ~  punctuation.definition.group.regexp`,
 
       $`#/(?{a/b}X)/#`,
       _`~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
@@ -760,6 +761,49 @@ await suite("regex literals", async () => {
       _`  ~                 keyword.control.callout.regexp`,
       _`                ~   keyword.control.callout.regexp`,
       _`                 ~  punctuation.definition.group.regexp`,
+    );
+
+    assertScopes(
+      $`#/ (?{a}) /#`,
+      _`~~~~~~~~~~~~ string.regexp.line.extended.swift`,
+      _`   ~~~~~~    meta.callout.regexp`,
+      _`   ~         punctuation.definition.group.regexp`,
+      _`    ~        keyword.control.callout.regexp`,
+      _`        ~    punctuation.definition.group.regexp`,
+
+      $`#/ (?{{a}}) /#`,
+      _`~~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
+      _`   ~~~~~~~~    meta.callout.regexp`,
+      _`   ~           punctuation.definition.group.regexp`,
+      _`    ~          keyword.control.callout.regexp`,
+      _`          ~    punctuation.definition.group.regexp`,
+
+      $`#/ (?{a{b}) /#`,
+      _`~~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
+      _`   ~~~~~~~~    meta.callout.regexp`,
+      _`   ~           punctuation.definition.group.regexp`,
+      _`    ~          keyword.control.callout.regexp`,
+      _`          ~    punctuation.definition.group.regexp`,
+
+      $`#/ (?{{a}b}}) /#`,
+      _`~~~~~~~~~~~~~~~~ string.regexp.line.extended.swift`,
+      _`   ~~~~~~~~~~    meta.callout.regexp`,
+      _`   ~             punctuation.definition.group.regexp`,
+      _`    ~            keyword.control.callout.regexp`,
+      _`            ~    punctuation.definition.group.regexp`,
+    );
+
+    assertScopes(
+      $`#/ (?{a}}) /#`,
+      _.none("meta.callout.regexp"),
+      $`#/ (?{a}b}) /#`,
+      _.none("meta.callout.regexp"),
+      $`#/ (?{{a}}}) /#`,
+      _.none("meta.callout.regexp"),
+      $`#/ (?{{a}}}}) /#`,
+      _.none("meta.callout.regexp"),
+      $`#/ (?{{a}}b}}) /#`,
+      _.none("meta.callout.regexp"),
     );
   });
 });

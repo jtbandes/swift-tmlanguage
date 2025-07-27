@@ -1840,7 +1840,14 @@ repository:
                   | \(\?\#[^)]*\)
                   | \(\?
                       # InterpolatedCallout
-                      (?>(\{(?:\g<-1>|(?!{).*?)\}))
+                      (?>
+                        {[^{].*?}
+                        | {{[^{].*?}}
+                        | {{{[^{].*?}}}
+                        | {{{{[^{].*?}}}}
+                        | {{{{{[^{].*?}}}}}
+                        | {{{{{{.+?}}}}}}
+                      )
                       (?:\[(?!\d)\w+\])?
                       [X<>]?
                     \)
@@ -1875,7 +1882,14 @@ repository:
                 | \(\?\#[^)]*\)
                 | \(\?
                     # InterpolatedCallout
-                    (?>(\{(?:\g<-1>|(?!{).*?)\}))
+                    (?>
+                      {[^{].*?}
+                      | {{[^{].*?}}
+                      | {{{[^{].*?}}}
+                      | {{{{[^{].*?}}}}
+                      | {{{{{[^{].*?}}}}}
+                      | {{{{{{.+?}}}}}}
+                    )
                     (?:\[(?!\d)\w+\])?
                     [X<>]?
                   \)
@@ -1892,8 +1906,8 @@ repository:
             patterns:
               - include: "#literals-regular-expression-literal-regex-guts"
           1: { name: punctuation.definition.string.begin.regexp.swift }
-          6: { name: punctuation.definition.string.end.regexp.swift }
-          7: { name: invalid.illegal.returns-not-allowed.regexp }
+          5: { name: punctuation.definition.string.end.regexp.swift }
+          6: { name: invalid.illegal.returns-not-allowed.regexp }
 
   literals-regular-expression-literal-backreference-or-subpattern:
     # These patterns are separated to work around issues like https://github.com/microsoft/vscode-textmate/issues/164
