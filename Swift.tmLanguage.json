@@ -1114,6 +1114,7 @@
           "begin": "\\G",
           "end": "(?!\\G)$|(?=[={}]|(?!\\G)\\bwhere\\b)",
           "patterns": [
+            { "include": "#attributes" },
             { "include": "#comments" },
             {
               "include": "#declarations-inheritance-clause-inherited-type"
@@ -1137,6 +1138,7 @@
       "begin": ",\\s*",
       "end": "(?!\\G)(?!//|/\\*)|(?=[,={}]|(?!\\G)\\bwhere\\b)",
       "patterns": [
+        { "include": "#attributes" },
         { "include": "#comments" },
         {
           "include": "#declarations-inheritance-clause-inherited-type"

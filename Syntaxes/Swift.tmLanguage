@@ -2359,6 +2359,10 @@
             <array>
               <dict>
                 <key>include</key>
+                <string>#attributes</string>
+              </dict>
+              <dict>
+                <key>include</key>
                 <string>#comments</string>
               </dict>
               <dict>
@@ -2403,6 +2407,10 @@
         <string>(?!\G)(?!//|/\*)|(?=[,={}]|(?!\G)\bwhere\b)</string>
         <key>patterns</key>
         <array>
+          <dict>
+            <key>include</key>
+            <string>#attributes</string>
+          </dict>
           <dict>
             <key>include</key>
             <string>#comments</string>

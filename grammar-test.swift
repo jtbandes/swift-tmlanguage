@@ -47,6 +47,14 @@ __FILE__, __LINE__, __FUNCTION__, __DSO_HANDLE__
 @objc(thisIs:aSelector:) @objc(forgotAColon:afterThis)
 @arbitraryAttr(with args)
 
+// SE-0423
+@MainActor
+class MyViewController: @preconcurrency ViewDelegateProtocol {
+ func respondToUIEvent() {}
+}
+extension MyViewController: @preconcurrency ViewDelegateProtocol {
+ func respondToUIEvent() {}
+}
 
 // MARK: Builtins
 
