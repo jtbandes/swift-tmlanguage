@@ -2945,14 +2945,11 @@
           "contentName": "source.swift",
           "name": "meta.embedded.line.swift",
           "begin": "\\\\#\\(",
-          "end": "(\\))",
+          "end": "\\)",
           "beginCaptures": {
             "0": { "name": "punctuation.section.embedded.begin.swift" }
           },
-          "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.swift" },
-            "1": { "name": "source.swift" }
-          },
+          "endCaptures": { "0": { "name": "punctuation.section.embedded.end.swift" } },
           "patterns": [
             { "include": "$self" },
 
@@ -2987,14 +2984,11 @@
           "contentName": "source.swift",
           "name": "meta.embedded.line.swift",
           "begin": "\\\\\\(",
-          "end": "(\\))",
+          "end": "\\)",
           "beginCaptures": {
             "0": { "name": "punctuation.section.embedded.begin.swift" }
           },
-          "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.swift" },
-            "1": { "name": "source.swift" }
-          },
+          "endCaptures": { "0": { "name": "punctuation.section.embedded.end.swift" } },
           "patterns": [
             { "include": "$self" },
 
