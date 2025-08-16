@@ -6598,7 +6598,7 @@
             <key>begin</key>
             <string>\\#\(</string>
             <key>end</key>
-            <string>(\))</string>
+            <string>\)</string>
             <key>beginCaptures</key>
             <dict>
               <key>0</key>
@@ -6613,11 +6613,6 @@
               <dict>
                 <key>name</key>
                 <string>punctuation.section.embedded.end.swift</string>
-              </dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>source.swift</string>
               </dict>
             </dict>
             <key>patterns</key>
@@ -6668,7 +6663,7 @@
             <key>begin</key>
             <string>\\\(</string>
             <key>end</key>
-            <string>(\))</string>
+            <string>\)</string>
             <key>beginCaptures</key>
             <dict>
               <key>0</key>
@@ -6683,11 +6678,6 @@
               <dict>
                 <key>name</key>
                 <string>punctuation.section.embedded.end.swift</string>
-              </dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>source.swift</string>
               </dict>
             </dict>
             <key>patterns</key>
