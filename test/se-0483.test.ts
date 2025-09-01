@@ -34,6 +34,22 @@ await test("InlineArray sugar", () => {
     _`                      ~~  constant.numeric.integer.decimal.swift`,
     _`                        ~ punctuation.definition.arguments.end.swift`,
   );
+
+  assertScopes(
+    $`let fourIntegers: [_ of _] = [1,2,3,4]`,
+    _`~~~                                    keyword.other.declaration-specifier.swift`,
+    _`                  ~                    punctuation.section.collection-type.begin.swift`,
+    _`                   ~                   support.variable.inferred.swift`,
+    _`                     ~~                keyword.other.inline-array.swift`,
+    _`                        ~              support.variable.inferred.swift`,
+    _`                         ~             punctuation.section.collection-type.end.swift`,
+    _`                           ~           keyword.operator.custom.infix.swift`,
+    _`                              ~        constant.numeric.integer.decimal.swift`,
+    _`                                ~      constant.numeric.integer.decimal.swift`,
+    _`                                  ~    constant.numeric.integer.decimal.swift`,
+    _`                                    ~  constant.numeric.integer.decimal.swift`,
+  );
+
   assertScopes(
     $`unsafeBitCast(x, to: [3 of Int].self)`,
     _`~~~~~~~~~~~~~                         support.function.swift`,
