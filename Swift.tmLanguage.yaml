@@ -506,6 +506,13 @@ repository:
       0: { name: punctuation.section.collection-type.end.swift }
     patterns:
       - include: "#declarations-available-types"
+      - include: "#literals-numeric"
+
+      - name: support.variable.inferred.swift
+        match: \b_\b
+
+      - name: keyword.other.inline-array.swift
+        match: (?<=\s)\bof\b(?=\s+[\p{L}_\d\p{N}\p{M}\[(])
 
       - begin: ":"
         end: (?=\]|[>){}])
@@ -659,8 +666,8 @@ repository:
     beginCaptures:
       1: { name: keyword.operator.function-result.swift }
     patterns:
-      - match: \bsending\b
-        name: storage.modifier.swift
+      - name: storage.modifier.swift
+        match: \bsending\b
       - include: "#declarations-available-types"
 
   declarations-function-subscript:
@@ -1059,9 +1066,8 @@ repository:
       - begin: :\s*(?!\s)
         end: (?=[,)])
         patterns:
-          - match: \bsending\b
-            name: storage.modifier.swift
-
+          - name: storage.modifier.swift
+            match: \bsending\b
           - include: "#declarations-available-types"
 
           - name: invalid.illegal.extra-colon-in-parameter-list.swift
@@ -1656,6 +1662,9 @@ repository:
 
       - name: keyword.control.loop.swift
         match: (?<!\.)\b(?:while|for|in|each)\b
+
+      - name: keyword.other.inline-array.swift
+        match: (?<=\s)\bof\b(?=\s+[\p{L}_\d\p{N}\p{M}\[(])
 
       - name: keyword.other.operator.type.existential.swift
         match: \bany\b(?=\s*`?[\p{L}_])

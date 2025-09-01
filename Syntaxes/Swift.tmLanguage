@@ -1460,6 +1460,22 @@
             <string>#declarations-available-types</string>
           </dict>
           <dict>
+            <key>include</key>
+            <string>#literals-numeric</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>support.variable.inferred.swift</string>
+            <key>match</key>
+            <string>\b_\b</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>keyword.other.inline-array.swift</string>
+            <key>match</key>
+            <string>(?&lt;=\s)\bof\b(?=\s+[\p{L}_\d\p{N}\p{M}\[(])</string>
+          </dict>
+          <dict>
             <key>begin</key>
             <string>:</string>
             <key>end</key>
@@ -1839,10 +1855,10 @@
         <key>patterns</key>
         <array>
           <dict>
-            <key>match</key>
-            <string>\bsending\b</string>
             <key>name</key>
             <string>storage.modifier.swift</string>
+            <key>match</key>
+            <string>\bsending\b</string>
           </dict>
           <dict>
             <key>include</key>
@@ -2845,10 +2861,10 @@
             <key>patterns</key>
             <array>
               <dict>
-                <key>match</key>
-                <string>\bsending\b</string>
                 <key>name</key>
                 <string>storage.modifier.swift</string>
+                <key>match</key>
+                <string>\bsending\b</string>
               </dict>
               <dict>
                 <key>include</key>
@@ -4562,6 +4578,12 @@
             <string>keyword.control.loop.swift</string>
             <key>match</key>
             <string>(?&lt;!\.)\b(?:while|for|in|each)\b</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>keyword.other.inline-array.swift</string>
+            <key>match</key>
+            <string>(?&lt;=\s)\bof\b(?=\s+[\p{L}_\d\p{N}\p{M}\[(])</string>
           </dict>
           <dict>
             <key>name</key>

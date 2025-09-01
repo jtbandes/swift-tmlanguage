@@ -88,6 +88,35 @@ struct Foo {
   var body: some View
 }
 
+
+// MARK: SE-0483 InlineArray sugar
+
+let fiveIntegers: [5 of Int] = .init(repeating: 99)
+
+// Nesting
+let fiveByFive: InlineArray<5, InlineArray<5, Int>> = .init(repeating: .init(repeating: 99))
+let fiveByFive: [5 of [5 of Int]] = .init(repeating: .init(repeating: 99))
+
+// Inference from context:
+let fiveIntegers: [5 of _] = .init(repeating: 99)
+let fourBytes: [_ of Int8] = [1,2,3,4]
+let fourIntegers: [_ of _] = [1,2,3,4]
+
+// use on rhs
+let fiveDoubles = [5 of _](repeating: 1.23)
+
+[5 of Int](repeating: 99)
+MemoryLayout<[5 of Int]>.size
+unsafeBitCast((1,2,3), to: [3 of Int].self)
+
+[5of Int]
+[5      of Int]
+[of of Int]
+[of of of]
+let of = of
+[ of of of ] // wrong, but hard to match correctly without variable-length lookbehind
+
+
 // MARK: Trailing closures
 
 UIView.animate(withDuration: 0.3) {
