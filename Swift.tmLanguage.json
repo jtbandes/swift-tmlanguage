@@ -732,6 +732,17 @@
       },
       "patterns": [
         { "include": "#declarations-available-types" },
+        { "include": "#literals-numeric" },
+
+        {
+          "name": "support.variable.inferred.swift",
+          "match": "\\b_\\b"
+        },
+
+        {
+          "name": "keyword.other.inline-array.swift",
+          "match": "(?<=\\s)\\bof\\b(?=\\s+[\\p{L}_\\d\\p{N}\\p{M}\\[(])"
+        },
 
         {
           "begin": ":",
@@ -871,8 +882,8 @@
       "beginCaptures": { "1": { "name": "keyword.operator.function-result.swift" } },
       "patterns": [
         {
-          "match": "\\bsending\\b",
-          "name": "storage.modifier.swift"
+          "name": "storage.modifier.swift",
+          "match": "\\bsending\\b"
         },
         { "include": "#declarations-available-types" }
       ]
@@ -1308,10 +1319,9 @@
           "end": "(?=[,)])",
           "patterns": [
             {
-              "match": "\\bsending\\b",
-              "name": "storage.modifier.swift"
+              "name": "storage.modifier.swift",
+              "match": "\\bsending\\b"
             },
-
             { "include": "#declarations-available-types" },
 
             {
@@ -2050,6 +2060,11 @@
         {
           "name": "keyword.control.loop.swift",
           "match": "(?<!\\.)\\b(?:while|for|in|each)\\b"
+        },
+
+        {
+          "name": "keyword.other.inline-array.swift",
+          "match": "(?<=\\s)\\bof\\b(?=\\s+[\\p{L}_\\d\\p{N}\\p{M}\\[(])"
         },
 
         {
