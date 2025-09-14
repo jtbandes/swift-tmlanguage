@@ -1539,7 +1539,7 @@
         <key>name</key>
         <string>meta.definition.type.$1.swift</string>
         <key>begin</key>
-        <string>\b(extension)\s+((?&lt;q&gt;`?)[\p{L}_][\p{L}_\p{N}\p{M}]*(\k&lt;q&gt;))</string>
+        <string>\b(extension)\s+</string>
         <key>end</key>
         <string>(?&lt;=\})</string>
         <key>beginCaptures</key>
@@ -1549,10 +1549,16 @@
             <key>name</key>
             <string>storage.type.$1.swift</string>
           </dict>
-          <key>2</key>
+        </dict>
+        <key>patterns</key>
+        <array>
           <dict>
             <key>name</key>
             <string>entity.name.type.swift</string>
+            <key>begin</key>
+            <string>\G(?!\s*[:{\n])</string>
+            <key>end</key>
+            <string>(?=\s*[:{\n])|(?!\G)(?=\s*where\b)</string>
             <key>patterns</key>
             <array>
               <dict>
@@ -1561,19 +1567,6 @@
               </dict>
             </array>
           </dict>
-          <key>3</key>
-          <dict>
-            <key>name</key>
-            <string>punctuation.definition.identifier.swift</string>
-          </dict>
-          <key>4</key>
-          <dict>
-            <key>name</key>
-            <string>punctuation.definition.identifier.swift</string>
-          </dict>
-        </dict>
-        <key>patterns</key>
-        <array>
           <dict>
             <key>include</key>
             <string>#comments</string>

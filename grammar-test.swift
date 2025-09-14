@@ -280,6 +280,19 @@ extension Array: Equatable {}
 extension Array where Element: Equatable, Foo == Int {}
 extension Array: Equatable, Foo where Element: Equatable, Foo == Int {}
 
+// SE-0346: Lightweight same-type requirements for primary associated types
+protocol Sequence<Element> {}
+protocol DictionaryProtocol<Key, Value> {}
+func sortLines<S : Collection<String>>(_ lines: S) -> S {}
+
+// SE-0361: Extensions on bound generic types
+struct Pair<T, U> {}
+extension Pair<Int, String> {}
+extension Array<String> {}
+extension [String] {}
+extension String? {}
+extension [String]? {}
+
 // MARK: Functions
 
 func something(
