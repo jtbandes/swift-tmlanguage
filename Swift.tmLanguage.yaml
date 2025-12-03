@@ -2396,39 +2396,36 @@ repository:
           - name: invalid.illegal.content-before-closing-delimiter.swift
             match: \S((?!\\\().)*(?=""")
 
+      # SE-0168: Multi-Line Raw String Literals (one or more #, escapes supported)
       - name: string.quoted.double.block.raw.swift
-        begin: '#"""'
-        end: '"""#(#*)'
-        beginCaptures:
-          0: { name: punctuation.definition.string.begin.swift }
+        begin: (?=(#+)""")
+        end: '"""\1(#*)'
         endCaptures:
           0: { name: punctuation.definition.string.end.swift }
           1: { name: invalid.illegal.extra-closing-delimiter.swift }
         patterns:
-          - name: invalid.illegal.content-after-opening-delimiter.swift
-            match: \G.+(?=""")|\G.+
-
-          - name: constant.character.escape.newline.swift
-            match: \\#\s*\n
-
-          - include: "#literals-string-raw-string-guts"
-
+          - begin: \G(#+)"""
+            end: \\\1#+.|(?=.*"""\1|\\\1)
+            beginCaptures:
+              0: { name: punctuation.definition.string.begin.raw.swift }
+            endCaptures:
+              0: { name: invalid.illegal.escape-not-recognized.swift }
+            patterns:
+              - name: invalid.illegal.content-after-opening-delimiter.swift
+                match: \G.+(?="""#+)|\G.+
+          - begin: (?=\\(#+))
+            end: \\\1#+.|(?!\G)(?=.*"""\1|\\\1)
+            endCaptures:
+              0: { name: invalid.illegal.escape-not-recognized.swift }
+            patterns:
+              - name: constant.character.escape.newline.swift
+                match: \G\\#+\s*\n
+              - include: "#literals-string-raw-string-guts"
           # Allow \("""...""") to appear inside a block string
           - name: invalid.illegal.content-before-closing-delimiter.swift
-            match: \S((?!\\#\().)*(?=""")
+            match: \S.*?(?="""#+)
 
-      - name: string.quoted.double.block.raw.swift
-        begin: (##+)"""
-        end: '"""\1(#*)'
-        beginCaptures:
-          0: { name: punctuation.definition.string.begin.swift }
-        endCaptures:
-          0: { name: punctuation.definition.string.end.swift }
-          1: { name: invalid.illegal.extra-closing-delimiter.swift }
-        patterns:
-          - name: invalid.illegal.content-after-opening-delimiter.swift
-            match: \G.+(?=""")|\G.+
-
+        # SE-0168: Single-Line String Literals
       - name: string.quoted.double.single-line.swift
         begin: '"'
         end: '"(#*)'
@@ -2442,85 +2439,86 @@ repository:
             match: \r|\n
           - include: "#literals-string-string-guts"
 
-      # SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)
+      # SE-0168: Single-Line Raw String Literals (one or more #, escapes supported)
       - name: string.quoted.double.single-line.raw.swift
-        begin: (##+)"
+        begin: (?=(#+)")
         end: '"\1(#*)'
-        beginCaptures:
-          0: { name: punctuation.definition.string.begin.raw.swift }
         endCaptures:
           0: { name: punctuation.definition.string.end.raw.swift }
           1: { name: invalid.illegal.extra-closing-delimiter.swift }
         patterns:
-          - name: invalid.illegal.returns-not-allowed.swift
-            match: \r|\n
+          - begin: \G(#+)"
+            end: \\\1#+.|(?=[\\"]\1)
+            beginCaptures:
+              0: { name: punctuation.definition.string.begin.raw.swift }
+            endCaptures:
+              0: { name: invalid.illegal.escape-not-recognized.swift }
+            patterns:
+              - include: "#invalid-returns"
+          - begin: (?=\\(#+))
+            end: \\\1#+.|(?!\G)(?=[\\"]\1)
+            endCaptures:
+              0: { name: invalid.illegal.escape-not-recognized.swift }
+            patterns:
+              - include: "#literals-string-raw-string-guts"
+              - include: "#invalid-returns"
+    repository:
+      invalid-returns:
+        name: invalid.illegal.returns-not-allowed.swift
+        match: .?[\r\n]
 
-      # SE-0168: raw string literals (one #, escapes supported)
-      - name: string.quoted.double.single-line.raw.swift
-        begin: '#"'
-        end: '"#(#*)'
-        beginCaptures:
-          0: { name: punctuation.definition.string.begin.raw.swift }
-        endCaptures:
-          0: { name: punctuation.definition.string.end.raw.swift }
-          1: { name: invalid.illegal.extra-closing-delimiter.swift }
+      literals-string-raw-string-guts:
+        # the same as #string-guts but with # in escapes
         patterns:
-          - name: invalid.illegal.returns-not-allowed.swift
-            match: \r|\n
-          - include: "#literals-string-raw-string-guts"
+          - name: constant.character.escape.swift
+            match: \G\\#+[0\\tnr"']
 
-  literals-string-raw-string-guts:
-    # the same as #string-guts but with # in escapes
-    patterns:
-      - name: constant.character.escape.swift
-        match: \\#[0\\tnr"']
+          - name: constant.character.escape.unicode.swift
+            match: \G\\#+u{[0-9a-fA-F]{1,8}}
 
-      - name: constant.character.escape.unicode.swift
-        match: \\#u\{[0-9a-fA-F]{1,8}\}
-
-      - contentName: source.swift
-        name: meta.embedded.line.swift
-        begin: \\#\(
-        end: \)
-        beginCaptures:
-          0: { name: punctuation.section.embedded.begin.swift }
-        endCaptures:
-          0: { name: punctuation.section.embedded.end.swift }
-        patterns:
-          - include: $self
-
-          # Nested parens
-          - begin: \(
+          - contentName: source.swift
+            name: meta.embedded.line.swift
+            begin: \G\\#+\(
             end: \)
+            beginCaptures:
+              0: { name: punctuation.section.embedded.begin.swift }
+            endCaptures:
+              0: { name: punctuation.section.embedded.end.swift }
+            patterns:
+              - include: $self
 
-      - name: invalid.illegal.escape-not-recognized
-        match: \\#.
+              # Nested parens
+              - begin: \(
+                end: \)
 
-  literals-string-string-guts:
-    patterns:
-      - name: constant.character.escape.swift
-        match: \\[0\\tnr"']
+          - name: invalid.illegal.escape-not-recognized.swift
+            match: \G\\#+.
 
-      - name: constant.character.escape.unicode.swift
-        match: \\u\{[0-9a-fA-F]{1,8}\}
-
-      - contentName: source.swift
-        name: meta.embedded.line.swift
-        begin: \\\(
-        end: \)
-        beginCaptures:
-          0: { name: punctuation.section.embedded.begin.swift }
-        endCaptures:
-          0: { name: punctuation.section.embedded.end.swift }
+      literals-string-string-guts:
         patterns:
-          - include: $self
+          - name: constant.character.escape.swift
+            match: \\[0\\tnr"']
 
-          # Nested parens
-          - begin: \(
+          - name: constant.character.escape.unicode.swift
+            match: \\u{[0-9a-fA-F]{1,8}}
+
+          - contentName: source.swift
+            name: meta.embedded.line.swift
+            begin: \\\(
             end: \)
+            beginCaptures:
+              0: { name: punctuation.section.embedded.begin.swift }
+            endCaptures:
+              0: { name: punctuation.section.embedded.end.swift }
+            patterns:
+              - include: $self
 
-      - name: invalid.illegal.escape-not-recognized
-        match: \\.
+              # Nested parens
+              - begin: \(
+                end: \)
+
+          - name: invalid.illegal.escape-not-recognized.swift
+            match: \\.
 
   member-reference:
     patterns:
