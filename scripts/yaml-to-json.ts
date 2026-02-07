@@ -74,7 +74,7 @@ async function main({ input, output }: Options) {
       }
       // Ensure maps with multiple items, and maps with numeric capture groups,
       // aren't collapsed to a single line
-      if (typeof firstKey.value === "number") {
+      if (node.items.length > 1 || typeof firstKey.value === "number") {
         firstKey.spaceBefore = true;
       }
     },
