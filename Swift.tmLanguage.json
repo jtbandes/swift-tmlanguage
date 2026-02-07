@@ -12,9 +12,7 @@
     "async-throws": {
       "match": "\\b(?:(throws\\s+async|rethrows\\s+async)|(throws|rethrows)|(async))\\b",
       "captures": {
-        "1": {
-          "name": "invalid.illegal.await-must-precede-throws.swift"
-        },
+        "1": { "name": "invalid.illegal.await-must-precede-throws.swift" },
         "2": { "name": "storage.modifier.exception.swift" },
         "3": { "name": "storage.modifier.async.swift" }
       }
@@ -73,9 +71,7 @@
               "captures": {
                 "1": { "name": "keyword.other.platform.all.swift" },
                 "2": { "name": "keyword.other.swift" },
-                "3": {
-                  "name": "invalid.illegal.character-not-allowed-here.swift"
-                }
+                "3": { "name": "invalid.illegal.character-not-allowed-here.swift" }
               }
             }
           ]
@@ -98,9 +94,7 @@
               "name": "entity.name.function.swift",
               "match": "\\w*(?::(?:\\w*:)*(\\w*))?",
               "captures": {
-                "1": {
-                  "name": "invalid.illegal.missing-colon-after-selector-piece.swift"
-                }
+                "1": { "name": "invalid.illegal.missing-colon-after-selector-piece.swift" }
               }
             }
           ]
@@ -166,9 +160,7 @@
             "1": { "name": "support.function.dynamic-type.swift" },
             "2": { "name": "punctuation.definition.arguments.begin.swift" },
             "3": { "name": "support.variable.parameter.swift" },
-            "4": {
-              "name": "punctuation.separator.argument-label.begin.swift"
-            }
+            "4": { "name": "punctuation.separator.argument-label.begin.swift" }
           },
           "endCaptures": {
             "0": { "name": "punctuation.definition.arguments.end.swift" }
@@ -233,7 +225,10 @@
         { "include": "#builtin-types-builtin-struct-type" },
         { "include": "#builtin-types-builtin-typealias" },
 
-        { "name": "support.type.any.swift", "match": "\\bAny\\b" }
+        {
+          "name": "support.type.any.swift",
+          "match": "\\bAny\\b"
+        }
       ]
     },
 
@@ -322,8 +317,12 @@
     "code-block": {
       "begin": "\\{",
       "end": "\\}",
-      "beginCaptures": { "0": { "name": "punctuation.section.scope.begin.swift" } },
-      "endCaptures": { "0": { "name": "punctuation.section.scope.end.swift" } },
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.scope.begin.swift" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.section.scope.end.swift" }
+      },
       "patterns": [{ "include": "$self" }]
     },
 
@@ -332,7 +331,9 @@
         {
           "name": "comment.line.number-sign.swift",
           "match": "\\A^(#!).*$\\n?",
-          "captures": { "1": { "name": "punctuation.definition.comment.swift" } }
+          "captures": {
+            "1": { "name": "punctuation.definition.comment.swift" }
+          }
         },
 
         {
@@ -390,21 +391,27 @@
               "name": "comment.line.triple-slash.documentation.swift",
               "begin": "///",
               "end": "$",
-              "beginCaptures": { "0": { "name": "punctuation.definition.comment.swift" } }
+              "beginCaptures": {
+                "0": { "name": "punctuation.definition.comment.swift" }
+              }
             },
 
             {
               "name": "comment.line.double-slash.documentation.swift",
               "begin": "//:",
               "end": "$",
-              "beginCaptures": { "0": { "name": "punctuation.definition.comment.swift" } }
+              "beginCaptures": {
+                "0": { "name": "punctuation.definition.comment.swift" }
+              }
             },
 
             {
               "name": "comment.line.double-slash.swift",
               "begin": "//",
               "end": "$",
-              "beginCaptures": { "0": { "name": "punctuation.definition.comment.swift" } }
+              "beginCaptures": {
+                "0": { "name": "punctuation.definition.comment.swift" }
+              }
             }
           ]
         }
@@ -426,9 +433,7 @@
           "beginCaptures": {
             "0": { "name": "meta.preprocessor.conditional.swift" },
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": {
-              "name": "keyword.control.import.preprocessor.conditional.swift"
-            },
+            "2": { "name": "keyword.control.import.preprocessor.conditional.swift" },
             "3": { "name": "constant.language.boolean.swift" }
           }
         },
@@ -437,9 +442,7 @@
           "name": "meta.preprocessor.conditional.swift",
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": {
-              "name": "keyword.control.import.preprocessor.conditional.swift"
-            }
+            "2": { "name": "keyword.control.import.preprocessor.conditional.swift" }
           },
           "begin": "^\\s*(#)(if|elseif)\\s+",
           "end": "(?=\\s*(?://|/\\*))|$",
@@ -532,9 +535,7 @@
           "match": "^\\s*(#)(else|endif)(.*?)(?=$|//|/\\*)",
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": {
-              "name": "keyword.control.import.preprocessor.conditional.swift"
-            },
+            "2": { "name": "keyword.control.import.preprocessor.conditional.swift" },
             "3": {
               "patterns": [
                 {
@@ -551,9 +552,7 @@
           "match": "^\\s*(#)(sourceLocation)((\\()([^)]*)(\\)))(.*?)(?=$|//|/\\*)",
           "captures": {
             "1": { "name": "punctuation.definition.preprocessor.swift" },
-            "2": {
-              "name": "keyword.control.import.preprocessor.sourcelocation.swift"
-            },
+            "2": { "name": "keyword.control.import.preprocessor.sourcelocation.swift" },
             "4": { "name": "punctuation.definition.parameters.begin.swift" },
             "5": {
               "patterns": [
@@ -606,7 +605,9 @@
         {
           "begin": "(?<!\\.)\\b(if|guard|switch|for)\\b",
           "end": "(?=\\{)",
-          "beginCaptures": { "1": { "patterns": [{ "include": "#keywords" }] } },
+          "beginCaptures": {
+            "1": { "patterns": [{ "include": "#keywords" }] }
+          },
           "patterns": [{ "include": "#expressions-without-trailing-closures" }]
         },
 
@@ -614,7 +615,9 @@
           "comment": "while can be the end of a repeat-while statement so doesn't necessarily have braces after it",
           "begin": "(?<!\\.)\\b(while)\\b",
           "end": "(?=\\{)|$",
-          "beginCaptures": { "1": { "patterns": [{ "include": "#keywords" }] } },
+          "beginCaptures": {
+            "1": { "patterns": [{ "include": "#keywords" }] }
+          },
           "patterns": [{ "include": "#expressions-without-trailing-closures" }]
         }
       ]
@@ -680,13 +683,17 @@
 
         {
           "match": "(?<![/=\\-+!*%<>&|\\^~.])(->)(?![/=\\-+!*%<>&|\\^~.])",
-          "captures": { "1": { "name": "keyword.operator.type.function.swift" } }
+          "captures": {
+            "1": { "name": "keyword.operator.type.function.swift" }
+          }
         },
 
         {
           "comment": "Swift 3: A & B",
           "match": "(?<![/=\\-+!*%<>&|\\^~.])(&)(?![/=\\-+!*%<>&|\\^~.])",
-          "captures": { "1": { "name": "keyword.operator.type.composition.swift" } }
+          "captures": {
+            "1": { "name": "keyword.operator.type.composition.swift" }
+          }
         },
 
         {
@@ -711,9 +718,7 @@
         },
 
         { "include": "#declarations-available-types-tuple-type" },
-        {
-          "include": "#declarations-available-types-collection-type"
-        },
+        { "include": "#declarations-available-types-collection-type" },
         { "include": "#declarations-generic-argument-clause" }
       ]
     },
@@ -723,9 +728,7 @@
       "begin": "\\[",
       "end": "\\]|(?=[>){}])",
       "beginCaptures": {
-        "0": {
-          "name": "punctuation.section.collection-type.begin.swift"
-        }
+        "0": { "name": "punctuation.section.collection-type.begin.swift" }
       },
       "endCaptures": {
         "0": { "name": "punctuation.section.collection-type.end.swift" }
@@ -747,7 +750,9 @@
         {
           "begin": ":",
           "end": "(?=\\]|[>){}])",
-          "beginCaptures": { "0": { "name": "punctuation.separator.key-value.swift" } },
+          "beginCaptures": {
+            "0": { "name": "punctuation.separator.key-value.swift" }
+          },
           "patterns": [
             {
               "name": "invalid.illegal.extra-colon-in-dictionary-type.swift",
@@ -775,7 +780,9 @@
       "name": "meta.definition.type.$1.swift",
       "begin": "\\b(extension)\\s+",
       "end": "(?<=\\})",
-      "beginCaptures": { "1": { "name": "storage.type.$1.swift" } },
+      "beginCaptures": {
+        "1": { "name": "storage.type.$1.swift" }
+      },
       "patterns": [
         {
           "name": "entity.name.type.swift",
@@ -794,8 +801,12 @@
           "name": "meta.definition.type.body.swift",
           "begin": "\\{",
           "end": "\\}",
-          "beginCaptures": { "0": { "name": "punctuation.definition.type.begin.swift" } },
-          "endCaptures": { "0": { "name": "punctuation.definition.type.end.swift" } },
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.type.begin.swift" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.type.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -829,7 +840,9 @@
           "beginCaptures": {
             "1": { "name": "punctuation.section.function.begin.swift" }
           },
-          "endCaptures": { "1": { "name": "punctuation.section.function.end.swift" } },
+          "endCaptures": {
+            "1": { "name": "punctuation.section.function.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -867,7 +880,9 @@
           "beginCaptures": {
             "1": { "name": "punctuation.section.function.begin.swift" }
           },
-          "endCaptures": { "1": { "name": "punctuation.section.function.end.swift" } },
+          "endCaptures": {
+            "1": { "name": "punctuation.section.function.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -877,7 +892,9 @@
       "name": "meta.function-result.swift",
       "begin": "(?<![/=\\-+!*%<>&|\\^~.])(->)(?![/=\\-+!*%<>&|\\^~.])\\s*",
       "end": "(?!\\G)(?=\\{|\\bwhere\\b|;|=)|$",
-      "beginCaptures": { "1": { "name": "keyword.operator.function-result.swift" } },
+      "beginCaptures": {
+        "1": { "name": "keyword.operator.function-result.swift" }
+      },
       "patterns": [
         {
           "name": "storage.modifier.swift",
@@ -891,7 +908,9 @@
       "name": "meta.definition.function.subscript.swift",
       "begin": "(?<!\\.)\\b(subscript)\\s*(?=\\(|<)",
       "end": "(?<=\\})|$",
-      "beginCaptures": { "1": { "name": "storage.type.function.swift" } },
+      "beginCaptures": {
+        "1": { "name": "storage.type.function.swift" }
+      },
       "patterns": [
         { "include": "#comments" },
         { "include": "#declarations-generic-parameter-clause" },
@@ -907,7 +926,9 @@
           "beginCaptures": {
             "1": { "name": "punctuation.section.function.begin.swift" }
           },
-          "endCaptures": { "1": { "name": "punctuation.section.function.end.swift" } },
+          "endCaptures": {
+            "1": { "name": "punctuation.section.function.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -918,14 +939,10 @@
       "begin": "<",
       "end": ">|(?=[)\\]{}])",
       "beginCaptures": {
-        "0": {
-          "name": "punctuation.separator.generic-argument-clause.begin.swift"
-        }
+        "0": { "name": "punctuation.separator.generic-argument-clause.begin.swift" }
       },
       "endCaptures": {
-        "0": {
-          "name": "punctuation.separator.generic-argument-clause.end.swift"
-        }
+        "0": { "name": "punctuation.separator.generic-argument-clause.end.swift" }
       },
       "patterns": [
         { "include": "#literals-numeric" },
@@ -938,14 +955,10 @@
       "begin": "<",
       "end": ">|(?=[^\\w\\d:<>\\s,=&`])(?# characters besides these are never valid in a generic param list -- even if it's not really a valid clause, we should stop trying to parse it if we see one of them.)",
       "beginCaptures": {
-        "0": {
-          "name": "punctuation.separator.generic-parameter-clause.begin.swift"
-        }
+        "0": { "name": "punctuation.separator.generic-parameter-clause.begin.swift" }
       },
       "endCaptures": {
-        "0": {
-          "name": "punctuation.separator.generic-parameter-clause.end.swift"
-        }
+        "0": { "name": "punctuation.separator.generic-parameter-clause.end.swift" }
       },
       "patterns": [
         { "include": "#comments" },
@@ -981,9 +994,7 @@
           "begin": "(:)\\s*",
           "end": "(?=[,>]|(?!\\G)\\bwhere\\b)",
           "beginCaptures": {
-            "1": {
-              "name": "punctuation.separator.generic-parameter-constraint.swift"
-            }
+            "1": { "name": "punctuation.separator.generic-parameter-constraint.swift" }
           },
           "patterns": [
             {
@@ -1005,15 +1016,11 @@
       "begin": "\\b(where)\\b\\s*",
       "end": "(?!\\G)$|(?=[>{};\\n]|//|/\\*)",
       "beginCaptures": {
-        "1": {
-          "name": "keyword.other.generic-constraint-introducer.swift"
-        }
+        "1": { "name": "keyword.other.generic-constraint-introducer.swift" }
       },
       "patterns": [
         { "include": "#comments" },
-        {
-          "include": "#declarations-generic-where-clause-requirement-list"
-        }
+        { "include": "#declarations-generic-where-clause-requirement-list" }
       ]
     },
 
@@ -1030,9 +1037,7 @@
           "begin": "(?<![/=\\-+!*%<>&|\\^~.])(==)(?![/=\\-+!*%<>&|\\^~.])",
           "end": "(?=\\s*[,>{};\\n]|//|/\\*)",
           "beginCaptures": {
-            "1": {
-              "name": "keyword.operator.generic-constraint.same-type.swift"
-            }
+            "1": { "name": "keyword.operator.generic-constraint.same-type.swift" }
           },
           "patterns": [{ "include": "#declarations-available-types" }]
         },
@@ -1042,9 +1047,7 @@
           "begin": "(?<![/=\\-+!*%<>&|\\^~.])(:)(?![/=\\-+!*%<>&|\\^~.])",
           "end": "(?=\\s*[,>{};\\n]|//|/\\*)",
           "beginCaptures": {
-            "1": {
-              "name": "keyword.operator.generic-constraint.conforms-to.swift"
-            }
+            "1": { "name": "keyword.operator.generic-constraint.conforms-to.swift" }
           },
           "patterns": [
             {
@@ -1062,13 +1065,19 @@
       "name": "meta.import.swift",
       "begin": "(?<!\\.)\\b(import)\\s+",
       "end": "(;)|$\\n?|(?=//|/\\*)",
-      "beginCaptures": { "1": { "name": "keyword.control.import.swift" } },
-      "endCaptures": { "1": { "name": "punctuation.terminator.statement.swift" } },
+      "beginCaptures": {
+        "1": { "name": "keyword.control.import.swift" }
+      },
+      "endCaptures": {
+        "1": { "name": "punctuation.terminator.statement.swift" }
+      },
       "patterns": [
         {
           "begin": "\\G(?!;|$|//|/\\*)(?:(typealias|struct|class|actor|enum|protocol|var|func)\\s+)?",
           "end": "(?=;|$|//|/\\*)",
-          "beginCaptures": { "1": { "name": "storage.modifier.swift" } },
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.swift" }
+          },
           "patterns": [
             {
               "name": "entity.name.type.swift",
@@ -1126,7 +1135,9 @@
         {
           "begin": "\\bclass\\b",
           "end": "(?=[={}]|(?!\\G)\\bwhere\\b)",
-          "beginCaptures": { "0": { "name": "storage.type.class.swift" } },
+          "beginCaptures": {
+            "0": { "name": "storage.type.class.swift" }
+          },
           "patterns": [
             { "include": "#comments" },
             { "include": "#declarations-inheritance-clause-more-types" }
@@ -1139,9 +1150,7 @@
           "patterns": [
             { "include": "#attributes" },
             { "include": "#comments" },
-            {
-              "include": "#declarations-inheritance-clause-inherited-type"
-            },
+            { "include": "#declarations-inheritance-clause-inherited-type" },
             { "include": "#declarations-inheritance-clause-more-types" },
             { "include": "#declarations-type-operators" }
           ]
@@ -1163,9 +1172,7 @@
       "patterns": [
         { "include": "#attributes" },
         { "include": "#comments" },
-        {
-          "include": "#declarations-inheritance-clause-inherited-type"
-        },
+        { "include": "#declarations-inheritance-clause-inherited-type" },
         { "include": "#declarations-inheritance-clause-more-types" },
         { "include": "#declarations-type-operators" }
       ]
@@ -1213,7 +1220,9 @@
           ]
         }
       },
-      "endCaptures": { "1": { "name": "punctuation.terminator.statement.swift" } },
+      "endCaptures": {
+        "1": { "name": "punctuation.terminator.statement.swift" }
+      },
       "patterns": [
         { "include": "#declarations-operator-swift2" },
         { "include": "#declarations-operator-swift3" },
@@ -1255,7 +1264,9 @@
 
         {
           "match": "\\b(assignment)\\b",
-          "captures": { "1": { "name": "storage.modifier.swift" } }
+          "captures": {
+            "1": { "name": "storage.modifier.swift" }
+          }
         }
       ]
     },
@@ -1331,7 +1342,9 @@
               "comment": "a parameter's default value",
               "begin": "=",
               "end": "(?=[,)])",
-              "beginCaptures": { "0": { "name": "keyword.operator.assignment.swift" } },
+              "beginCaptures": {
+                "0": { "name": "keyword.operator.assignment.swift" }
+              },
               "patterns": [{ "include": "#expressions" }]
             }
           ]
@@ -1354,14 +1367,10 @@
           "begin": "\\{",
           "end": "\\}",
           "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.precedencegroup.begin.swift"
-            }
+            "0": { "name": "punctuation.definition.precedencegroup.begin.swift" }
           },
           "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.precedencegroup.end.swift"
-            }
+            "0": { "name": "punctuation.definition.precedencegroup.end.swift" }
           },
           "patterns": [
             { "include": "#comments" },
@@ -1421,8 +1430,12 @@
           "name": "meta.definition.type.body.swift",
           "begin": "\\{",
           "end": "\\}",
-          "beginCaptures": { "0": { "name": "punctuation.definition.type.begin.swift" } },
-          "endCaptures": { "0": { "name": "punctuation.definition.type.end.swift" } },
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.type.begin.swift" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.type.end.swift" }
+          },
           "patterns": [
             { "include": "#declarations-protocol-protocol-method" },
             { "include": "#declarations-protocol-protocol-initializer" },
@@ -1485,7 +1498,9 @@
           "beginCaptures": {
             "0": { "name": "punctuation.section.function.begin.swift" }
           },
-          "endCaptures": { "0": { "name": "punctuation.section.function.end.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.function.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -1519,7 +1534,9 @@
           "beginCaptures": {
             "0": { "name": "punctuation.section.function.begin.swift" }
           },
-          "endCaptures": { "0": { "name": "punctuation.section.function.end.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.function.end.swift" }
+          },
           "patterns": [{ "include": "$self" }]
         }
       ]
@@ -1550,8 +1567,12 @@
               "name": "meta.definition.type.body.swift",
               "begin": "\\{",
               "end": "\\}",
-              "beginCaptures": { "0": { "name": "punctuation.definition.type.begin.swift" } },
-              "endCaptures": { "0": { "name": "punctuation.definition.type.end.swift" } },
+              "beginCaptures": {
+                "0": { "name": "punctuation.definition.type.begin.swift" }
+              },
+              "endCaptures": {
+                "0": { "name": "punctuation.definition.type.end.swift" }
+              },
               "patterns": [{ "include": "$self" }]
             }
           ]
@@ -1583,8 +1604,12 @@
           "name": "meta.definition.type.body.swift",
           "begin": "\\{",
           "end": "\\}",
-          "beginCaptures": { "0": { "name": "punctuation.definition.type.begin.swift" } },
-          "endCaptures": { "0": { "name": "punctuation.definition.type.end.swift" } },
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.type.begin.swift" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.type.end.swift" }
+          },
           "patterns": [
             { "include": "#declarations-type-enum-enum-case-clause" },
             { "include": "$self" }
@@ -1610,9 +1635,7 @@
           "end": "(?=[,)\\]])",
           "beginCaptures": {
             "1": { "name": "entity.name.function.swift" },
-            "2": {
-              "name": "invalid.illegal.distinct-labels-not-allowed.swift"
-            },
+            "2": { "name": "invalid.illegal.distinct-labels-not-allowed.swift" },
             "5": { "name": "variable.parameter.function.swift" },
             "7": { "name": "punctuation.separator.argument-label.swift" }
           },
@@ -1649,20 +1672,22 @@
     "declarations-type-enum-enum-case": {
       "begin": "(?x)((?<q>`?)[\\p{L}_][\\p{L}_\\p{N}\\p{M}]*(\\k<q>))\\s*",
       "end": "(?<=\\))|(?![=(])",
-      "beginCaptures": { "1": { "name": "variable.other.enummember.swift" } },
+      "beginCaptures": {
+        "1": { "name": "variable.other.enummember.swift" }
+      },
       "patterns": [
         { "include": "#comments" },
         { "include": "#declarations-type-enum-associated-values" },
-        {
-          "include": "#declarations-type-enum-raw-value-assignment"
-        }
+        { "include": "#declarations-type-enum-raw-value-assignment" }
       ]
     },
 
     "declarations-type-enum-enum-case-clause": {
       "begin": "\\b(case)\\b\\s*",
       "end": "(?=[;}])|(?!\\G)(?!//|/\\*)(?=[^\\s,])",
-      "beginCaptures": { "1": { "name": "storage.type.enum.case.swift" } },
+      "beginCaptures": {
+        "1": { "name": "storage.type.enum.case.swift" }
+      },
       "patterns": [
         { "include": "#comments" },
         { "include": "#declarations-type-enum-enum-case" },
@@ -1684,7 +1709,9 @@
     "declarations-type-enum-raw-value-assignment": {
       "begin": "(=)\\s*",
       "end": "(?!\\G)",
-      "beginCaptures": { "1": { "name": "keyword.operator.assignment.swift" } },
+      "beginCaptures": {
+        "1": { "name": "keyword.operator.assignment.swift" }
+      },
       "patterns": [{ "include": "#comments" }, { "include": "#literals" }]
     },
 
@@ -1713,16 +1740,16 @@
         {
           "comment": "Swift 3: A & B",
           "match": "(?<![/=\\-+!*%<>&|\\^~.])(&)(?![/=\\-+!*%<>&|\\^~.])",
-          "captures": { "1": { "name": "keyword.operator.type.composition.swift" } }
+          "captures": {
+            "1": { "name": "keyword.operator.type.composition.swift" }
+          }
         },
 
         {
           "comment": "SE-0390: Noncopyable structs and enums",
           "match": "(?<![/=\\-+!*%<>&|\\^~.])(~)(?![/=\\-+!*%<>&|\\^~.])",
           "captures": {
-            "1": {
-              "name": "keyword.operator.type.requirement-suppression.swift"
-            }
+            "1": { "name": "keyword.operator.type.requirement-suppression.swift" }
           }
         }
       ]
@@ -1751,7 +1778,9 @@
     "declarations-typealias-assignment": {
       "begin": "(=)\\s*",
       "end": "(?!\\G)$|(?=;|//|/\\*|$)",
-      "beginCaptures": { "1": { "name": "keyword.operator.assignment.swift" } },
+      "beginCaptures": {
+        "1": { "name": "keyword.operator.assignment.swift" }
+      },
       "patterns": [{ "include": "#declarations-available-types" }]
     },
 
@@ -1778,9 +1807,7 @@
     "expressions": {
       "comment": "trailing closures need to be parsed before other member references",
       "patterns": [
-        {
-          "include": "#expressions-without-trailing-closures-or-member-references"
-        },
+        { "include": "#expressions-without-trailing-closures-or-member-references" },
         { "include": "#expressions-trailing-closure" },
         { "include": "#member-reference" }
       ]
@@ -1803,9 +1830,7 @@
           "comment": "foo: { body } -- labeled-trailing-closure (SE-0279)",
           "match": "((?<q>`?)[\\p{L}_][\\p{L}_\\p{N}\\p{M}]*(\\k<q>))\\s*(:)(?=\\s*\\{)",
           "captures": {
-            "1": {
-              "name": "support.function.any-method.trailing-closure-label.swift"
-            },
+            "1": { "name": "support.function.any-method.trailing-closure-label.swift" },
             "2": { "name": "punctuation.definition.identifier.swift" },
             "3": { "name": "punctuation.definition.identifier.swift" },
             "4": { "name": "punctuation.separator.argument-label.swift" }
@@ -1816,9 +1841,7 @@
 
     "expressions-without-trailing-closures": {
       "patterns": [
-        {
-          "include": "#expressions-without-trailing-closures-or-member-references"
-        },
+        { "include": "#expressions-without-trailing-closures-or-member-references" },
         { "include": "#member-references" }
       ]
     },
@@ -1888,9 +1911,7 @@
           "match": "(\\*)\\s*(.*?)(?=[,)])",
           "captures": {
             "1": { "name": "keyword.other.platform.all.swift" },
-            "2": {
-              "name": "invalid.illegal.character-not-allowed-here.swift"
-            }
+            "2": { "name": "invalid.illegal.character-not-allowed-here.swift" }
           }
         },
 
@@ -2006,7 +2027,9 @@
       "comment": "correctly matching closure expressions is too hard (depends on trailing \"in\") so we just tack on some basics to the end of parenthesized-expression",
       "begin": "\\(",
       "end": "(\\))\\s*((?:\\b(?:async|throws|rethrows)\\s)*)",
-      "beginCaptures": { "0": { "name": "punctuation.section.tuple.begin.swift" } },
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.tuple.begin.swift" }
+      },
       "endCaptures": {
         "1": { "name": "punctuation.section.tuple.end.swift" },
         "2": {
@@ -2320,12 +2343,8 @@
           "begin": "(#+)/\\n",
           "end": "/\\1",
           "patterns": [
-            {
-              "include": "#literals-regular-expression-literal-regex-guts"
-            },
-            {
-              "include": "#literals-regular-expression-literal-line-comment"
-            }
+            { "include": "#literals-regular-expression-literal-regex-guts" },
+            { "include": "#literals-regular-expression-literal-line-comment" }
           ]
         },
 
@@ -2335,15 +2354,9 @@
           "match": "(?x)\n(/)\n(?!\\s)         # non-extended regex literals may not start with a space or tab\n(?!/)          # disambiguation with line comments (redundant since comment rules occur earlier)\n(?:\n  \\\\\\s(?=/)    # may end with a space only if it contains only a single escaped space, i.e. /\\ /\n  | (?<guts>\n    (?>   # no backtracking, avoids issues with negative lookbehind at end\n      (?:\n        \\\\Q\n          (?:(?!\\\\E)(?!/).)*+\n          # A quoted sequence may not have a closing E, in which case it extends to the end of the regex\n          (?:\\\\E | (?=/))\n        | \\\\.\n        | \\(\\?\\#[^)]*\\)\n        | \\(\\?\n            # InterpolatedCallout\n            (?>\n              {[^{].*?}\n              | {{[^{].*?}}\n              | {{{[^{].*?}}}\n              | {{{{[^{].*?}}}}\n              | {{{{{[^{].*?}}}}}\n              | {{{{{{.+?}}}}}}\n            )\n            (?:\\[(?!\\d)\\w+\\])?\n            [X<>]?\n          \\)\n        # Allow nested character classes to a limited depth\n        | \\[(?:\n            \\\\. |\n            [^\\[\\]\\\\] |\n            \\[(?:\n              \\\\. |\n              [^\\[\\]\\\\] |\n              \\[(?:\n                \\\\. |\n                [^\\[\\]\\\\] |\n                \\[(?:\n                  \\\\. |\n                  [^\\[\\]\\\\]\n                )+\\]\n              )+\\]\n            )+\\]\n          )+\\]\n        | \\(\\g<guts>?+\\)\n        | (?:(?!/)[^()\\[\\\\])+  # any character (until end)\n      )+\n    )\n  )?+\n  (?<!\\s)\n)\n(/)",
           "captures": {
             "0": {
-              "patterns": [
-                {
-                  "include": "#literals-regular-expression-literal-regex-guts"
-                }
-              ]
+              "patterns": [{ "include": "#literals-regular-expression-literal-regex-guts" }]
             },
-            "1": {
-              "name": "punctuation.definition.string.begin.regexp.swift"
-            },
+            "1": { "name": "punctuation.definition.string.begin.regexp.swift" },
             "3": { "name": "punctuation.definition.string.end.regexp.swift" }
           }
         },
@@ -2353,15 +2366,9 @@
           "match": "(?x)\n((\\#+)/)     # (1) for captures, (2) for matching end\n(?<guts>\n  (?>   # no backtracking, avoids issues with negative lookbehind at end\n    (?:\n      \\\\Q\n        (?:(?!\\\\E)(?!/\\2).)*+\n        # A quoted sequence may not have a closing E, in which case it extends to the end of the regex\n        (?:\\\\E | (?=/\\2))\n      | \\\\.\n      | \\(\\?\\#[^)]*\\)\n      | \\(\\?\n          # InterpolatedCallout\n          (?>\n            {[^{].*?}\n            | {{[^{].*?}}\n            | {{{[^{].*?}}}\n            | {{{{[^{].*?}}}}\n            | {{{{{[^{].*?}}}}}\n            | {{{{{{.+?}}}}}}\n          )\n          (?:\\[(?!\\d)\\w+\\])?\n          [X<>]?\n        \\)\n      # Allow nested character classes to a limited depth\n      | \\[(?:\n          \\\\. |\n          [^\\[\\]\\\\] |\n          \\[(?:\n            \\\\. |\n            [^\\[\\]\\\\] |\n            \\[(?:\n              \\\\. |\n              [^\\[\\]\\\\] |\n              \\[(?:\n                \\\\. |\n                [^\\[\\]\\\\]\n              )+\\]\n            )+\\]\n          )+\\]\n        )+\\]\n      | \\(\\g<guts>?+\\)\n      | (?:(?!/\\2)[^()\\[\\\\])+  # any character (until end)\n    )+\n  )\n)?+\n(/\\2)     # (4)\n| \\#+/.+(\\n)",
           "captures": {
             "0": {
-              "patterns": [
-                {
-                  "include": "#literals-regular-expression-literal-regex-guts"
-                }
-              ]
+              "patterns": [{ "include": "#literals-regular-expression-literal-regex-guts" }]
             },
-            "1": {
-              "name": "punctuation.definition.string.begin.regexp.swift"
-            },
+            "1": { "name": "punctuation.definition.string.begin.regexp.swift" },
             "4": { "name": "punctuation.definition.string.end.regexp.swift" },
             "5": { "name": "invalid.illegal.returns-not-allowed.regexp" }
           }
@@ -2545,9 +2552,7 @@
             "0": { "name": "punctuation.definition.character-class.regexp" }
           },
           "patterns": [
-            {
-              "include": "#literals-regular-expression-literal-custom-char-class-members"
-            }
+            { "include": "#literals-regular-expression-literal-custom-char-class-members" }
           ]
         }
       ]
@@ -2561,19 +2566,11 @@
           "name": "constant.character.escape.backslash.regexp",
           "match": "\\\\b"
         },
-        {
-          "include": "#literals-regular-expression-literal-custom-char-class"
-        },
+        { "include": "#literals-regular-expression-literal-custom-char-class" },
         { "include": "#literals-regular-expression-literal-quote" },
-        {
-          "include": "#literals-regular-expression-literal-set-operators"
-        },
-        {
-          "include": "#literals-regular-expression-literal-unicode-scalars"
-        },
-        {
-          "include": "#literals-regular-expression-literal-character-properties"
-        }
+        { "include": "#literals-regular-expression-literal-set-operators" },
+        { "include": "#literals-regular-expression-literal-unicode-scalars" },
+        { "include": "#literals-regular-expression-literal-character-properties" }
       ]
     },
 
@@ -2593,12 +2590,10 @@
             "1": { "name": "punctuation.definition.group.regexp" },
             "2": { "name": "keyword.control.conditional.absent.regexp" }
           },
-          "endCaptures": { "0": { "name": "punctuation.definition.group.regexp" } },
-          "patterns": [
-            {
-              "include": "#literals-regular-expression-literal-regex-guts"
-            }
-          ]
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.group.regexp" }
+          },
+          "patterns": [{ "include": "#literals-regular-expression-literal-regex-guts" }]
         },
 
         {
@@ -2628,12 +2623,10 @@
             "22": { "name": "punctuation.definition.group.regexp" },
             "23": { "name": "keyword.control.conditional.regexp" }
           },
-          "endCaptures": { "0": { "name": "punctuation.definition.group.regexp" } },
-          "patterns": [
-            {
-              "include": "#literals-regular-expression-literal-regex-guts"
-            }
-          ]
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.group.regexp" }
+          },
+          "patterns": [{ "include": "#literals-regular-expression-literal-regex-guts" }]
         },
 
         {
@@ -2652,12 +2645,10 @@
             "9": { "name": "keyword.operator.balancing-group.regexp" },
             "10": { "name": "variable.other.group-name.regexp" }
           },
-          "endCaptures": { "0": { "name": "punctuation.definition.group.regexp" } },
-          "patterns": [
-            {
-              "include": "#literals-regular-expression-literal-regex-guts"
-            }
-          ]
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.group.regexp" }
+          },
+          "patterns": [{ "include": "#literals-regular-expression-literal-regex-guts" }]
         }
       ]
     },
@@ -2665,7 +2656,9 @@
     "literals-regular-expression-literal-line-comment": {
       "name": "comment.line.regexp",
       "match": "(\\#).*$",
-      "captures": { "1": { "name": "punctuation.definition.comment.regexp" } }
+      "captures": {
+        "1": { "name": "punctuation.definition.comment.regexp" }
+      }
     },
 
     "literals-regular-expression-literal-quote": {
@@ -2704,15 +2697,13 @@
           "beginCaptures": {
             "0": { "name": "punctuation.section.embedded.begin.regexp" }
           },
-          "endCaptures": { "0": { "name": "punctuation.section.embedded.end.regexp" } }
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.regexp" }
+          }
         },
 
-        {
-          "include": "#literals-regular-expression-literal-unicode-scalars"
-        },
-        {
-          "include": "#literals-regular-expression-literal-character-properties"
-        },
+        { "include": "#literals-regular-expression-literal-unicode-scalars" },
+        { "include": "#literals-regular-expression-literal-character-properties" },
 
         {
           "name": "keyword.control.anchor.regexp",
@@ -2722,9 +2713,7 @@
         {
           "include": "#literals-regular-expression-literal-backtracking-directive-or-global-matching-option"
         },
-        {
-          "include": "#literals-regular-expression-literal-callout"
-        },
+        { "include": "#literals-regular-expression-literal-callout" },
         {
           "include": "#literals-regular-expression-literal-backreference-or-subpattern"
         },
@@ -2744,7 +2733,10 @@
           "match": "\\\\[^c]"
         },
 
-        { "name": "keyword.operator.or.regexp", "match": "\\|" },
+        {
+          "name": "keyword.operator.or.regexp",
+          "match": "\\|"
+        },
 
         {
           "name": "keyword.operator.quantifier.regexp",
@@ -2756,15 +2748,9 @@
           "match": "\\{\\s*\\d+\\s*(?:,\\s*\\d*\\s*)?\\}|\\{\\s*,\\s*\\d+\\s*\\}"
         },
 
-        {
-          "include": "#literals-regular-expression-literal-custom-char-class"
-        },
-        {
-          "include": "#literals-regular-expression-literal-group-option-toggle"
-        },
-        {
-          "include": "#literals-regular-expression-literal-group-or-conditional"
-        }
+        { "include": "#literals-regular-expression-literal-custom-char-class" },
+        { "include": "#literals-regular-expression-literal-group-option-toggle" },
+        { "include": "#literals-regular-expression-literal-group-or-conditional" }
       ]
     },
 
@@ -2962,15 +2948,13 @@
           "beginCaptures": {
             "0": { "name": "punctuation.section.embedded.begin.swift" }
           },
-          "endCaptures": { "0": { "name": "punctuation.section.embedded.end.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.swift" }
+          },
           "patterns": [
             { "include": "$self" },
 
-            {
-              "comment": "Nested parens",
-              "begin": "\\(",
-              "end": "\\)"
-            }
+            { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
           ]
         },
 
@@ -3001,15 +2985,13 @@
           "beginCaptures": {
             "0": { "name": "punctuation.section.embedded.begin.swift" }
           },
-          "endCaptures": { "0": { "name": "punctuation.section.embedded.end.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.swift" }
+          },
           "patterns": [
             { "include": "$self" },
 
-            {
-              "comment": "Nested parens",
-              "begin": "\\(",
-              "end": "\\)"
-            }
+            { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
           ]
         },
 
@@ -3228,7 +3210,10 @@
           ]
         },
 
-        { "name": "keyword.operator.ternary.swift", "match": ":" }
+        {
+          "name": "keyword.operator.ternary.swift",
+          "match": ":"
+        }
       ]
     },
 
