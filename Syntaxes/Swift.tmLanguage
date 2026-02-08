@@ -6369,7 +6369,7 @@
             <key>name</key>
             <string>string.quoted.double.block.raw.swift</string>
             <key>begin</key>
-            <string>#"""</string>
+            <string>#"""(?!#)(?=(?:[^"]|"(?!#))*$)</string>
             <key>end</key>
             <string>"""#(#*)</string>
             <key>beginCaptures</key>
@@ -6425,7 +6425,7 @@
             <key>name</key>
             <string>string.quoted.double.block.raw.swift</string>
             <key>begin</key>
-            <string>(##+)"""</string>
+            <string>(?&lt;!#)(##+)"""(?!\1)(?=(?:[^"]|"(?!\1))*$)</string>
             <key>end</key>
             <string>"""\1(#*)</string>
             <key>beginCaptures</key>
@@ -6507,7 +6507,7 @@
             <key>name</key>
             <string>string.quoted.double.single-line.raw.swift</string>
             <key>begin</key>
-            <string>(##+)"</string>
+            <string>(?&lt;!#)(##+)"</string>
             <key>end</key>
             <string>"\1(#*)</string>
             <key>beginCaptures</key>

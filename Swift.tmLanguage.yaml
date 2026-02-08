@@ -2397,7 +2397,7 @@ repository:
             match: \S((?!\\\().)*(?=""")
 
       - name: string.quoted.double.block.raw.swift
-        begin: '#"""'
+        begin: '#"""(?!#)(?=(?:[^"]|"(?!#))*$)'
         end: '"""#(#*)'
         beginCaptures:
           0: { name: punctuation.definition.string.begin.swift }
@@ -2418,7 +2418,7 @@ repository:
             match: \S((?!\\#\().)*(?=""")
 
       - name: string.quoted.double.block.raw.swift
-        begin: (##+)"""
+        begin: (?<!#)(##+)"""(?!\1)(?=(?:[^"]|"(?!\1))*$)
         end: '"""\1(#*)'
         beginCaptures:
           0: { name: punctuation.definition.string.begin.swift }
@@ -2444,7 +2444,7 @@ repository:
 
       # SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)
       - name: string.quoted.double.single-line.raw.swift
-        begin: (##+)"
+        begin: (?<!#)(##+)"
         end: '"\1(#*)'
         beginCaptures:
           0: { name: punctuation.definition.string.begin.raw.swift }
