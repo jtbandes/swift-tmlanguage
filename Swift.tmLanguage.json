@@ -2821,7 +2821,7 @@
           "patterns": [
             {
               "begin": "\\G((#+)\"\"\")(.*)|(?=\\\\(#+))",
-              "end": "(\\\\\\2\\4#+.)|(?!\\G)(?=\\\\\\2\\4)|((?!\\s)((?!\\\\\\2\\4\\().)*?)(?=\"\"\"\\2\\4)",
+              "end": "(\\\\\\2\\4#+.?)|(?!\\G)(?=\\\\\\2\\4)|((?!\\s)((?!\\\\\\2\\4\\().)*?)(?=\"\"\"\\2\\4)",
               "beginCaptures": {
                 "1": { "name": "punctuation.definition.string.begin.raw.swift" },
                 "3": { "name": "invalid.illegal.content-after-opening-delimiter.swift" }
@@ -2869,7 +2869,7 @@
           "patterns": [
             {
               "begin": "\\G(#+)\"|(?=\\\\(#+))",
-              "end": "(\\\\\\1\\2#+.)|(?!\\G)(?=\\\\\\1\\2)|(?=\"\\1\\2)|(.?\\n)",
+              "end": "(\\\\\\1\\2#+.?)|(?!\\G)(?=\\\\\\1\\2)|(?=\"\\1\\2)|(.?\\n)",
               "beginCaptures": {
                 "0": { "name": "punctuation.definition.string.begin.raw.swift" }
               },
