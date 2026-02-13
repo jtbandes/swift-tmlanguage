@@ -508,9 +508,9 @@ tuple.0, tuple.42
 0b12.5, 0xG
 
 print("a\0b\nc\u{1}d \(interpolation) a \(1 + foo(x: 4)) nested: \(1+"string"+2) x"#)
-print(#"raw: a\0b\nc\u{1}d \(interpolation) a \(1 + foo(x: 4)) nested: \(1+"string"+2) x"##)
+print(#"raw: a\0b\nc\u{1}d \(interpolation) a \(1 + foo(x: 4)) nested: \(1+"string"+2) x"#)
 print(#"raw: a\#0b\#nc\#u{1}d \#(interpolation) a \#(1 + foo(x: 4)) nested: \#(1+"string"+2) x"##)
-print(##"raw: a\#0b\#nc\#u{1}d \#(interpolation) a \#(1 + foo(x: 4)) nested: \#(1+"string"+2) x"###)
+print(##"raw: a\#0b\#nc\#u{1}d \#(interpolation) a \#(1 + foo(x: 4)) nested: \#(1+"string"+2) x"##)
 print(##"raw: a\##0b\##nc\##u{1}d \##(interpolation) a \##(1 + foo(x: 4)) nested: \##(1+"string"+2) x"###)
 print(###"raw: a\##0b\##nc\##u{1}d \##(interpolation) a \##(1 + foo(x: 4)) nested: \##(1+"string"+2) x"###)
 print(###"raw: a\###0b\###nc\###u{1}d \###(interpolation) a \###(1 + foo(x: 4)) nested: \###(1+"string"+2) x"####)
@@ -533,6 +533,7 @@ let SE0168 = """   illegal
       """)
     """)
         …string you have!
+    \(#"""#)
     illegal"""
 let SE0168 = #"""   illegal
         my, what a large…
@@ -543,6 +544,7 @@ let SE0168 = #"""   illegal
       """#)
     """#)
         …string you have!
+    \#(#"""#)
     illegal"""#
 let SE0168 = ##"""   illegal
         my, what a large…
@@ -553,8 +555,9 @@ let SE0168 = ##"""   illegal
       """##)
     """##)
         …string you have!
+    \##(##"""##)
     illegal"""##
-    
+
 #""#
 #"""#
 #""""#
