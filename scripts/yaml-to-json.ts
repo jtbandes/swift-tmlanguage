@@ -62,10 +62,29 @@ async function main({ input, output }: Options) {
     },
   });
 
-  const json = yaml.stringify(doc, {
-    schema: "json",
-    flow: true,
+  yaml.visit(doc, {
+    Scalar(_key, node) {
+      // Make all strings JSON-compatible
+      node.type = "QUOTE_DOUBLE";
+    },
+    Map(_key, node) {
+      const firstKey = node.items[0]?.key;
+      if (!yaml.isScalar(firstKey)) {
+        return;
+      }
+      // Ensure maps with multiple items, and maps with numeric capture groups,
+      // aren't collapsed to a single line
+      if (node.items.length > 1 || typeof firstKey.value === "number") {
+        firstKey.spaceBefore = true;
+      }
+    },
+  });
+
+  const json = doc.toString({
+    collectionStyle: "flow",
+    singleQuote: false,
     doubleQuotedAsJSON: true,
+    defaultStringType: "QUOTE_DOUBLE",
     commentString(_comment) {
       return "";
     },

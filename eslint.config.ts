@@ -1,7 +1,7 @@
 import foxglove from "@foxglove/eslint-plugin";
-import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: [".pnp.*", ".yarn"],
   },

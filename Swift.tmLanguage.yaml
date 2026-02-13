@@ -2398,7 +2398,7 @@ repository:
 
       # SE-0168: Multi-Line Raw String Literals (one or more #, escapes supported)
       - name: string.quoted.double.block.raw.swift
-        begin: (?=(#+)""")
+        begin: (?=(#+)"""(?!#)(?=(?:[^"]|"(?!#))*$))
         end: '"""\1(#*)'
         endCaptures:
           0: { name: punctuation.definition.string.end.swift }
@@ -2441,7 +2441,7 @@ repository:
 
       # SE-0168: Single-Line Raw String Literals (one or more #, escapes supported)
       - name: string.quoted.double.single-line.raw.swift
-        begin: (?=(#+)")
+        begin: (?<!#)(?=(#+)")
         end: '"\1(#*)'
         endCaptures:
           0: { name: punctuation.definition.string.end.raw.swift }

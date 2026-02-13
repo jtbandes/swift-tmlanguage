@@ -554,6 +554,15 @@ let SE0168 = ##"""   illegal
     """##)
         …string you have!
     illegal"""##
+    
+#""#
+#"""#
+#""""#
+#"""""#
+##""##
+##"""##
+##""""##
+##"""""##
 
 associatedtype, class, deinit, enum, extension, func, import, init, inout,
 let, operator, $123, precedencegroup, protocol, struct, subscript, typealias,
