@@ -4693,10 +4693,31 @@
             <string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\b</string>
           </dict>
           <dict>
+            <key>begin</key>
+            <string>(?&lt;!\.)\b(get|set)\b</string>
+            <key>end</key>
+            <string>(?=(?!async\b|throws\b|rethrows\b)\S)</string>
+            <key>beginCaptures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>storage.type.function.swift</string>
+              </dict>
+            </dict>
+            <key>patterns</key>
+            <array>
+              <dict>
+                <key>include</key>
+                <string>#async-throws</string>
+              </dict>
+            </array>
+          </dict>
+          <dict>
             <key>name</key>
             <string>storage.type.function.swift</string>
             <key>match</key>
-            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
+            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
           </dict>
           <dict>
             <key>name</key>
