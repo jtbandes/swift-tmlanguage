@@ -214,6 +214,9 @@ class C {
   package var package: String { }
   package func run() { }
   package(set) public var x = ""
+
+  unowned let customer: Customer
+  unowned(unsafe) let customer: Customer
 }
 
 // MARK: Actors
@@ -270,6 +273,27 @@ func foo() {
   someThread.run {
     unownedJob.runSynchronously(on: self)
   }
+}
+class NotSendable {
+  nonisolated(nonsending)
+  func performAsync() async { }
+
+  @concurrent
+  func alwaysSwitch() async { }
+}
+
+func foo(isolation: isolated (any Actor)? = #isolation) {
+  let grabActorState: nonisolated(nonsending) () async -> NotSendable = a.getState // error
+}
+public nonisolated(nonsending) func withValue<R>(
+  _ valueDuringOperation: Value,
+  operation: nonisolated(nonsending) () async throws -> R,
+  file: String = #fileID, line: UInt = #line
+) async rethrows -> R {
+  return try await withValueImpl(
+    valueDuringOperation,
+    operation: operation,
+    file: file, line: line)
 }
 
 // MARK: Extensions
@@ -1006,7 +1030,7 @@ if #unavailable(iOS 13, *) { loadMainWindow() }
 #selector(getter: MyClass.func) #selector(setter: MyClass.func)
 #keyPath(self.parent.name)
 #colorLiteral(), #imageLiteral(), #fileLiteral()
-#file, #line, #function, #dsohandle, #filePath
+#file, #line, #function, #dsohandle, #filePath, #isolation
 
 @freestanding(expression) macro stringify<T>(_: T) -> (T, String)
 
