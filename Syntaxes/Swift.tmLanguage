@@ -532,6 +532,12 @@
         <key>patterns</key>
         <array>
           <dict>
+            <key>name</key>
+            <string>support.type.swift</string>
+            <key>match</key>
+            <string>\bActor\b</string>
+          </dict>
+          <dict>
             <key>comment</key>
             <string>Protocols in the standard library in Swift 3</string>
             <key>name</key>
@@ -1356,6 +1362,12 @@
             <string>storage.modifier.swift</string>
             <key>match</key>
             <string>\b(?:inout|isolated|borrowing|consuming)\b</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>storage.modifier.swift</string>
+            <key>match</key>
+            <string>\bnonisolated(?:\(nonsending\)|\b)</string>
           </dict>
           <dict>
             <key>name</key>
@@ -4690,7 +4702,13 @@
             <key>name</key>
             <string>storage.modifier.swift</string>
             <key>match</key>
-            <string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\b</string>
+            <string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|borrowing|consuming)\b</string>
+          </dict>
+          <dict>
+            <key>name</key>
+            <string>storage.modifier.swift</string>
+            <key>match</key>
+            <string>(?&lt;!\.)\bnonisolated(?:\(nonsending\)|\b)</string>
           </dict>
           <dict>
             <key>name</key>
@@ -4739,7 +4757,7 @@
             <key>name</key>
             <string>support.variable.swift</string>
             <key>match</key>
-            <string>\B(?:#file|#filePath|#fileID|#line|#column|#function|#dsohandle)\b|\b(?:__FILE__|__LINE__|__COLUMN__|__FUNCTION__|__DSO_HANDLE__)\b</string>
+            <string>\B(?:#file|#filePath|#fileID|#line|#column|#function|#dsohandle|#isolation)\b|\b(?:__FILE__|__LINE__|__COLUMN__|__FUNCTION__|__DSO_HANDLE__)\b</string>
           </dict>
           <dict>
             <key>name</key>
