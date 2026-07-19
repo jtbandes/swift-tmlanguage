@@ -1280,6 +1280,7 @@ protocol Account {
 protocol P {
   var someProp: Int { get async throws }
   var someProp: Int { get async throws yielding borrow }
+  var invalid: Int { get throws async }
 }
 var someProp: Int { get async throws { 2 } }
 class NoEffects: P { var someProp: Int { get { 1 } } }
