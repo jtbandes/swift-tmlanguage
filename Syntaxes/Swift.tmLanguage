@@ -6331,15 +6331,20 @@
             <key>name</key>
             <string>string.quoted.double.block.swift</string>
             <key>begin</key>
-            <string>"""</string>
+            <string>(""")(.*(?=""")|.*)</string>
             <key>end</key>
             <string>"""(#*)</string>
             <key>beginCaptures</key>
             <dict>
-              <key>0</key>
+              <key>1</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.begin.swift</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>invalid.illegal.content-after-opening-delimiter.swift</string>
               </dict>
             </dict>
             <key>endCaptures</key>
@@ -6357,12 +6362,6 @@
             </dict>
             <key>patterns</key>
             <array>
-              <dict>
-                <key>name</key>
-                <string>invalid.illegal.content-after-opening-delimiter.swift</string>
-                <key>match</key>
-                <string>\G.+(?=""")|\G.+</string>
-              </dict>
               <dict>
                 <key>name</key>
                 <string>constant.character.escape.newline.swift</string>
@@ -6384,76 +6383,14 @@
             </array>
           </dict>
           <dict>
+            <key>comment</key>
+            <string>SE-0168: Multi-Line Raw String Literals (one or more #, escapes supported)</string>
             <key>name</key>
             <string>string.quoted.double.block.raw.swift</string>
             <key>begin</key>
-            <string>#"""(?!#)(?=(?:[^"]|"(?!#))*$)</string>
-            <key>end</key>
-            <string>"""#(#*)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.begin.swift</string>
-              </dict>
-            </dict>
-            <key>endCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.end.swift</string>
-              </dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>invalid.illegal.extra-closing-delimiter.swift</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>name</key>
-                <string>invalid.illegal.content-after-opening-delimiter.swift</string>
-                <key>match</key>
-                <string>\G.+(?=""")|\G.+</string>
-              </dict>
-              <dict>
-                <key>name</key>
-                <string>constant.character.escape.newline.swift</string>
-                <key>match</key>
-                <string>\\#\s*\n</string>
-              </dict>
-              <dict>
-                <key>include</key>
-                <string>#literals-string-raw-string-guts</string>
-              </dict>
-              <dict>
-                <key>comment</key>
-                <string>Allow \("""...""") to appear inside a block string</string>
-                <key>name</key>
-                <string>invalid.illegal.content-before-closing-delimiter.swift</string>
-                <key>match</key>
-                <string>\S((?!\\#\().)*(?=""")</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>name</key>
-            <string>string.quoted.double.block.raw.swift</string>
-            <key>begin</key>
-            <string>(?&lt;!#)(##+)"""(?!\1)(?=(?:[^"]|"(?!\1))*$)</string>
+            <string>(?&lt;!#)(?=(#+)"""(?!\1)(?&gt;[^"]++|"(?!\1))*+$)</string>
             <key>end</key>
             <string>"""\1(#*)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.begin.swift</string>
-              </dict>
-            </dict>
             <key>endCaptures</key>
             <dict>
               <key>0</key>
@@ -6470,20 +6407,61 @@
             <key>patterns</key>
             <array>
               <dict>
-                <key>name</key>
-                <string>invalid.illegal.content-after-opening-delimiter.swift</string>
-                <key>match</key>
-                <string>\G.+(?=""")|\G.+</string>
+                <key>begin</key>
+                <string>\G((#+)""")(.*)|(?=\\(#+))</string>
+                <key>end</key>
+                <string>(\\\2\4#+.?)|(?!\G)(?=\\\2\4)|((?!\s)((?!\\\2\4\().)*?)(?="""\2\4)</string>
+                <key>beginCaptures</key>
+                <dict>
+                  <key>1</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.definition.string.begin.raw.swift</string>
+                  </dict>
+                  <key>3</key>
+                  <dict>
+                    <key>name</key>
+                    <string>invalid.illegal.content-after-opening-delimiter.swift</string>
+                  </dict>
+                </dict>
+                <key>endCaptures</key>
+                <dict>
+                  <key>1</key>
+                  <dict>
+                    <key>name</key>
+                    <string>invalid.illegal.escape-not-recognized.swift</string>
+                  </dict>
+                  <key>2</key>
+                  <dict>
+                    <key>name</key>
+                    <string>invalid.illegal.content-before-closing-delimiter.swift</string>
+                  </dict>
+                </dict>
+                <key>patterns</key>
+                <array>
+                  <dict>
+                    <key>name</key>
+                    <string>constant.character.escape.newline.swift</string>
+                    <key>match</key>
+                    <string>\G\\#+\s*\n</string>
+                  </dict>
+                  <dict>
+                    <key>include</key>
+                    <string>#literals-string-raw-string-guts</string>
+                  </dict>
+                </array>
               </dict>
             </array>
           </dict>
           <dict>
+            <key>comment</key>
+            <string>SE-0168: Single-Line String Literals</string>
             <key>name</key>
             <string>string.quoted.double.single-line.swift</string>
             <key>begin</key>
             <string>"</string>
             <key>end</key>
-            <string>"(#*)</string>
+            <string>("(#*))|(.?\n)</string>
             <key>beginCaptures</key>
             <dict>
               <key>0</key>
@@ -6494,25 +6472,24 @@
             </dict>
             <key>endCaptures</key>
             <dict>
-              <key>0</key>
+              <key>1</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.definition.string.end.swift</string>
               </dict>
-              <key>1</key>
+              <key>2</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.extra-closing-delimiter.swift</string>
               </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
+              <key>3</key>
               <dict>
                 <key>name</key>
                 <string>invalid.illegal.returns-not-allowed.swift</string>
-                <key>match</key>
-                <string>\r|\n</string>
               </dict>
+            </dict>
+            <key>patterns</key>
+            <array>
               <dict>
                 <key>include</key>
                 <string>#literals-string-string-guts</string>
@@ -6521,21 +6498,13 @@
           </dict>
           <dict>
             <key>comment</key>
-            <string>SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)</string>
+            <string>SE-0168: Single-Line Raw String Literals (one or more #, escapes supported)</string>
             <key>name</key>
             <string>string.quoted.double.single-line.raw.swift</string>
             <key>begin</key>
-            <string>(?&lt;!#)(##+)"</string>
+            <string>(?=(#+)")</string>
             <key>end</key>
             <string>"\1(#*)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.begin.raw.swift</string>
-              </dict>
-            </dict>
             <key>endCaptures</key>
             <dict>
               <key>0</key>
@@ -6552,190 +6521,177 @@
             <key>patterns</key>
             <array>
               <dict>
-                <key>name</key>
-                <string>invalid.illegal.returns-not-allowed.swift</string>
-                <key>match</key>
-                <string>\r|\n</string>
+                <key>begin</key>
+                <string>\G(#+)"|(?=\\(#+))</string>
+                <key>end</key>
+                <string>(\\\1\2#+.?)|(?!\G)(?=\\\1\2)|(?="\1\2)|(.?\n)</string>
+                <key>beginCaptures</key>
+                <dict>
+                  <key>0</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.definition.string.begin.raw.swift</string>
+                  </dict>
+                </dict>
+                <key>endCaptures</key>
+                <dict>
+                  <key>1</key>
+                  <dict>
+                    <key>name</key>
+                    <string>invalid.illegal.escape-not-recognized.swift</string>
+                  </dict>
+                  <key>2</key>
+                  <dict>
+                    <key>name</key>
+                    <string>invalid.illegal.returns-not-allowed.swift</string>
+                  </dict>
+                </dict>
+                <key>patterns</key>
+                <array>
+                  <dict>
+                    <key>include</key>
+                    <string>#literals-string-raw-string-guts</string>
+                  </dict>
+                </array>
               </dict>
             </array>
           </dict>
+        </array>
+        <key>repository</key>
+        <dict>
+          <key>literals-string-raw-string-guts</key>
           <dict>
             <key>comment</key>
-            <string>SE-0168: raw string literals (one #, escapes supported)</string>
-            <key>name</key>
-            <string>string.quoted.double.single-line.raw.swift</string>
-            <key>begin</key>
-            <string>#"</string>
-            <key>end</key>
-            <string>"#(#*)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.begin.raw.swift</string>
-              </dict>
-            </dict>
-            <key>endCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.definition.string.end.raw.swift</string>
-              </dict>
-              <key>1</key>
-              <dict>
-                <key>name</key>
-                <string>invalid.illegal.extra-closing-delimiter.swift</string>
-              </dict>
-            </dict>
+            <string>the same as #string-guts but with # in escapes</string>
             <key>patterns</key>
             <array>
               <dict>
                 <key>name</key>
-                <string>invalid.illegal.returns-not-allowed.swift</string>
+                <string>constant.character.escape.swift</string>
                 <key>match</key>
-                <string>\r|\n</string>
+                <string>\G\\#+[0\\tnr"']</string>
               </dict>
               <dict>
-                <key>include</key>
-                <string>#literals-string-raw-string-guts</string>
+                <key>name</key>
+                <string>constant.character.escape.unicode.swift</string>
+                <key>match</key>
+                <string>\G\\#+u{[0-9a-fA-F]{1,8}}</string>
+              </dict>
+              <dict>
+                <key>contentName</key>
+                <string>source.swift</string>
+                <key>name</key>
+                <string>meta.embedded.line.swift</string>
+                <key>begin</key>
+                <string>\G\\#+\(</string>
+                <key>end</key>
+                <string>\)</string>
+                <key>beginCaptures</key>
+                <dict>
+                  <key>0</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.section.embedded.begin.swift</string>
+                  </dict>
+                </dict>
+                <key>endCaptures</key>
+                <dict>
+                  <key>0</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.section.embedded.end.swift</string>
+                  </dict>
+                </dict>
+                <key>patterns</key>
+                <array>
+                  <dict>
+                    <key>include</key>
+                    <string>$self</string>
+                  </dict>
+                  <dict>
+                    <key>comment</key>
+                    <string>Nested parens</string>
+                    <key>begin</key>
+                    <string>\(</string>
+                    <key>end</key>
+                    <string>\)</string>
+                  </dict>
+                </array>
+              </dict>
+              <dict>
+                <key>name</key>
+                <string>invalid.illegal.escape-not-recognized.swift</string>
+                <key>match</key>
+                <string>\G\\#+.</string>
               </dict>
             </array>
           </dict>
-        </array>
-      </dict>
-      <key>literals-string-raw-string-guts</key>
-      <dict>
-        <key>comment</key>
-        <string>the same as #string-guts but with # in escapes</string>
-        <key>patterns</key>
-        <array>
+          <key>literals-string-string-guts</key>
           <dict>
-            <key>name</key>
-            <string>constant.character.escape.swift</string>
-            <key>match</key>
-            <string>\\#[0\\tnr"']</string>
-          </dict>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.unicode.swift</string>
-            <key>match</key>
-            <string>\\#u\{[0-9a-fA-F]{1,8}\}</string>
-          </dict>
-          <dict>
-            <key>contentName</key>
-            <string>source.swift</string>
-            <key>name</key>
-            <string>meta.embedded.line.swift</string>
-            <key>begin</key>
-            <string>\\#\(</string>
-            <key>end</key>
-            <string>\)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.section.embedded.begin.swift</string>
-              </dict>
-            </dict>
-            <key>endCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.section.embedded.end.swift</string>
-              </dict>
-            </dict>
             <key>patterns</key>
             <array>
               <dict>
-                <key>include</key>
-                <string>$self</string>
+                <key>name</key>
+                <string>constant.character.escape.swift</string>
+                <key>match</key>
+                <string>\\[0\\tnr"']</string>
               </dict>
               <dict>
-                <key>comment</key>
-                <string>Nested parens</string>
+                <key>name</key>
+                <string>constant.character.escape.unicode.swift</string>
+                <key>match</key>
+                <string>\\u\{[0-9a-fA-F]{1,8}\}</string>
+              </dict>
+              <dict>
+                <key>contentName</key>
+                <string>source.swift</string>
+                <key>name</key>
+                <string>meta.embedded.line.swift</string>
                 <key>begin</key>
-                <string>\(</string>
+                <string>\\\(</string>
                 <key>end</key>
                 <string>\)</string>
+                <key>beginCaptures</key>
+                <dict>
+                  <key>0</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.section.embedded.begin.swift</string>
+                  </dict>
+                </dict>
+                <key>endCaptures</key>
+                <dict>
+                  <key>0</key>
+                  <dict>
+                    <key>name</key>
+                    <string>punctuation.section.embedded.end.swift</string>
+                  </dict>
+                </dict>
+                <key>patterns</key>
+                <array>
+                  <dict>
+                    <key>include</key>
+                    <string>$self</string>
+                  </dict>
+                  <dict>
+                    <key>comment</key>
+                    <string>Nested parens</string>
+                    <key>begin</key>
+                    <string>\(</string>
+                    <key>end</key>
+                    <string>\)</string>
+                  </dict>
+                </array>
+              </dict>
+              <dict>
+                <key>name</key>
+                <string>invalid.illegal.escape-not-recognized</string>
+                <key>match</key>
+                <string>\\.</string>
               </dict>
             </array>
           </dict>
-          <dict>
-            <key>name</key>
-            <string>invalid.illegal.escape-not-recognized</string>
-            <key>match</key>
-            <string>\\#.</string>
-          </dict>
-        </array>
-      </dict>
-      <key>literals-string-string-guts</key>
-      <dict>
-        <key>patterns</key>
-        <array>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.swift</string>
-            <key>match</key>
-            <string>\\[0\\tnr"']</string>
-          </dict>
-          <dict>
-            <key>name</key>
-            <string>constant.character.escape.unicode.swift</string>
-            <key>match</key>
-            <string>\\u\{[0-9a-fA-F]{1,8}\}</string>
-          </dict>
-          <dict>
-            <key>contentName</key>
-            <string>source.swift</string>
-            <key>name</key>
-            <string>meta.embedded.line.swift</string>
-            <key>begin</key>
-            <string>\\\(</string>
-            <key>end</key>
-            <string>\)</string>
-            <key>beginCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.section.embedded.begin.swift</string>
-              </dict>
-            </dict>
-            <key>endCaptures</key>
-            <dict>
-              <key>0</key>
-              <dict>
-                <key>name</key>
-                <string>punctuation.section.embedded.end.swift</string>
-              </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
-              <dict>
-                <key>include</key>
-                <string>$self</string>
-              </dict>
-              <dict>
-                <key>comment</key>
-                <string>Nested parens</string>
-                <key>begin</key>
-                <string>\(</string>
-                <key>end</key>
-                <string>\)</string>
-              </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>name</key>
-            <string>invalid.illegal.escape-not-recognized</string>
-            <key>match</key>
-            <string>\\.</string>
-          </dict>
-        </array>
+        </dict>
       </dict>
       <key>member-reference</key>
       <dict>

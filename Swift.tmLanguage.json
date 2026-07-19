@@ -2798,21 +2798,17 @@
         {
           "comment": "SE-0168: Multi-Line String Literals",
           "name": "string.quoted.double.block.swift",
-          "begin": "\"\"\"",
+          "begin": "(\"\"\")(.*(?=\"\"\")|.*)",
           "end": "\"\"\"(#*)",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.swift" }
+            "1": { "name": "punctuation.definition.string.begin.swift" },
+            "2": { "name": "invalid.illegal.content-after-opening-delimiter.swift" }
           },
           "endCaptures": {
             "0": { "name": "punctuation.definition.string.end.swift" },
             "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
           },
           "patterns": [
-            {
-              "name": "invalid.illegal.content-after-opening-delimiter.swift",
-              "match": "\\G.+(?=\"\"\")|\\G.+"
-            },
-
             {
               "name": "constant.character.escape.newline.swift",
               "match": "\\\\\\s*\\n"
@@ -2829,192 +2825,155 @@
         },
 
         {
+          "comment": "SE-0168: Multi-Line Raw String Literals (one or more #, escapes supported)",
           "name": "string.quoted.double.block.raw.swift",
-          "begin": "#\"\"\"(?!#)(?=(?:[^\"]|\"(?!#))*$)",
-          "end": "\"\"\"#(#*)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.swift" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.swift" },
-            "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
-          },
-          "patterns": [
-            {
-              "name": "invalid.illegal.content-after-opening-delimiter.swift",
-              "match": "\\G.+(?=\"\"\")|\\G.+"
-            },
-
-            {
-              "name": "constant.character.escape.newline.swift",
-              "match": "\\\\#\\s*\\n"
-            },
-
-            { "include": "#literals-string-raw-string-guts" },
-
-            {
-              "comment": "Allow \\(\"\"\"...\"\"\") to appear inside a block string",
-              "name": "invalid.illegal.content-before-closing-delimiter.swift",
-              "match": "\\S((?!\\\\#\\().)*(?=\"\"\")"
-            }
-          ]
-        },
-
-        {
-          "name": "string.quoted.double.block.raw.swift",
-          "begin": "(?<!#)(##+)\"\"\"(?!\\1)(?=(?:[^\"]|\"(?!\\1))*$)",
+          "begin": "(?<!#)(?=(#+)\"\"\"(?!\\1)(?>[^\"]++|\"(?!\\1))*+$)",
           "end": "\"\"\"\\1(#*)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.swift" }
-          },
           "endCaptures": {
             "0": { "name": "punctuation.definition.string.end.swift" },
             "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
           },
           "patterns": [
             {
-              "name": "invalid.illegal.content-after-opening-delimiter.swift",
-              "match": "\\G.+(?=\"\"\")|\\G.+"
+              "begin": "\\G((#+)\"\"\")(.*)|(?=\\\\(#+))",
+              "end": "(\\\\\\2\\4#+.?)|(?!\\G)(?=\\\\\\2\\4)|((?!\\s)((?!\\\\\\2\\4\\().)*?)(?=\"\"\"\\2\\4)",
+              "beginCaptures": {
+                "1": { "name": "punctuation.definition.string.begin.raw.swift" },
+                "3": { "name": "invalid.illegal.content-after-opening-delimiter.swift" }
+              },
+              "endCaptures": {
+                "1": { "name": "invalid.illegal.escape-not-recognized.swift" },
+                "2": { "name": "invalid.illegal.content-before-closing-delimiter.swift" }
+              },
+              "patterns": [
+                {
+                  "name": "constant.character.escape.newline.swift",
+                  "match": "\\G\\\\#+\\s*\\n"
+                },
+                { "include": "#literals-string-raw-string-guts" }
+              ]
             }
           ]
         },
 
         {
+          "comment": "SE-0168: Single-Line String Literals",
           "name": "string.quoted.double.single-line.swift",
           "begin": "\"",
-          "end": "\"(#*)",
+          "end": "(\"(#*))|(.?\\n)",
           "beginCaptures": {
             "0": { "name": "punctuation.definition.string.begin.swift" }
           },
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.swift" },
-            "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+            "1": { "name": "punctuation.definition.string.end.swift" },
+            "2": { "name": "invalid.illegal.extra-closing-delimiter.swift" },
+            "3": { "name": "invalid.illegal.returns-not-allowed.swift" }
           },
-          "patterns": [
-            {
-              "name": "invalid.illegal.returns-not-allowed.swift",
-              "match": "\\r|\\n"
-            },
-            { "include": "#literals-string-string-guts" }
-          ]
+          "patterns": [{ "include": "#literals-string-string-guts" }]
         },
 
         {
-          "comment": "SE-0168: raw string literals (more than one #, grammar limitations prevent us from supporting escapes)",
+          "comment": "SE-0168: Single-Line Raw String Literals (one or more #, escapes supported)",
           "name": "string.quoted.double.single-line.raw.swift",
-          "begin": "(?<!#)(##+)\"",
+          "begin": "(?=(#+)\")",
           "end": "\"\\1(#*)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.raw.swift" }
-          },
           "endCaptures": {
             "0": { "name": "punctuation.definition.string.end.raw.swift" },
             "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
           },
           "patterns": [
             {
-              "name": "invalid.illegal.returns-not-allowed.swift",
-              "match": "\\r|\\n"
+              "begin": "\\G(#+)\"|(?=\\\\(#+))",
+              "end": "(\\\\\\1\\2#+.?)|(?!\\G)(?=\\\\\\1\\2)|(?=\"\\1\\2)|(.?\\n)",
+              "beginCaptures": {
+                "0": { "name": "punctuation.definition.string.begin.raw.swift" }
+              },
+              "endCaptures": {
+                "1": { "name": "invalid.illegal.escape-not-recognized.swift" },
+                "2": { "name": "invalid.illegal.returns-not-allowed.swift" }
+              },
+              "patterns": [{ "include": "#literals-string-raw-string-guts" }]
+            }
+          ]
+        }
+      ],
+
+      "repository": {
+        "literals-string-raw-string-guts": {
+          "comment": "the same as #string-guts but with # in escapes",
+          "patterns": [
+            {
+              "name": "constant.character.escape.swift",
+              "match": "\\G\\\\#+[0\\\\tnr\"']"
+            },
+
+            {
+              "name": "constant.character.escape.unicode.swift",
+              "match": "\\G\\\\#+u{[0-9a-fA-F]{1,8}}"
+            },
+
+            {
+              "contentName": "source.swift",
+              "name": "meta.embedded.line.swift",
+              "begin": "\\G\\\\#+\\(",
+              "end": "\\)",
+              "beginCaptures": {
+                "0": { "name": "punctuation.section.embedded.begin.swift" }
+              },
+              "endCaptures": {
+                "0": { "name": "punctuation.section.embedded.end.swift" }
+              },
+              "patterns": [
+                { "include": "$self" },
+
+                { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
+              ]
+            },
+
+            {
+              "name": "invalid.illegal.escape-not-recognized.swift",
+              "match": "\\G\\\\#+."
             }
           ]
         },
 
-        {
-          "comment": "SE-0168: raw string literals (one #, escapes supported)",
-          "name": "string.quoted.double.single-line.raw.swift",
-          "begin": "#\"",
-          "end": "\"#(#*)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.raw.swift" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.raw.swift" },
-            "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
-          },
+        "literals-string-string-guts": {
           "patterns": [
             {
-              "name": "invalid.illegal.returns-not-allowed.swift",
-              "match": "\\r|\\n"
+              "name": "constant.character.escape.swift",
+              "match": "\\\\[0\\\\tnr\"']"
             },
-            { "include": "#literals-string-raw-string-guts" }
+
+            {
+              "name": "constant.character.escape.unicode.swift",
+              "match": "\\\\u\\{[0-9a-fA-F]{1,8}\\}"
+            },
+
+            {
+              "contentName": "source.swift",
+              "name": "meta.embedded.line.swift",
+              "begin": "\\\\\\(",
+              "end": "\\)",
+              "beginCaptures": {
+                "0": { "name": "punctuation.section.embedded.begin.swift" }
+              },
+              "endCaptures": {
+                "0": { "name": "punctuation.section.embedded.end.swift" }
+              },
+              "patterns": [
+                { "include": "$self" },
+
+                { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
+              ]
+            },
+
+            {
+              "name": "invalid.illegal.escape-not-recognized",
+              "match": "\\\\."
+            }
           ]
         }
-      ]
-    },
-
-    "literals-string-raw-string-guts": {
-      "comment": "the same as #string-guts but with # in escapes",
-      "patterns": [
-        {
-          "name": "constant.character.escape.swift",
-          "match": "\\\\#[0\\\\tnr\"']"
-        },
-
-        {
-          "name": "constant.character.escape.unicode.swift",
-          "match": "\\\\#u\\{[0-9a-fA-F]{1,8}\\}"
-        },
-
-        {
-          "contentName": "source.swift",
-          "name": "meta.embedded.line.swift",
-          "begin": "\\\\#\\(",
-          "end": "\\)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.section.embedded.begin.swift" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.swift" }
-          },
-          "patterns": [
-            { "include": "$self" },
-
-            { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
-          ]
-        },
-
-        {
-          "name": "invalid.illegal.escape-not-recognized",
-          "match": "\\\\#."
-        }
-      ]
-    },
-
-    "literals-string-string-guts": {
-      "patterns": [
-        {
-          "name": "constant.character.escape.swift",
-          "match": "\\\\[0\\\\tnr\"']"
-        },
-
-        {
-          "name": "constant.character.escape.unicode.swift",
-          "match": "\\\\u\\{[0-9a-fA-F]{1,8}\\}"
-        },
-
-        {
-          "contentName": "source.swift",
-          "name": "meta.embedded.line.swift",
-          "begin": "\\\\\\(",
-          "end": "\\)",
-          "beginCaptures": {
-            "0": { "name": "punctuation.section.embedded.begin.swift" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.swift" }
-          },
-          "patterns": [
-            { "include": "$self" },
-
-            { "comment": "Nested parens", "begin": "\\(", "end": "\\)" }
-          ]
-        },
-
-        {
-          "name": "invalid.illegal.escape-not-recognized",
-          "match": "\\\\."
-        }
-      ]
+      }
     },
 
     "member-reference": {
