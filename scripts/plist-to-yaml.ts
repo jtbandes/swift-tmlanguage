@@ -1,7 +1,7 @@
 import { program } from "commander";
 import fs from "node:fs/promises";
 import path from "node:path";
-import plist from "plist";
+import * as plist from "plist";
 import prettier from "prettier";
 import yaml, { Scalar, YAMLMap } from "yaml";
 
