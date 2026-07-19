@@ -4693,31 +4693,37 @@
             <string>(?&lt;!\.)\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\b</string>
           </dict>
           <dict>
-            <key>begin</key>
-            <string>(?&lt;!\.)\b(get|set)\b</string>
-            <key>end</key>
-            <string>(?=(?!async\b|throws\b|rethrows\b)\S)</string>
-            <key>beginCaptures</key>
+            <key>name</key>
+            <string>storage.type.function.swift</string>
+            <key>match</key>
+            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|set|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
+          </dict>
+          <dict>
+            <key>match</key>
+            <string>\b(get)(?:\s+(throws\s+async)|\s+(async)(?:\s+(throws))?)?\b</string>
+            <key>captures</key>
             <dict>
               <key>1</key>
               <dict>
                 <key>name</key>
                 <string>storage.type.function.swift</string>
               </dict>
-            </dict>
-            <key>patterns</key>
-            <array>
+              <key>2</key>
               <dict>
-                <key>include</key>
-                <string>#async-throws</string>
+                <key>name</key>
+                <string>invalid.illegal.async-must-precede-throws.swift</string>
               </dict>
-            </array>
-          </dict>
-          <dict>
-            <key>name</key>
-            <string>storage.type.function.swift</string>
-            <key>match</key>
-            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>storage.modifier.async.swift</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>storage.modifier.exception.swift</string>
+              </dict>
+            </dict>
           </dict>
           <dict>
             <key>name</key>

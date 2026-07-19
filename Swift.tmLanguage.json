@@ -2158,17 +2158,18 @@
         },
 
         {
-          "begin": "(?<!\\.)\\b(get|set)\\b",
-          "end": "(?=(?!async\\b|throws\\b|rethrows\\b)\\S)",
-          "beginCaptures": {
-            "1": { "name": "storage.type.function.swift" }
-          },
-          "patterns": [{ "include": "#async-throws" }]
+          "name": "storage.type.function.swift",
+          "match": "\\binit[?!]|\\binit\\b|(?<!\\.)\\b(?:func|deinit|subscript|didSet|set|willSet|yielding\\s+borrow|yielding\\s+mutate)\\b"
         },
 
         {
-          "name": "storage.type.function.swift",
-          "match": "\\binit[?!]|\\binit\\b|(?<!\\.)\\b(?:func|deinit|subscript|didSet|willSet|yielding\\s+borrow|yielding\\s+mutate)\\b"
+          "match": "\\b(get)(?:\\s+(throws\\s+async)|\\s+(async)(?:\\s+(throws))?)?\\b",
+          "captures": {
+            "1": { "name": "storage.type.function.swift" },
+            "2": { "name": "invalid.illegal.async-must-precede-throws.swift" },
+            "3": { "name": "storage.modifier.async.swift" },
+            "4": { "name": "storage.modifier.exception.swift" }
+          }
         },
 
         {
