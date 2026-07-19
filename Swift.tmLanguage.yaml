@@ -1718,7 +1718,14 @@ repository:
         match: (?<!\.)\bnonisolated(?:\(nonsending\)|\b)
 
       - name: storage.type.function.swift
-        match: \binit[?!]|\binit\b|(?<!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\s+borrow|yielding\s+mutate)\b
+        match: \binit[?!]|\binit\b|(?<!\.)\b(?:func|deinit|subscript|didSet|set|willSet|yielding\s+borrow|yielding\s+mutate)\b
+
+      - match: \b(get)(?:\s+(throws\s+async)|\s+(async)(?:\s+(throws))?)?\b
+        captures:
+          1: { name: storage.type.function.swift }
+          2: { name: invalid.illegal.async-must-precede-throws.swift }
+          3: { name: storage.modifier.async.swift }
+          4: { name: storage.modifier.exception.swift }
 
       - name: keyword.other.declaration-specifier.accessibility.swift
         match: (?<!\.)\b(?:fileprivate|private|internal|public|open|package)\b

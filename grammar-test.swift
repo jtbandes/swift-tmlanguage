@@ -1251,3 +1251,39 @@ struct GetMutate {
     }
   }
 }
+
+// MARK: SE-0310 Effectful Read-only Properties
+class BankAccount {
+  // ...
+  var lastTransaction: Transaction {
+    get async throws {   // <-- NEW: effects specifiers!
+      guard manager != nil else {
+        throw BankError.notInYourFavor
+      }
+      return await manager!.getLastTransaction()
+    }
+  }
+
+  subscript(_ day: Date) -> [Transaction] {
+    get async { // <-- NEW: effects specifiers!
+      return await manager?.getTransactions(onDay: day) ?? []
+    }
+  }
+}
+protocol Account {
+  associatedtype Transaction
+
+  var lastTransaction: Transaction { get async throws }
+
+  subscript(_ day: Date) -> [Transaction] { get async }
+}
+protocol P {
+  var someProp: Int { get async throws }
+  var someProp: Int { get async throws yielding borrow }
+  var invalid: Int { get throws async }
+}
+var someProp: Int { get async throws { 2 } }
+class NoEffects: P { var someProp: Int { get { 1 } } }
+class JustAsync: P { var someProp: Int { get async { 2 } } }
+struct JustThrows: P { var someProp: Int { get throws { 3 } } }
+struct Everything: P { var someProp: Int { get async throws { 4 } } }

@@ -4714,7 +4714,34 @@
             <key>name</key>
             <string>storage.type.function.swift</string>
             <key>match</key>
-            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|get|set|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
+            <string>\binit[?!]|\binit\b|(?&lt;!\.)\b(?:func|deinit|subscript|didSet|set|willSet|yielding\s+borrow|yielding\s+mutate)\b</string>
+          </dict>
+          <dict>
+            <key>match</key>
+            <string>\b(get)(?:\s+(throws\s+async)|\s+(async)(?:\s+(throws))?)?\b</string>
+            <key>captures</key>
+            <dict>
+              <key>1</key>
+              <dict>
+                <key>name</key>
+                <string>storage.type.function.swift</string>
+              </dict>
+              <key>2</key>
+              <dict>
+                <key>name</key>
+                <string>invalid.illegal.async-must-precede-throws.swift</string>
+              </dict>
+              <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>storage.modifier.async.swift</string>
+              </dict>
+              <key>4</key>
+              <dict>
+                <key>name</key>
+                <string>storage.modifier.exception.swift</string>
+              </dict>
+            </dict>
           </dict>
           <dict>
             <key>name</key>
