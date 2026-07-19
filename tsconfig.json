@@ -4,6 +4,7 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "noUncheckedIndexedAccess": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "types": ["node"]
   }
 }
