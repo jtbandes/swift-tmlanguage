@@ -6,7 +6,7 @@ import { $, _, createAssertScopes } from "./assert-scopes.ts";
 
 const assertScopes = await createAssertScopes(swiftGrammar as unknown as LanguageRegistration);
 
-await test("integer generic parameters", () => {
+await test("yielding accessors", () => {
   assertScopes(
     $`protocol P { var x: T { yielding borrow } }`,
     _`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ meta.definition.type.protocol.swift`,

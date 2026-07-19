@@ -269,6 +269,11 @@
     "builtin-types-builtin-protocol-type": {
       "patterns": [
         {
+          "name": "support.type.swift",
+          "match": "\\bActor\\b"
+        },
+
+        {
           "comment": "Protocols in the standard library in Swift 3",
           "name": "support.type.swift",
           "match": "\\b(?:Ra(?:n(?:domAccess(?:Collection|Indexable)|geReplaceable(?:Collection|Indexable))|wRepresentable)|M(?:irrorPath|utable(?:Collection|Indexable))|Bi(?:naryFloatingPoint|twiseOperations|directional(?:Collection|Indexable))|S(?:tr(?:ideable|eamable)|igned(?:Number|Integer)|e(?:tAlgebra|quence))|Hashable|C(?:o(?:llection|mparable)|ustom(?:Reflectable|StringConvertible|DebugStringConvertible|PlaygroundQuickLookable|LeafReflectable)|VarArg)|TextOutputStream|I(?:n(?:teger(?:Arithmetic)?|dexable(?:Base)?)|teratorProtocol)|OptionSet|Un(?:signedInteger|icodeCodec)|E(?:quatable|rror|xpressibleBy(?:BooleanLiteral|String(?:Interpolation|Literal)|NilLiteral|IntegerLiteral|DictionaryLiteral|UnicodeScalarLiteral|ExtendedGraphemeClusterLiteral|FloatLiteral|ArrayLiteral))|FloatingPoint|L(?:osslessStringConvertible|azy(?:SequenceProtocol|CollectionProtocol))|A(?:nyObject|bsoluteValuable))\\b"
@@ -674,6 +679,11 @@
         {
           "name": "storage.modifier.swift",
           "match": "\\b(?:inout|isolated|borrowing|consuming)\\b"
+        },
+
+        {
+          "name": "storage.modifier.swift",
+          "match": "\\bnonisolated(?:\\(nonsending\\)|\\b)"
         },
 
         {
@@ -2154,7 +2164,12 @@
 
         {
           "name": "storage.modifier.swift",
-          "match": "(?<!\\.)\\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|nonisolated|borrowing|consuming)\\b"
+          "match": "(?<!\\.)\\b(?:inout|static|final|lazy|mutating|nonmutating|optional|indirect|required|override|dynamic|convenience|infix|prefix|postfix|distributed|borrowing|consuming)\\b"
+        },
+
+        {
+          "name": "storage.modifier.swift",
+          "match": "(?<!\\.)\\bnonisolated(?:\\(nonsending\\)|\\b)"
         },
 
         {
@@ -2198,7 +2213,7 @@
 
         {
           "name": "support.variable.swift",
-          "match": "\\B(?:#file|#filePath|#fileID|#line|#column|#function|#dsohandle)\\b|\\b(?:__FILE__|__LINE__|__COLUMN__|__FUNCTION__|__DSO_HANDLE__)\\b"
+          "match": "\\B(?:#file|#filePath|#fileID|#line|#column|#function|#dsohandle|#isolation)\\b|\\b(?:__FILE__|__LINE__|__COLUMN__|__FUNCTION__|__DSO_HANDLE__)\\b"
         },
 
         {
