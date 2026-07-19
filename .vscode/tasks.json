@@ -10,6 +10,7 @@
       },
       "problemMatcher": [
         {
+          "owner": "Swift.tmLanguage", // https://github.com/microsoft/vscode/issues/164751
           "pattern": {
             "regexp": "^test at ([^:]+):(\\d+):(\\d+)$",
             "file": 1,
